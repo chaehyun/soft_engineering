@@ -73,16 +73,15 @@ public class MyServlet extends HttpServlet {
 		case "newrequest":
 			return MyServer.getInstance().receiveRequest(requestMessage);
 		case "getresults":
-			// System.out.println("gotserverside");
 			return MyServer.getInstance().getResults(requestMessage);
 		case "getrequests":
 			return MyServer.getInstance().getRequests(requestMessage);
 		case "answer":
 			return MyServer.getInstance().receiveAnswer(requestMessage);
 		case "studentidValidation":
-			return MyServer.getInstance().idValidation(requestMessage);
+			return MyServer.getInstance().studentIdValidation(requestMessage);
 		case "companyidValidation":
-			return MyServer.getInstance().idValidation(requestMessage);
+			return MyServer.getInstance().companyIdValidation(requestMessage);
 		default:
 			JSONObject responseMessage = new JSONObject();
 			responseMessage.put("Error", "Invalid message type");

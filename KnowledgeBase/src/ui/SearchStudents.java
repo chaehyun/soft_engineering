@@ -16,7 +16,6 @@ import java.util.Collections;
 
 import javax.swing.table.DefaultTableModel;
 
-import database.searchstudent;
 import server.MyServer;
 import elements.NonTechSkills;
 import elements.Reply;
@@ -53,13 +52,33 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 
 	private void updateList() {
 
-		DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-		for (int i = 0; i < tableModel.getRowCount(); i++)
-			tableModel.removeRow(i);
+		//System.out.println("update row count begin: " + tableModel.getRowCount());
 
+		jTable1.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] {}, new String[] { "Name", "GPA", "Pick" }) {
+			Class[] types = new Class[] { java.lang.String.class,
+					java.lang.Float.class, java.lang.Boolean.class };
+			boolean[] canEdit = new boolean[] { false, false, true };
+
+			public Class getColumnClass(int columnIndex) {
+				return types[columnIndex];
+			}
+
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+		//for (int i = 0; i < tableModel.getRowCount(); i++)
+		//	tableModel.removeRow(i);
+
+		System.out.println("listOfSelectedStudents: " + listOfSelectedStudents.size());
+		System.out.println("update row count before: " + tableModel.getRowCount());
 		for (Student student : listOfSelectedStudents)
 			tableModel.addRow(new Object[] { student.getName(),
 					student.getGpa(), false });
+		System.out.println("update row count after: " + tableModel.getRowCount());
+
 	}
 
 	private void setFields() {
@@ -102,37 +121,38 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 	}
 
 	private void filterStudents() {
-		/*
-		 * ArrayList<Student> listOfAllStudents = MyServer.getInstance()
-		 * .getStudents(); listOfSelectedStudents = new ArrayList<>();
-		 * 
-		 * try { int minimumGrade = Integer.parseInt(jTextFieldMinimumGrade
-		 * .getText());
-		 * 
-		 * ArrayList<TechSkills> techSkills = getTechSkillsChecked();
-		 * ArrayList<NonTechSkills> nonTechSkills = getNonTechSkillsChecked();
-		 * 
-		 * for (Student student : listOfAllStudents) { if (student.getGrade() >=
-		 * minimumGrade) { boolean techSkillsOkay = true; for (TechSkills skill
-		 * : techSkills) if (!student.getTechSkills().contains(skill))
-		 * techSkillsOkay = false; boolean nonTechSkillsOkay = true; if
-		 * (techSkillsOkay) { for (NonTechSkills skill : nonTechSkills) if
-		 * (!student.getNonTechSkills().contains(skill)) nonTechSkillsOkay =
-		 * false; if (nonTechSkillsOkay) listOfSelectedStudents.add(student); }
-		 * 
-		 * } }
-		 * 
-		 * } catch (NumberFormatException e) { }
-		 * 
-		 * 
-		 */
-		int minimumGrade = Integer.parseInt(jTextFieldMinimumGrade.getText());
+		ArrayList<Student> listOfAllStudents = MyServer.getInstance()
+				.getStudents();
+		listOfSelectedStudents = new ArrayList<>();
 
-		ArrayList<TechSkills> techSkills = getTechSkillsChecked();
-		ArrayList<NonTechSkills> nonTechSkills = getNonTechSkillsChecked();
+		try {
+			int minimumGrade = Integer.parseInt(jTextFieldMinimumGrade
+					.getText());
 
-		listOfSelectedStudents = new searchstudent().getstudentdb(minimumGrade,
-				techSkills, nonTechSkills);
+			ArrayList<TechSkills> techSkills = getTechSkillsChecked();
+			ArrayList<NonTechSkills> nonTechSkills = getNonTechSkillsChecked();
+
+			for (Student student : listOfAllStudents) {
+				if (student.getGrade() >= minimumGrade) {
+					boolean techSkillsOkay = true;
+					for (TechSkills skill : techSkills)
+						if (!student.getTechSkills().contains(skill))
+							techSkillsOkay = false;
+					boolean nonTechSkillsOkay = true;
+					if (techSkillsOkay) {
+						for (NonTechSkills skill : nonTechSkills)
+							if (!student.getNonTechSkills().contains(skill))
+								nonTechSkillsOkay = false;
+						if (nonTechSkillsOkay)
+							listOfSelectedStudents.add(student);
+					}
+
+				}
+			}
+
+		} catch (NumberFormatException e) {
+		}
+
 		Collections.sort(listOfSelectedStudents);
 	}
 
@@ -206,14 +226,13 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 
 		jButtonSend.addMouseListener(new MouseAdapter() {
 			@Override
-			
 			public void mouseClicked(MouseEvent e) {
-				
 				DefaultTableModel tableModel = (DefaultTableModel) jTable1
 						.getModel();
+				System.out.println("length of list: " + listOfSelectedStudents.size());
+				System.out.println("row count: " + tableModel.getRowCount());
 				for (int i = 0; i < tableModel.getRowCount(); i++)
 					if ((boolean) tableModel.getValueAt(i, 2)) {
-						System.out.println("try to send");
 						System.out.println(i);
 						System.out.println(listOfSelectedStudents == null);
 						System.out.println(listOfSelectedStudents.get(i) == null);

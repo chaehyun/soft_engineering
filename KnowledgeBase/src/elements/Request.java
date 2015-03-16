@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import database.getcompanybyid;
 import server.MyServer;
 
 /**
@@ -51,7 +50,7 @@ public class Request implements Serializable {
 		String companyID;
 		companyID = (String) in.readObject();
 		// set company
-		company = new getcompanybyid().getcompanybyid(companyID);
+		company = MyServer.getInstance().getCompanyById(companyID);
 	}
 
 	public Request(String title, Company company, int numberOfStudents,

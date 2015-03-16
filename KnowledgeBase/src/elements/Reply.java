@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import database.getstudentbyid;
 import server.MyServer;
 
 @SuppressWarnings("serial")
@@ -34,7 +33,7 @@ public class Reply implements Serializable {
 		String studentID;
 		studentID = (String) in.readObject();
 		//set company
-		student = new getstudentbyid().getstudentbyid(studentID);
+		student = MyServer.getInstance().getStudentById(studentID);
 	}
 
 	public Reply(Student student, State state, ArrayList<String> message) {
