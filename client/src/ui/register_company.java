@@ -267,56 +267,7 @@ public class register_company extends JFrame
 
 	protected void registerButtonPressed(KeyEvent e)
 	{
-		boolean idValidate = isIdValidation();
-		boolean pwValidate = isPasswordvalidation();
-
-		if (idValidate == false)
-		{
-			JOptionPane.showMessageDialog(new JFrame(), INVALID_ID);
-		}
-
-		if (pwValidate == false)
-		{
-			JOptionPane.showMessageDialog(new JFrame(), INVALID_PASSWORD);
-		}
-
-		if (pwValidate == true && idValidate == true)
-		{
-			String companyname = companyName.getText();
-			String id = companyId.getText();
-			String password = passwordField.getText();
-			String location = companyLocation.getText();
-			String contactnumber = contactNumber.getText();
-
-			JSONObject message = new JSONObject();
-			try
-			{
-				message.put("MessageType", "companyregister");
-				message.put("CompanyName", companyname);
-				message.put("ID", id);
-				message.put("Password", password);
-				message.put("Location", location);
-				message.put("Contact number", contactnumber);
-
-				JSONObject response = Communicator.sendMessage(message);
-
-				boolean valid = response.getBoolean("valid");
-				if (valid)
-				{
-					setVisible(false);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(new JFrame(),
-							REGISTRATION_FAILED);
-				}
-			}
-			catch (JSONException | IOException e1)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-				e1.printStackTrace();
-			}
-		}
+		registerButtonClicked(null);
 	}
 
 	protected void idCheckPressed(KeyEvent e)

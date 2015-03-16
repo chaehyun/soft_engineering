@@ -207,20 +207,7 @@ public class gui extends JFrame
 	
 	protected void btnRegisterPressed(KeyEvent e)
 	{
-		boolean userType = isUsertype();
-		
-		if (userType == true)
-		{
-			(new register_student()).setVisible(true);
-		}
-		else if (userType == false)
-		{
-			(new register_company()).setVisible(true);
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(new JFrame(), NOT_SELECT_OPTION);
-		}
+		btnRegisterMouseClicked(null);
 	}
 	
 	protected void loginButtonPressed(KeyEvent e)
@@ -278,55 +265,7 @@ public class gui extends JFrame
 	
 	protected void loginButtonClicked(MouseEvent e)
 	{
-		String userID = idField.getText();
-		String pwd = passwordField.getText();
-		boolean userType = isUsertype();
-		
-		if (idField.equals("") == false && pwd.equals("") == false)
-		{
-			JSONObject message = new JSONObject();
-			
-			try
-			{
-				message.put("MessageType", "login");
-				message.put("ID", userID);
-				message.put("pwd", pwd);
-				if (userType == false)
-					message.put("usertype", "company");
-				else
-					message.put("usertype", "student");
-				
-				JSONObject response = Communicator.sendMessage(message);
-				
-				boolean result = response.getBoolean("valid");
-				
-				if (result == true && userType == false)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
-					setVisible(false);
-					(new maincompany(userID)).setVisible(true);
-				}
-				else if (result == true && userType == true)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
-					setVisible(false);
-					(new mainstudent(userID)).setVisible(true);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
-				}
-			}
-			catch (JSONException | IOException e1)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-				e1.printStackTrace();
-			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(new JFrame(), INVALID_INPUT);
-		}
+		loginButtonPressed(null);
 	}
 	
 	public boolean isUsertype()
