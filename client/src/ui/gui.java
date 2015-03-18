@@ -187,6 +187,8 @@ public class gui extends JFrame
 		contentPane.add(company_select);
 	}
 	
+	
+	// Register 버튼 마우스 클릭 event
 	protected void btnRegisterMouseClicked(MouseEvent arg0)
 	{
 		boolean userType = isUsertype();
@@ -205,11 +207,13 @@ public class gui extends JFrame
 		}
 	}
 	
+	// Register 버튼 키보드 클릭 event
 	protected void btnRegisterPressed(KeyEvent e)
 	{
 		btnRegisterMouseClicked(null);
 	}
 	
+	// login 버튼 키보 클릭 event
 	protected void loginButtonPressed(KeyEvent e)
 	{
 		String userID = idField.getText();
@@ -263,6 +267,7 @@ public class gui extends JFrame
 		}
 	}
 	
+	// login 버튼 마우스 클릭 event
 	protected void loginButtonClicked(MouseEvent e)
 	{
 		loginButtonPressed(null);
