@@ -76,7 +76,9 @@ public class mainstudent extends JFrame implements MouseListener
 						{
 							Request selectedRequest = requests.get(table
 									.getSelectedRow());
-							new requestdetailforstudent(selectedRequest, userID).setVisible(true);;
+							new requestdetailforstudent(selectedRequest, userID)
+									.setVisible(true);
+							;
 						}
 					}
 				});

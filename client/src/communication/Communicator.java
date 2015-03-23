@@ -1,4 +1,5 @@
 package communication;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -16,18 +17,17 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Communicator {
+public class Communicator
+{
 
-	// local wifi
-	// private final static String serverAddress =
-	// "http://192.168.137.1:8080/EverestServer/EverestServlet";
-	// GoQual 12F-02
+	// serverAddress 127.0.0.1:8080: Local network
 	private final static String serverAddress = "http://127.0.0.1:8080/KnowledgeBase/KnowledgeBaseServlet";
 
 	public static JSONObject sendMessage(JSONObject request)
 			throws ClientProtocolException, ConnectTimeoutException,
-			IOException, JSONException{
-		
+			IOException, JSONException
+	{
+
 		// Initialize HTTP connection
 		HttpClient client = new DefaultHttpClient();
 		// Set the timeout in milliseconds until a connection is established.
@@ -53,7 +53,8 @@ public class Communicator {
 
 		JSONObject response = null;
 		/* Checking response */
-		if (httpResponse != null) {
+		if (httpResponse != null)
+		{
 			// Convert response to JSON
 			InputStream in = httpResponse.getEntity().getContent();
 			Scanner s1 = new Scanner(in);
@@ -61,7 +62,7 @@ public class Communicator {
 			response = new JSONObject(s2.next());
 			s1.close();
 			s2.close();
-		} 
+		}
 
 		return response;
 	}

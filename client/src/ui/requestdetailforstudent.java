@@ -158,7 +158,7 @@ public class requestdetailforstudent extends javax.swing.JFrame
 
 		/* Send response */
 		lblResponse = new JLabel("Response:");
-		lblResponse.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		lblResponse.setFont(new Font("ï¿½ï¿½ï¿½ï¿½", Font.BOLD, 14));
 
 		rdbtnYes = new JRadioButton("Yes");
 		rdbtnYes.addMouseListener(new MouseAdapter()
@@ -170,7 +170,7 @@ public class requestdetailforstudent extends javax.swing.JFrame
 			}
 		});
 		buttonGroup.add(rdbtnYes);
-		rdbtnYes.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		rdbtnYes.setFont(new Font("ï¿½ï¿½ï¿½ï¿½", Font.BOLD, 14));
 
 		rdbtnNo = new JRadioButton("No");
 		rdbtnNo.addMouseListener(new MouseAdapter()
@@ -182,7 +182,7 @@ public class requestdetailforstudent extends javax.swing.JFrame
 			}
 		});
 		buttonGroup.add(rdbtnNo);
-		rdbtnNo.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		rdbtnNo.setFont(new Font("ï¿½ï¿½ï¿½ï¿½", Font.BOLD, 14));
 
 		JButton btnSendResponse = new JButton("Send response");
 		btnSendResponse.addMouseListener(new MouseAdapter()
@@ -214,7 +214,7 @@ public class requestdetailforstudent extends javax.swing.JFrame
 						JOptionPane.showMessageDialog(new JFrame(),
 								"The response have sent!");
 						break;
-					}		
+					}
 				}
 				catch (JSONException | IOException e1)
 				{

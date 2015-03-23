@@ -150,9 +150,11 @@ public class maincompany extends JFrame implements MouseListener
 								if (isMousePressed)
 								{
 									System.out.println("...");
-									Result result = results.get(table.getSelectedRow());
-									if(result.isComplete())
-										new response_list(result).setVisible(true);
+									Result result = results.get(table
+											.getSelectedRow());
+									if (result.isComplete())
+										new response_list(result)
+												.setVisible(true);
 								}
 							}
 						});

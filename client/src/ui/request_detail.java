@@ -35,7 +35,7 @@ public class request_detail extends JFrame
 	private JTextField positionField;
 	private JTextField paymentField;
 	private JTextField req_student;
-	
+
 	private String userID;
 
 	/**
@@ -307,16 +307,15 @@ public class request_detail extends JFrame
 				try
 				{
 					JSONObject message = new JSONObject();
-					if (chkboxjava.isSelected() == true) {
+					if (chkboxjava.isSelected() == true)
+					{
 						System.out.println("Java");
 						message.append("TechSkills", TechSkills.JAVA.name());
 					}
 					if (chkapache.isSelected() == true)
-						message.append("TechSkills",
-								TechSkills.APACHE.name());
+						message.append("TechSkills", TechSkills.APACHE.name());
 					if (chkOradeSql.isSelected() == true)
-						message.append("TechSkills",
-								TechSkills.ORACLE.name());
+						message.append("TechSkills", TechSkills.ORACLE.name());
 					if (chkOopDesign.isSelected() == true)
 						message.append("TechSkills", TechSkills.OOP.name());
 

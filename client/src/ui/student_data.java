@@ -3,6 +3,7 @@ package ui;
 import skills.NonTechSkills;
 import skills.TechSkills;
 import elements.Student;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,7 +16,7 @@ import elements.Student;
  */
 public class student_data extends javax.swing.JFrame
 {
-	
+
 	Student student;
 
 	/**
@@ -89,13 +90,12 @@ public class student_data extends javax.swing.JFrame
 		jTextArea2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
 		jTextArea2.setLineWrap(true);
 		jTextArea2.setRows(5);
-		
-        String techSkillsString = new String();
-        for(TechSkills skill : student.getTechSkills())
-        	techSkillsString += "- " + skill.name() + '\n';
-		
-		jTextArea2
-				.setText(techSkillsString);
+
+		String techSkillsString = new String();
+		for (TechSkills skill : student.getTechSkills())
+			techSkillsString += "- " + skill.name() + '\n';
+
+		jTextArea2.setText(techSkillsString);
 		jTextArea2.setWrapStyleWord(true);
 		jTextArea2.setMaximumSize(new java.awt.Dimension(384, 2147483647));
 		jScrollPane2.setViewportView(jTextArea2);
@@ -108,13 +108,12 @@ public class student_data extends javax.swing.JFrame
 		jTextArea3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
 		jTextArea3.setLineWrap(true);
 		jTextArea3.setRows(5);
-		
-        String nonTechSkillsString = new String();
-        for(NonTechSkills skill : student.getNonTechSkills())
-        	nonTechSkillsString += "- " + skill.name() + '\n';
-		
-		jTextArea3
-				.setText(nonTechSkillsString);
+
+		String nonTechSkillsString = new String();
+		for (NonTechSkills skill : student.getNonTechSkills())
+			nonTechSkillsString += "- " + skill.name() + '\n';
+
+		jTextArea3.setText(nonTechSkillsString);
 		jTextArea3.setWrapStyleWord(true);
 		jTextArea3.setMaximumSize(new java.awt.Dimension(384, 2147483647));
 		jScrollPane3.setViewportView(jTextArea3);

@@ -39,6 +39,7 @@ public class register_company extends JFrame
 	private final String INVALID_PASSWORD = "Check your Password Validation!";
 	private boolean passwordvalidation = false;
 	private boolean idValidation = false;
+	private final String REGISTRATION_SUCCESS = "The registation is completed.";
 	private final String REGISTRATION_FAILED = "The registration is failed, ID is taken.";
 	private final String ID_AVAILABLE = "Your ID is available! Use it!";
 	private final String ID_DISAVAILABLE = "Your ID is already using. Please try different ID";
@@ -211,11 +212,17 @@ public class register_company extends JFrame
 		contentPane.add(btnIdCheck);
 	}
 
+	// Register Button event (keyboard, mouse)
 	protected void registerButtonClicked(MouseEvent e)
 	{
+		// isIdValidation() method will check current new ID from server
 		boolean idValidate = isIdValidation();
+		// isPasswordvalidation() method will return boolean type value
+		// true means validate and false means invalidate
+		// this method based on password form and retype password form
 		boolean pwValidate = isPasswordvalidation();
 
+		// Print Error message
 		if (idValidate == false)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), INVALID_ID);
@@ -228,12 +235,14 @@ public class register_company extends JFrame
 
 		if (pwValidate == true && idValidate == true)
 		{
+			// Read from UI Textform
 			String companyname = companyName.getText();
 			String id = companyId.getText();
 			String password = passwordField.getText();
 			String location = companyLocation.getText();
 			String contactnumber = contactNumber.getText();
 
+			// Making a JSONObject and pass to the server
 			JSONObject message = new JSONObject();
 			try
 			{
@@ -244,15 +253,20 @@ public class register_company extends JFrame
 				message.put("Location", location);
 				message.put("Contact number", contactnumber);
 
+				// Server will return the results. (boolean type)
 				JSONObject response = Communicator.sendMessage(message);
 
 				boolean valid = response.getBoolean("valid");
 				if (valid)
 				{
+					// Registration UI will disappeared
+					JOptionPane.showMessageDialog(new JFrame(),
+							REGISTRATION_SUCCESS);
 					setVisible(false);
 				}
 				else
 				{
+					// Print Error message
 					JOptionPane.showMessageDialog(new JFrame(),
 							REGISTRATION_FAILED);
 				}
@@ -277,9 +291,11 @@ public class register_company extends JFrame
 
 	protected void idCheckClicked(MouseEvent arg0)
 	{
+		// Get the current ID from companyID text form
 		String tmp_id = companyId.getText();
 		JSONObject message = new JSONObject();
 
+		// Server will check current ID Validation
 		try
 		{
 			message.put("MessageType", "companyidValidation");
@@ -307,6 +323,8 @@ public class register_company extends JFrame
 		}
 	}
 
+	// This method will check current Password and Retype Password
+	// This method will run every new key event driven
 	protected void passwdkeyTypedhandler(KeyEvent e)
 	{
 		String pw1 = new String(passwordField.getText());

@@ -9,7 +9,8 @@ public class Result
 	private boolean complete;
 	private ArrayList<Student> students;
 
-	public Result(String title, String startDate, boolean complete, ArrayList<Student> students)
+	public Result(String title, String startDate, boolean complete,
+			ArrayList<Student> students)
 	{
 		super();
 		this.title = title;

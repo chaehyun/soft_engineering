@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package elements;
 
 import java.io.Serializable;
@@ -11,10 +6,6 @@ import java.util.ArrayList;
 import skills.NonTechSkills;
 import skills.TechSkills;
 
-/**
- *
- * @author szedjani
- */
 @SuppressWarnings("serial")
 public class Request implements Serializable
 {
