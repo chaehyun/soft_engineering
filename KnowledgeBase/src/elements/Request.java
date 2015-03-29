@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package elements;
 
 import java.io.IOException;
@@ -12,10 +7,6 @@ import java.util.ArrayList;
 
 import server.MyServer;
 
-/**
- *
- * @author szedjani
- */
 @SuppressWarnings("serial")
 public class Request implements Serializable
 {
@@ -76,10 +67,16 @@ public class Request implements Serializable
 		this.setPayment(payment);
 		this.techSkills = techSkills;
 		this.nonTechSkills = nonTechSkills;
+		
 		if (replies != null)
+		{
 			this.replies = replies;
+		}
 		else
+		{
 			this.replies = new ArrayList<>();
+		}
+		
 		this.message = message;
 		this.answered = answered;
 	}
