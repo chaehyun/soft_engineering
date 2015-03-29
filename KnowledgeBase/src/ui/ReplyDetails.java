@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
-/**
- *
- * @author szedjani
- */
 @SuppressWarnings("serial")
 public class ReplyDetails extends javax.swing.JFrame
 {
@@ -481,39 +472,39 @@ public class ReplyDetails extends javax.swing.JFrame
 	}// </editor-fold>//GEN-END:initComponents
 	
 	private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField1ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField1ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField2ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField2ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField3ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField3ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField4ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField4ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField5ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField5ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField6ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField6ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField7ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField7ActionPerformed
+	{
+		
+	}
 	
 	/**
 	 * @param args

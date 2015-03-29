@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import java.awt.event.MouseAdapter;
@@ -17,10 +12,6 @@ import elements.Reply;
 import elements.Request;
 import elements.TechSkills;
 
-/**
- *
- * @author szedjani
- */
 @SuppressWarnings("serial")
 public class RequestDetails extends javax.swing.JFrame
 {
@@ -270,8 +261,10 @@ public class RequestDetails extends javax.swing.JFrame
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		
 		for (Reply r : selectedRequest.getReplies())
+		{
 			model.addRow(new Object[] { r.getStudent().getName(),
 					r.getStudent().getGpa(), r.getState().name(), false });
+		}
 		
 		jScrollPane4.setViewportView(jTable1);
 		if (jTable1.getColumnModel().getColumnCount() > 0)
@@ -312,10 +305,12 @@ public class RequestDetails extends javax.swing.JFrame
 				DefaultTableModel tableModel = (DefaultTableModel) jTable1
 						.getModel();
 				for (int i = 0; i < tableModel.getRowCount(); i++)
+				{
 					if ((boolean) tableModel.getValueAt(i, 3))
 					{
 						finalReplyList.add(selectedRequest.getReplies().get(i));
 					}
+				}
 				selectedRequest.setReplies(finalReplyList);
 				selectedRequest.setMessage(jTextArea1.getText());
 				selectedRequest.setAnswered(true);
@@ -662,34 +657,34 @@ public class RequestDetails extends javax.swing.JFrame
 	}// </editor-fold>//GEN-END:initComponents
 	
 	private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField2ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField2ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField3ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField3ActionPerformed
+	{
+		
+	}
 	
 	private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jTextField8ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jTextField8ActionPerformed
+	{
+		
+	}
 	
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jButton1ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jButton1ActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBox2ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBox2ActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBox3ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBox3ActionPerformed
+	{
+		
+	}
 	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButton1;

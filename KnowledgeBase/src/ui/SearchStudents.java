@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import java.awt.event.ActionEvent;
@@ -23,10 +18,6 @@ import elements.Request;
 import elements.Student;
 import elements.TechSkills;
 
-/**
- *
- * @author szedjani
- */
 @SuppressWarnings("serial")
 public class SearchStudents extends javax.swing.JFrame implements ItemListener
 {
@@ -34,9 +25,6 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 	private Request selectedRequest;
 	private ArrayList<Student> listOfSelectedStudents;
 	
-	/**
-	 * Creates new form SearchStudents
-	 */
 	public SearchStudents(Request request)
 	{
 		selectedRequest = request;
@@ -85,8 +73,11 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 		System.out.println("update row count before: "
 				+ tableModel.getRowCount());
 		for (Student student : listOfSelectedStudents)
+		{
 			tableModel.addRow(new Object[] { student.getName(),
 					student.getGpa(), false });
+		}
+		
 		System.out.println("update row count after: "
 				+ tableModel.getRowCount());
 		
@@ -98,6 +89,7 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 				.getMinimumGrade()));
 		
 		for (TechSkills skill : selectedRequest.getTechSkills())
+		{
 			switch (skill)
 			{
 				case JAVA:
@@ -115,8 +107,10 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 				default:
 					break;
 			}
+		}
 		
 		for (NonTechSkills skill : selectedRequest.getNonTechSkills())
+		{
 			switch (skill)
 			{
 				case TEAMWORK:
@@ -131,7 +125,7 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 				default:
 					break;
 			}
-		
+		}
 	}
 	
 	private void filterStudents()
@@ -182,13 +176,24 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 		ArrayList<TechSkills> techSkills = new ArrayList<>();
 		
 		if (jCheckBoxJava.isSelected())
+		{
 			techSkills.add(TechSkills.JAVA);
+		}
+		
 		if (jCheckBoxApache.isSelected())
+		{
 			techSkills.add(TechSkills.APACHE);
+		}
+		
 		if (jCheckBoxOracleSQL.isSelected())
+		{
 			techSkills.add(TechSkills.ORACLE);
+		}
+		
 		if (jCheckBoxOOP.isSelected())
+		{
 			techSkills.add(TechSkills.OOP);
+		}
 		
 		return techSkills;
 	}
@@ -198,11 +203,19 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 		ArrayList<NonTechSkills> nonTechSkills = new ArrayList<>();
 		
 		if (jCheckBoxTeamSpirit.isSelected())
+		{
 			nonTechSkills.add(NonTechSkills.TEAMWORK);
+		}
+		
 		if (jCheckBoxQuickLearning.isSelected())
+		{
 			nonTechSkills.add(NonTechSkills.QUICKLEARNING);
+		}
+		
 		if (jCheckBoxDrivingLicence.isSelected())
+		{
 			nonTechSkills.add(NonTechSkills.DRIVINGLICENCE);
+		}
 		
 		return nonTechSkills;
 	}
@@ -261,6 +274,7 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 						+ listOfSelectedStudents.size());
 				System.out.println("row count: " + tableModel.getRowCount());
 				for (int i = 0; i < tableModel.getRowCount(); i++)
+				{
 					if ((boolean) tableModel.getValueAt(i, 2))
 					{
 						System.out.println(i);
@@ -269,6 +283,8 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 						selectedRequest.getReplies().add(
 								new Reply(listOfSelectedStudents.get(i)));
 					}
+				}
+				
 				SearchStudents.this.setVisible(false);
 			}
 		});
@@ -532,43 +548,43 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener
 	}// </editor-fold>//GEN-END:initComponents
 	
 	private void jCheckBoxApacheActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxApacheActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxApacheActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBoxOracleSQLActionPerformed(
 			java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxOracleSQLActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxOracleSQLActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBoxJavaActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxJavaActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxJavaActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBoxTeamSpiritActionPerformed(
 			java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxTeamSpiritActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxTeamSpiritActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBoxQuickLearningActionPerformed(
 			java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxQuickLearningActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxQuickLearningActionPerformed
+	{
+		
+	}
 	
 	private void jCheckBoxDrivingLicenceActionPerformed(
 			java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jCheckBoxDrivingLicenceActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jCheckBoxDrivingLicenceActionPerformed
+	{
+		
+	}
 	
 	private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt)
-	{// GEN-FIRST:event_jButtonSendActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_jButtonSendActionPerformed
+	{
+		
+	}
 	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonSend;
