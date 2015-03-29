@@ -21,26 +21,29 @@ import elements.Request;
  * @author szedjani
  */
 @SuppressWarnings("serial")
-public class Requests extends javax.swing.JFrame implements MouseListener {
-
+public class Requests extends javax.swing.JFrame implements MouseListener
+{
+	
 	DefaultTableModel model;
-
+	
 	/**
 	 * Creates new form Requests
 	 */
-	public Requests() {
+	public Requests()
+	{
 		initComponents();
 		model = (DefaultTableModel) jTable1.getModel();
 		loadListItems();
 	}
 	
-	private void loadListItems() {
-		ArrayList<Request> requestList = MyServer.getInstance().getRequests();	
+	private void loadListItems()
+	{
+		ArrayList<Request> requestList = MyServer.getInstance().getRequests();
 		for (Request request : requestList)
 			model.addRow(new Object[] { request.getTitle(),
-					request.getDueDate(), request.isAnswered() });	
+					request.getDueDate(), request.isAnswered() });
 	}
-
+	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,31 +52,36 @@ public class Requests extends javax.swing.JFrame implements MouseListener {
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
 	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-
+	private void initComponents()
+	{
+		
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jTable1 = new javax.swing.JTable();
 		jMenuBar3 = new javax.swing.JMenuBar();
-
+		
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
-
+		
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(null,
-				new String[] { "Title", "Date", "Unanswered" }) {
+				new String[] { "Title", "Date", "Unanswered" })
+		{
 			Class[] types = new Class[] { java.lang.String.class,
 					java.lang.String.class, java.lang.Boolean.class };
 			boolean[] canEdit = new boolean[] { false, false, false };
-
-			public Class getColumnClass(int columnIndex) {
+			
+			public Class getColumnClass(int columnIndex)
+			{
 				return types[columnIndex];
 			}
-
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
+			
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
 				return canEdit[columnIndex];
 			}
 		});
 		jScrollPane1.setViewportView(jTable1);
-		if (jTable1.getColumnModel().getColumnCount() > 0) {
+		if (jTable1.getColumnModel().getColumnCount() > 0)
+		{
 			jTable1.getColumnModel().getColumn(0).setResizable(false);
 			jTable1.getColumnModel().getColumn(0).setPreferredWidth(300);
 			jTable1.getColumnModel().getColumn(1).setResizable(false);
@@ -81,9 +89,9 @@ public class Requests extends javax.swing.JFrame implements MouseListener {
 			jTable1.getColumnModel().getColumn(2).setResizable(false);
 			jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
 		}
-
+		
 		setJMenuBar(jMenuBar3);
-
+		
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
@@ -99,83 +107,97 @@ public class Requests extends javax.swing.JFrame implements MouseListener {
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
 				jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING,
 				javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE));
-
+		
 		pack();
-
+		
 		jTable1.addMouseListener(this);
 		jTable1.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent event) {
+				new ListSelectionListener()
+				{
+					public void valueChanged(ListSelectionEvent event)
+					{
 						// do some actions here, for example
 						// print first column value from selected row
-						if (isMousePressed) {
+						if (isMousePressed)
+						{
 							Request selectedRequest = MyServer.getInstance()
 									.getRequests()
 									.get(jTable1.getSelectedRow());
 							System.out.println(selectedRequest.getTitle());
-							new RequestDetails(selectedRequest).setVisible(true);
-							//jTable1.getSelectionModel().clearSelection();
+							new RequestDetails(selectedRequest)
+									.setVisible(true);
+							// jTable1.getSelectionModel().clearSelection();
 						}
 					}
 				});
 	}// </editor-fold>//GEN-END:initComponents
-
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JMenuBar jMenuBar3;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTable jTable1;
-
+	
 	// End of variables declaration//GEN-END:variables
-
-	public void addNewRequest(Request request) {
+	
+	public void addNewRequest(Request request)
+	{
 		model.addRow(new Object[] { request.getTitle(), request.getDueDate(),
 				request.isAnswered() });
 	}
 	
-	public void updateList() {
+	public void updateList()
+	{
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(null,
-				new String[] { "Title", "Date", "Unanswered" }) {
+				new String[] { "Title", "Date", "Unanswered" })
+		{
 			Class[] types = new Class[] { java.lang.String.class,
 					java.lang.String.class, java.lang.Boolean.class };
 			boolean[] canEdit = new boolean[] { false, false, false };
-
-			public Class getColumnClass(int columnIndex) {
+			
+			public Class getColumnClass(int columnIndex)
+			{
 				return types[columnIndex];
 			}
-
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
+			
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
 				return canEdit[columnIndex];
 			}
 		});
 		model = (DefaultTableModel) jTable1.getModel();
-
+		
 		loadListItems();
 	}
-
+	
 	private boolean isMousePressed = false;
-
+	
 	@Override
-	public void mouseClicked(MouseEvent e) {
-
+	public void mouseClicked(MouseEvent e)
+	{
+		
 	}
-
+	
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e)
+	{
 		isMousePressed = true;
 	}
-
+	
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e)
+	{
 		isMousePressed = false;
 	}
-
+	
 	@Override
-	public void mouseEntered(MouseEvent e) {
-
+	public void mouseEntered(MouseEvent e)
+	{
+		
 	}
-
+	
 	@Override
-	public void mouseExited(MouseEvent e) {
-
+	public void mouseExited(MouseEvent e)
+	{
+		
 	}
 }

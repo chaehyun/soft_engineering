@@ -28,137 +28,159 @@ import elements.TechSkills;
  * @author szedjani
  */
 @SuppressWarnings("serial")
-public class SearchStudents extends javax.swing.JFrame implements ItemListener {
-
+public class SearchStudents extends javax.swing.JFrame implements ItemListener
+{
+	
 	private Request selectedRequest;
 	private ArrayList<Student> listOfSelectedStudents;
-
+	
 	/**
 	 * Creates new form SearchStudents
 	 */
-	public SearchStudents(Request request) {
+	public SearchStudents(Request request)
+	{
 		selectedRequest = request;
 		initComponents();
 		setFields();
 		filterStudents();
 		updateList();
 	}
-
+	
 	@Override
-	public void itemStateChanged(ItemEvent e) {
+	public void itemStateChanged(ItemEvent e)
+	{
 		filterStudents();
 		updateList();
 	}
-
-	private void updateList() {
-
-		//System.out.println("update row count begin: " + tableModel.getRowCount());
-
+	
+	private void updateList()
+	{
+		
+		// System.out.println("update row count begin: " +
+		// tableModel.getRowCount());
+		
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] {}, new String[] { "Name", "GPA", "Pick" }) {
+				new Object[][] {}, new String[] { "Name", "GPA", "Pick" })
+		{
 			Class[] types = new Class[] { java.lang.String.class,
 					java.lang.Float.class, java.lang.Boolean.class };
 			boolean[] canEdit = new boolean[] { false, false, true };
-
-			public Class getColumnClass(int columnIndex) {
+			
+			public Class getColumnClass(int columnIndex)
+			{
 				return types[columnIndex];
 			}
-
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
+			
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
 				return canEdit[columnIndex];
 			}
 		});
 		DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-		//for (int i = 0; i < tableModel.getRowCount(); i++)
-		//	tableModel.removeRow(i);
-
-		System.out.println("listOfSelectedStudents: " + listOfSelectedStudents.size());
-		System.out.println("update row count before: " + tableModel.getRowCount());
+		// for (int i = 0; i < tableModel.getRowCount(); i++)
+		// tableModel.removeRow(i);
+		
+		System.out.println("listOfSelectedStudents: "
+				+ listOfSelectedStudents.size());
+		System.out.println("update row count before: "
+				+ tableModel.getRowCount());
 		for (Student student : listOfSelectedStudents)
 			tableModel.addRow(new Object[] { student.getName(),
 					student.getGpa(), false });
-		System.out.println("update row count after: " + tableModel.getRowCount());
-
+		System.out.println("update row count after: "
+				+ tableModel.getRowCount());
+		
 	}
-
-	private void setFields() {
+	
+	private void setFields()
+	{
 		jTextFieldMinimumGrade.setText(Integer.toString(selectedRequest
 				.getMinimumGrade()));
-
+		
 		for (TechSkills skill : selectedRequest.getTechSkills())
-			switch (skill) {
-			case JAVA:
-				jCheckBoxJava.setSelected(true);
-				break;
-			case APACHE:
-				jCheckBoxJava.setSelected(true);
-				break;
-			case ORACLE:
-				jCheckBoxJava.setSelected(true);
-				break;
-			case OOP:
-				jCheckBoxJava.setSelected(true);
-				break;
-			default:
-				break;
+			switch (skill)
+			{
+				case JAVA:
+					jCheckBoxJava.setSelected(true);
+					break;
+				case APACHE:
+					jCheckBoxJava.setSelected(true);
+					break;
+				case ORACLE:
+					jCheckBoxJava.setSelected(true);
+					break;
+				case OOP:
+					jCheckBoxJava.setSelected(true);
+					break;
+				default:
+					break;
 			}
-
+		
 		for (NonTechSkills skill : selectedRequest.getNonTechSkills())
-			switch (skill) {
-			case TEAMWORK:
-				jCheckBoxTeamSpirit.setSelected(true);
-				break;
-			case QUICKLEARNING:
-				jCheckBoxQuickLearning.setSelected(true);
-				break;
-			case DRIVINGLICENCE:
-				jCheckBoxDrivingLicence.setSelected(true);
-				break;
-			default:
-				break;
+			switch (skill)
+			{
+				case TEAMWORK:
+					jCheckBoxTeamSpirit.setSelected(true);
+					break;
+				case QUICKLEARNING:
+					jCheckBoxQuickLearning.setSelected(true);
+					break;
+				case DRIVINGLICENCE:
+					jCheckBoxDrivingLicence.setSelected(true);
+					break;
+				default:
+					break;
 			}
-
+		
 	}
-
-	private void filterStudents() {
+	
+	private void filterStudents()
+	{
 		ArrayList<Student> listOfAllStudents = MyServer.getInstance()
 				.getStudents();
 		listOfSelectedStudents = new ArrayList<>();
-
-		try {
+		
+		try
+		{
 			int minimumGrade = Integer.parseInt(jTextFieldMinimumGrade
 					.getText());
-
+			
 			ArrayList<TechSkills> techSkills = getTechSkillsChecked();
 			ArrayList<NonTechSkills> nonTechSkills = getNonTechSkillsChecked();
-
-			for (Student student : listOfAllStudents) {
-				if (student.getGrade() >= minimumGrade) {
+			
+			for (Student student : listOfAllStudents)
+			{
+				if (student.getGrade() >= minimumGrade)
+				{
 					boolean techSkillsOkay = true;
 					for (TechSkills skill : techSkills)
 						if (!student.getTechSkills().contains(skill))
 							techSkillsOkay = false;
 					boolean nonTechSkillsOkay = true;
-					if (techSkillsOkay) {
+					if (techSkillsOkay)
+					{
 						for (NonTechSkills skill : nonTechSkills)
 							if (!student.getNonTechSkills().contains(skill))
 								nonTechSkillsOkay = false;
 						if (nonTechSkillsOkay)
 							listOfSelectedStudents.add(student);
 					}
-
+					
 				}
 			}
-
-		} catch (NumberFormatException e) {
+			
 		}
-
+		catch (NumberFormatException e)
+		{
+		}
+		
 		Collections.sort(listOfSelectedStudents);
 	}
-
-	private ArrayList<TechSkills> getTechSkillsChecked() {
+	
+	private ArrayList<TechSkills> getTechSkillsChecked()
+	{
 		ArrayList<TechSkills> techSkills = new ArrayList<>();
-
+		
 		if (jCheckBoxJava.isSelected())
 			techSkills.add(TechSkills.JAVA);
 		if (jCheckBoxApache.isSelected())
@@ -167,23 +189,24 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 			techSkills.add(TechSkills.ORACLE);
 		if (jCheckBoxOOP.isSelected())
 			techSkills.add(TechSkills.OOP);
-
+		
 		return techSkills;
 	}
-
-	private ArrayList<NonTechSkills> getNonTechSkillsChecked() {
+	
+	private ArrayList<NonTechSkills> getNonTechSkillsChecked()
+	{
 		ArrayList<NonTechSkills> nonTechSkills = new ArrayList<>();
-
+		
 		if (jCheckBoxTeamSpirit.isSelected())
 			nonTechSkills.add(NonTechSkills.TEAMWORK);
 		if (jCheckBoxQuickLearning.isSelected())
 			nonTechSkills.add(NonTechSkills.QUICKLEARNING);
 		if (jCheckBoxDrivingLicence.isSelected())
 			nonTechSkills.add(NonTechSkills.DRIVINGLICENCE);
-
+		
 		return nonTechSkills;
 	}
-
+	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -192,8 +215,9 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
 	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-
+	private void initComponents()
+	{
+		
 		jLabel12 = new javax.swing.JLabel();
 		jCheckBoxJava = new javax.swing.JCheckBox();
 		jCheckBoxApache = new javax.swing.JCheckBox();
@@ -209,7 +233,7 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 		jLabel5 = new javax.swing.JLabel();
 		jTextFieldMinimumGrade = new javax.swing.JTextField();
 		jButtonSend = new javax.swing.JButton();
-
+		
 		jCheckBoxJava.addItemListener(this);
 		jCheckBoxApache.addItemListener(this);
 		jCheckBoxOracleSQL.addItemListener(this);
@@ -217,22 +241,28 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 		jCheckBoxTeamSpirit.addItemListener(this);
 		jCheckBoxQuickLearning.addItemListener(this);
 		jCheckBoxDrivingLicence.addItemListener(this);
-		jTextFieldMinimumGrade.addActionListener(new ActionListener() {
+		jTextFieldMinimumGrade.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				itemStateChanged(null);
 			}
 		});
-
-		jButtonSend.addMouseListener(new MouseAdapter() {
+		
+		jButtonSend.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e)
+			{
 				DefaultTableModel tableModel = (DefaultTableModel) jTable1
 						.getModel();
-				System.out.println("length of list: " + listOfSelectedStudents.size());
+				System.out.println("length of list: "
+						+ listOfSelectedStudents.size());
 				System.out.println("row count: " + tableModel.getRowCount());
 				for (int i = 0; i < tableModel.getRowCount(); i++)
-					if ((boolean) tableModel.getValueAt(i, 2)) {
+					if ((boolean) tableModel.getValueAt(i, 2))
+					{
 						System.out.println(i);
 						System.out.println(listOfSelectedStudents == null);
 						System.out.println(listOfSelectedStudents.get(i) == null);
@@ -242,98 +272,115 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 				SearchStudents.this.setVisible(false);
 			}
 		});
-
+		
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
-
+		
 		jLabel12.setText("Filter responses:");
-
+		
 		jCheckBoxJava.setSelected(false);
 		jCheckBoxJava.setText("Java");
-		jCheckBoxJava.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		jCheckBoxJava.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
 				jCheckBoxJavaActionPerformed(evt);
 			}
 		});
-
+		
 		jCheckBoxApache.setSelected(false);
 		jCheckBoxApache.setText("Apache Server");
-		jCheckBoxApache.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		jCheckBoxApache.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
 				jCheckBoxApacheActionPerformed(evt);
 			}
 		});
-
+		
 		jCheckBoxOracleSQL.setSelected(false);
 		jCheckBoxOracleSQL.setText("Oracle SQL");
 		jCheckBoxOracleSQL
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
 						jCheckBoxOracleSQLActionPerformed(evt);
 					}
 				});
-
+		
 		jCheckBoxOOP.setSelected(false);
 		jCheckBoxOOP.setText("Object-Oriented Programming");
-
+		
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] {}, new String[] { "Name", "GPA", "Pick" }) {
+				new Object[][] {}, new String[] { "Name", "GPA", "Pick" })
+		{
 			Class[] types = new Class[] { java.lang.String.class,
 					java.lang.Float.class, java.lang.Boolean.class };
 			boolean[] canEdit = new boolean[] { false, false, true };
-
-			public Class getColumnClass(int columnIndex) {
+			
+			public Class getColumnClass(int columnIndex)
+			{
 				return types[columnIndex];
 			}
-
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
+			
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
 				return canEdit[columnIndex];
 			}
 		});
 		jScrollPane4.setViewportView(jTable1);
-
+		
 		jLabel13.setText("Technical skills");
-
+		
 		jCheckBoxTeamSpirit.setSelected(false);
 		jCheckBoxTeamSpirit.setText("Team spirit");
 		jCheckBoxTeamSpirit
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
 						jCheckBoxTeamSpiritActionPerformed(evt);
 					}
 				});
-
+		
 		jLabel14.setText("Non-technical skills");
-
+		
 		jCheckBoxQuickLearning.setSelected(false);
 		jCheckBoxQuickLearning.setText("quick learning");
 		jCheckBoxQuickLearning
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
 						jCheckBoxQuickLearningActionPerformed(evt);
 					}
 				});
-
+		
 		jCheckBoxDrivingLicence.setSelected(false);
 		jCheckBoxDrivingLicence.setText("driving licence");
 		jCheckBoxDrivingLicence
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
 						jCheckBoxDrivingLicenceActionPerformed(evt);
 					}
 				});
-
+		
 		jLabel5.setText("Minimum grade:");
-
+		
 		jTextFieldMinimumGrade.setText("3");
-
+		
 		jButtonSend.setText("Send requests to the students");
-		jButtonSend.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		jButtonSend.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
 				jButtonSendActionPerformed(evt);
 			}
 		});
-
+		
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
@@ -480,42 +527,49 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
 										14, Short.MAX_VALUE)
 								.addComponent(jButtonSend).addContainerGap()));
-
+		
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
-
-	private void jCheckBoxApacheActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxApacheActionPerformed
+	
+	private void jCheckBoxApacheActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxApacheActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxApacheActionPerformed
-
+	
 	private void jCheckBoxOracleSQLActionPerformed(
-			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxOracleSQLActionPerformed
+			java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxOracleSQLActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxOracleSQLActionPerformed
-
-	private void jCheckBoxJavaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxJavaActionPerformed
+	
+	private void jCheckBoxJavaActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxJavaActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxJavaActionPerformed
-
+	
 	private void jCheckBoxTeamSpiritActionPerformed(
-			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxTeamSpiritActionPerformed
+			java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxTeamSpiritActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxTeamSpiritActionPerformed
-
+	
 	private void jCheckBoxQuickLearningActionPerformed(
-			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxQuickLearningActionPerformed
+			java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxQuickLearningActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxQuickLearningActionPerformed
-
+	
 	private void jCheckBoxDrivingLicenceActionPerformed(
-			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCheckBoxDrivingLicenceActionPerformed
+			java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jCheckBoxDrivingLicenceActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jCheckBoxDrivingLicenceActionPerformed
-
-	private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonSendActionPerformed
+	
+	private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jButtonSendActionPerformed
 		// TODO add your handling code here:
 	}// GEN-LAST:event_jButtonSendActionPerformed
-
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonSend;
 	private javax.swing.JCheckBox jCheckBoxJava;
@@ -533,5 +587,5 @@ public class SearchStudents extends javax.swing.JFrame implements ItemListener {
 	private javax.swing.JTable jTable1;
 	private javax.swing.JTextField jTextFieldMinimumGrade;
 	// End of variables declaration//GEN-END:variables
-
+	
 }

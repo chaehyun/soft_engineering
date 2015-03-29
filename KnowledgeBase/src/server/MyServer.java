@@ -1,10 +1,5 @@
 package server;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,74 +17,103 @@ import elements.Student;
 import elements.TechSkills;
 import elements.User;
 
-/**
- *
- * @author szedjani
- */
-public class MyServer {
-
-	private final String companyFileName = "companies.ser";
-	private final String studentFileName = "students.ser";
-	private final String requestsFileName = "requests.ser";
-
+public class MyServer
+{
+	/* Definition for Server Data File names */
+	private final static String companyFileName = "companies.ser";
+	private final static String studentFileName = "students.ser";
+	private final static String requestsFileName = "requests.ser";
+	
 	private AutoSerializeList<Company> companies;
 	private AutoSerializeList<Student> students;
 	private AutoSerializeList<Request> requests;
-
+	
 	private static MyServer instance = null;
-
+	
 	private Requests mainWindow;
-
-	public Requests getMainWindow() {
+	
+	public Requests getMainWindow()
+	{
 		return mainWindow;
 	}
-
-	public JSONObject login(JSONObject requestMessage) throws JSONException {
+	
+	/* Login method */
+	public JSONObject login(JSONObject requestMessage) throws JSONException
+	{
+		// create return value
 		JSONObject response = new JSONObject();
-
+		
+		// Parsing data with keys
 		String userType = requestMessage.getString("usertype");
 		String id = requestMessage.getString("ID");
 		String pwd = requestMessage.getString("pwd");
-
+		
+		// create temporary user
 		User user = null;
+		
+		// check and comparison with server data
+		// check user type
+		// because, Student and Company has different files
 		if (userType.equals("student"))
+		{
 			user = getStudentById(id);
+		}
 		else if (userType.equals("company"))
+		{
 			user = getCompanyById(id);
-
+		}
+		
+		// check user passwords from server data
 		if (user != null && user.getPassword() != null
 				&& user.getPassword().equals(pwd))
+		{
 			response.put("valid", true);
+		}
 		else
+		{
 			response.put("valid", false);
-
+		}
+		
 		return response;
 	}
-
-	public JSONObject registerCompany(JSONObject request) throws JSONException {
+	
+	// RegisterCompany Method
+	public JSONObject registerCompany(JSONObject request) throws JSONException
+	{
+		// create return value
 		JSONObject response = new JSONObject();
-
+		
+		// Parsing data with keys
 		String name = request.getString("CompanyName");
 		String id = request.getString("ID");
 		String password = request.getString("Password");
 		String location = request.getString("Location");
 		String contactNumber = request.getString("Contact number");
-
+		
+		// check validity
 		Company check = getCompanyById(id);
-		if (check == null) {
+		if (check == null)
+		{
 			companies.add(new Company(name, contactNumber, id, password,
 					location));
 			response.put("valid", true);
-		} else
+		}
+		else
+		{
 			response.put("valid", false); // ID is taken
-
+		}
+			
 		return response;
 	}
-
+	
+	// RegisterStudent Method
 	public JSONObject registerStudent(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
+		// create return value
 		JSONObject response = new JSONObject();
-
+		
+		// Parsing data with keys
 		String name = requestMessage.getString("StudentName");
 		String id = requestMessage.getString("ID");
 		String password = requestMessage.getString("Password");
@@ -100,36 +124,48 @@ public class MyServer {
 		String sex = requestMessage.getString("Sex");
 		JSONArray techSkills = requestMessage.getJSONArray("TechSkills");
 		JSONArray nonTechSkills = requestMessage.getJSONArray("NonTechSkills");
-
+		
+		// Type casting JSONArray into ArrayList 
 		ArrayList<TechSkills> techSkillsList = new ArrayList<>();
-		for (int i = 0; i < techSkills.length(); i++) {
+		for (int i = 0; i < techSkills.length(); i++)
+		{
 			String skillString = techSkills.getString(i);
 			TechSkills skill = TechSkills.valueOf(skillString);
 			techSkillsList.add(skill);
 		}
-
+		
 		ArrayList<NonTechSkills> nonTechSkillsList = new ArrayList<>();
-		for (int i = 0; i < nonTechSkills.length(); i++) {
+		for (int i = 0; i < nonTechSkills.length(); i++)
+		{
 			String skillString = nonTechSkills.getString(i);
 			NonTechSkills skill = NonTechSkills.valueOf(skillString);
 			nonTechSkillsList.add(skill);
 		}
-
+		
+		// check validity
 		Student check = getStudentById(id);
-		if (check == null) {
+		if (check == null)
+		{
 			students.add(new Student(name, contactNumber, id, password, gpa,
 					sex, grade, age, techSkillsList, nonTechSkillsList));
 			response.put("valid", true);
-		} else
+		}
+		else
+		{
 			response.put("valid", false); // ID is taken
-
+		}
+			
 		return response;
 	}
-
+	
+	//ReceiveRequest Method
 	public JSONObject receiveRequest(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
+		// create return value
 		JSONObject response = new JSONObject();
-
+		
+		// Parsing data with keys
 		String companyID = requestMessage.getString("ID");
 		String position = requestMessage.getString("Position");
 		String startDateString = requestMessage.getString("StartDate");
@@ -141,25 +177,31 @@ public class MyServer {
 		String description = requestMessage.getString("Description");
 		JSONArray techSkills = requestMessage.getJSONArray("TechSkills");
 		JSONArray nonTechSkills = requestMessage.getJSONArray("NonTechSkills");
-
+		
+		// Type casting JSONArrays into ArrayList
 		ArrayList<TechSkills> techSkillsList = new ArrayList<>();
-		for (int i = 0; i < techSkills.length(); i++) {
+		for (int i = 0; i < techSkills.length(); i++)
+		{
 			String skillString = techSkills.getString(i);
 			TechSkills skill = TechSkills.valueOf(skillString);
 			techSkillsList.add(skill);
 		}
-
+		
 		ArrayList<NonTechSkills> nonTechSkillsList = new ArrayList<>();
-		for (int i = 0; i < nonTechSkills.length(); i++) {
+		for (int i = 0; i < nonTechSkills.length(); i++)
+		{
 			String skillString = nonTechSkills.getString(i);
 			NonTechSkills skill = NonTechSkills.valueOf(skillString);
 			nonTechSkillsList.add(skill);
 		}
-
+		
+		// get company by id
 		Company company = getCompanyById(companyID);
 		System.out.println(company.getName());
-
-		if (company != null) {
+		
+		if (company != null)
+		{
+			// create a new request and put into company
 			Request request = new Request(position, company, numberOfStudents,
 					grade, dueDateString, startDateString, endDateString,
 					description, payment, techSkillsList, nonTechSkillsList,
@@ -167,35 +209,43 @@ public class MyServer {
 			requests.add(request);
 			mainWindow.addNewRequest(request);
 			response.put("error", false);
-		} else {
+		}
+		else
+		{
 			response.put("error", true);
 		}
-
+		
 		return response;
 	}
-
+	
+	// GetResults Method
 	public JSONObject getResults(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
 		JSONObject response = new JSONObject();
-
+		
 		String id = requestMessage.getString("ID");
-
-		for (Request req : requests) {
+		
+		for (Request req : requests)
+		{
 			System.out.println("list: " + req.getCompany().getId());
-			if (req.getCompany().getId().equals(id)) {
+			if (req.getCompany().getId().equals(id))
+			{
 				JSONObject resultElement = new JSONObject();
-
+				
 				resultElement.put("Title", req.getTitle());
 				resultElement.put("Date", req.getDueDate());
-
-				if (req.isAnswered()) {
-
+				
+				if (req.isAnswered())
+				{
+					
 					resultElement.put("Complete", true);
-
-					for (Reply reply : req.getReplies()) {
+					
+					for (Reply reply : req.getReplies())
+					{
 						Student student = reply.getStudent();
 						JSONObject studentElement = new JSONObject();
-
+						
 						studentElement.put("StudentName", student.getName());
 						studentElement.put("Grade", student.getGrade());
 						studentElement.put("GPA", student.getGpa());
@@ -208,31 +258,38 @@ public class MyServer {
 						for (NonTechSkills skill : student.getNonTechSkills())
 							studentElement
 									.append("NonTechSkills", skill.name());
-
+						
 						resultElement.append("Students", studentElement);
 					}
-
-				} else
+					
+				}
+				else
+				{
 					resultElement.put("Complete", false);
-
+				}
+				
 				response.append("Results", resultElement);
 			}
 		}
-
+		
 		return response;
 	}
-
+	
 	public JSONObject getRequests(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
 		JSONObject response = new JSONObject();
-
+		
 		String id = requestMessage.getString("ID");
-
+		
 		for (Request req : requests)
+		{
 			for (Reply reply : req.getReplies())
-				if (reply.getStudent().getId().equals(id)) {
+			{
+				if (reply.getStudent().getId().equals(id))
+				{
 					JSONObject requestJSON = new JSONObject();
-
+					
 					requestJSON.put("RequestID", req.getId());
 					requestJSON.put("Name", req.getCompany().getName());
 					requestJSON.put("Position", req.getTitle());
@@ -243,37 +300,46 @@ public class MyServer {
 						requestJSON.append("TechSkills", skill.name());
 					for (NonTechSkills skill : req.getNonTechSkills())
 						requestJSON.append("NonTechSkills", skill.name());
-
+					
 					response.append("Requests", requestJSON);
 				}
-
+			}
+		}
+		
 		return response;
 	}
-
+	
 	public JSONObject receiveAnswer(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
 		JSONObject response = new JSONObject();
-
+		
 		String id = requestMessage.getString("ID");
 		int requestId = requestMessage.getInt("RequestID");
 		String answer = requestMessage.getString("Answer");
-		//String message = requestMessage.getString("Message");
-
+		// String message = requestMessage.getString("Message");
+		
 		Request requestElement = getRequestById(requestId);
 		for (Reply reply : requestElement.getReplies())
-			if (reply.getStudent().getId().equals(id)) {
+		{
+			if (reply.getStudent().getId().equals(id))
+			{
 				reply.setState(Reply.State.valueOf(answer));
-				//reply.getMessage().add(message);
+				// reply.getMessage().add(message);
 			}
-
+		}
+		
 		return response;
 	}
-
-	private MyServer() {
+	
+	private MyServer()
+	{
 	}
-
-	void init() {
-		try {
+	
+	void init()
+	{
+		try
+		{
 			// load data
 			companies = new AutoSerializeList<Company>(companyFileName);
 			System.out.println(companies.size() + " companies restored.");
@@ -281,82 +347,118 @@ public class MyServer {
 			System.out.println(students.size() + " students restored.");
 			requests = new AutoSerializeList<Request>(requestsFileName);
 			System.out.println(requests.size() + " requests restored.");
-
+			
 			// open main window
 			mainWindow = new Requests();
 			mainWindow.setVisible(true);
-		} catch (ClassNotFoundException | IOException e) {
+		}
+		catch (ClassNotFoundException | IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
-
-	public static MyServer getInstance() {
-		if (instance == null) {
+	
+	public static MyServer getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new MyServer();
 		}
+		
 		return instance;
 	}
-
-	public AutoSerializeList<Company> getCompanies() {
+	
+	public AutoSerializeList<Company> getCompanies()
+	{
 		return companies;
 	}
-
-	public AutoSerializeList<Student> getStudents() {
+	
+	public AutoSerializeList<Student> getStudents()
+	{
 		return students;
 	}
-
-	public AutoSerializeList<Request> getRequests() {
+	
+	public AutoSerializeList<Request> getRequests()
+	{
 		return requests;
 	}
-
-	public Company getCompanyById(String id) {
+	
+	public Company getCompanyById(String id)
+	{
 		for (Company c : companies)
+		{
 			if (c.getId().equals(id))
+			{
 				return c;
+			}
+		}
+		
 		return null;
 	}
-
-	public Student getStudentById(String id) {
+	
+	public Student getStudentById(String id)
+	{
 		for (Student s : students)
+		{
 			if (s.getId().equals(id))
+			{
 				return s;
+			}
+		}
+		
 		return null;
 	}
-
-	public Request getRequestById(int id) {
+	
+	public Request getRequestById(int id)
+	{
 		for (Request r : requests)
+		{
 			if (r.getId() == id)
+			{
 				return r;
+			}
+		}
+		
 		return null;
 	}
-
+	
 	public JSONObject studentIdValidation(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
 		JSONObject response = new JSONObject();
 		
 		String id = requestMessage.getString("ID");
 		
 		Student check = getStudentById(id);
-		if (check == null) {
+		if (check == null)
+		{
 			response.put("valid", true);
-		} else
+		}
+		else
+		{
 			response.put("valid", false); // ID is taken
-		
+		}
+			
 		return response;
 	}
 	
 	public JSONObject companyIdValidation(JSONObject requestMessage)
-			throws JSONException {
+			throws JSONException
+	{
 		JSONObject response = new JSONObject();
 		
 		String id = requestMessage.getString("ID");
 		
 		Company check = getCompanyById(id);
-		if (check == null) {
+		if (check == null)
+		{
 			response.put("valid", true);
-		} else
+		}
+		else
+		{
 			response.put("valid", false); // ID is taken
-		
+		}
+			
 		return response;
 	}
 }

@@ -17,7 +17,8 @@ import server.MyServer;
  * @author szedjani
  */
 @SuppressWarnings("serial")
-public class Request implements Serializable {
+public class Request implements Serializable
+{
 	private int id;
 	private String title;
 	private transient Company company;
@@ -32,18 +33,20 @@ public class Request implements Serializable {
 	private ArrayList<NonTechSkills> nonTechSkills;
 	private String message;
 	private boolean answered;
-
+	
 	private ArrayList<Reply> replies;
-
-	private void writeObject(ObjectOutputStream oos) throws IOException {
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException
+	{
 		// default serialization
 		oos.defaultWriteObject();
 		// write company id
 		oos.writeObject(company.getId());
 	}
-
+	
 	private void readObject(java.io.ObjectInputStream in) throws IOException,
-			ClassNotFoundException {
+			ClassNotFoundException
+	{
 		// default serialization
 		in.defaultReadObject();
 		// read company id
@@ -52,13 +55,14 @@ public class Request implements Serializable {
 		// set company
 		company = MyServer.getInstance().getCompanyById(companyID);
 	}
-
+	
 	public Request(String title, Company company, int numberOfStudents,
 			int minimumGrade, String dueDate, String startDate, String endDate,
 			String description, String payment,
 			ArrayList<TechSkills> techSkills,
 			ArrayList<NonTechSkills> nonTechSkills, ArrayList<Reply> replies,
-			String message, boolean answered) {
+			String message, boolean answered)
+	{
 		super();
 		this.id = MyServer.getInstance().getRequests().size();
 		this.title = title;
@@ -80,120 +84,149 @@ public class Request implements Serializable {
 		this.answered = answered;
 	}
 	
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
-
-	public String getTitle() {
+	
+	public String getTitle()
+	{
 		return title;
 	}
-
-	public void setTitle(String title) {
+	
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
-
-	public int getNumberOfStudents() {
+	
+	public int getNumberOfStudents()
+	{
 		return numberOfStudents;
 	}
-
-	public void setNumberOfStudents(int numberOfStudents) {
+	
+	public void setNumberOfStudents(int numberOfStudents)
+	{
 		this.numberOfStudents = numberOfStudents;
 	}
-
-	public int getMinimumGrade() {
+	
+	public int getMinimumGrade()
+	{
 		return minimumGrade;
 	}
-
-	public void setMinimumGrade(int minimumGrade) {
+	
+	public void setMinimumGrade(int minimumGrade)
+	{
 		this.minimumGrade = minimumGrade;
 	}
-
-	public String getDueDate() {
+	
+	public String getDueDate()
+	{
 		return dueDate;
 	}
-
-	public void setDueDate(String dueDate) {
+	
+	public void setDueDate(String dueDate)
+	{
 		this.dueDate = dueDate;
 	}
-
-	public String getStartDate() {
+	
+	public String getStartDate()
+	{
 		return startDate;
 	}
-
-	public void setStartDate(String startDate) {
+	
+	public void setStartDate(String startDate)
+	{
 		this.startDate = startDate;
 	}
-
-	public String getEndDate() {
+	
+	public String getEndDate()
+	{
 		return endDate;
 	}
-
-	public void setEndDate(String endDate) {
+	
+	public void setEndDate(String endDate)
+	{
 		this.endDate = endDate;
 	}
-
-	public String getDescription() {
+	
+	public String getDescription()
+	{
 		return description;
 	}
-
-	public void setDescription(String description) {
+	
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
-
-	public ArrayList<TechSkills> getTechSkills() {
+	
+	public ArrayList<TechSkills> getTechSkills()
+	{
 		return techSkills;
 	}
-
-	public void setTechSkills(ArrayList<TechSkills> techSkills) {
+	
+	public void setTechSkills(ArrayList<TechSkills> techSkills)
+	{
 		this.techSkills = techSkills;
 	}
-
-	public ArrayList<NonTechSkills> getNonTechSkills() {
+	
+	public ArrayList<NonTechSkills> getNonTechSkills()
+	{
 		return nonTechSkills;
 	}
-
-	public void setNonTechSkills(ArrayList<NonTechSkills> nonTechSkills) {
+	
+	public void setNonTechSkills(ArrayList<NonTechSkills> nonTechSkills)
+	{
 		this.nonTechSkills = nonTechSkills;
 	}
-
-	public ArrayList<Reply> getReplies() {
+	
+	public ArrayList<Reply> getReplies()
+	{
 		return replies;
 	}
-
-	public void setReplies(ArrayList<Reply> replies) {
+	
+	public void setReplies(ArrayList<Reply> replies)
+	{
 		this.replies = replies;
 	}
-
-	public String getMessage() {
+	
+	public String getMessage()
+	{
 		return message;
 	}
-
-	public void setMessage(String message) {
+	
+	public void setMessage(String message)
+	{
 		this.message = message;
 	}
-
-	public boolean isAnswered() {
+	
+	public boolean isAnswered()
+	{
 		return answered;
 	}
-
-	public void setAnswered(boolean answered) {
+	
+	public void setAnswered(boolean answered)
+	{
 		this.answered = answered;
 	}
-
-	public Company getCompany() {
+	
+	public Company getCompany()
+	{
 		return company;
 	}
-
-	public void setCompany(Company company) {
+	
+	public void setCompany(Company company)
+	{
 		this.company = company;
 	}
-
-	public String getPayment() {
+	
+	public String getPayment()
+	{
 		return payment;
 	}
-
-	public void setPayment(String payment) {
+	
+	public void setPayment(String payment)
+	{
 		this.payment = payment;
 	}
-
+	
 }

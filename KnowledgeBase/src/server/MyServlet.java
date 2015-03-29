@@ -18,75 +18,92 @@ import org.json.JSONObject;
  * Servlet implementation class KnowledgeBaseServlet
  */
 @WebServlet("/KnowledgeBaseServlet")
-public class MyServlet extends HttpServlet {
+public class MyServlet extends HttpServlet
+{
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+			HttpServletResponse response) throws ServletException, IOException
+	{
+		// Auto-generated method stub
 		response.getWriter().println("works");
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		try {
+			HttpServletResponse response) throws ServletException, IOException
+	{
+		try
+		{
 			PrintWriter out = response.getWriter();
-
+			
 			JSONObject jsonResponse = new JSONObject();
 			// Reading the request
 			StringBuffer buffer = new StringBuffer();
 			String line = null;
 			BufferedReader reader = request.getReader();
+			
 			while ((line = reader.readLine()) != null)
+			{
 				buffer.append(line);
+			}
+			
 			JSONObject requestMessage = new JSONObject(buffer.toString());
 			System.out.println(buffer);
-
+			
 			jsonResponse = getResponse(requestMessage);
-
+			
 			System.out.println(jsonResponse);
 			out.println(jsonResponse.toString());
-		} catch (IOException | JSONException | ParseException e2) {
+		}
+		catch (IOException | JSONException | ParseException e2)
+		{
 			e2.printStackTrace();
 		}
 	}
-
+	
+	// JSONObject message type and key is defined here.
 	private JSONObject getResponse(JSONObject requestMessage)
-			throws JSONException, ParseException {
+			throws JSONException, ParseException
+	{
+		// Parsing MessageType
 		String messageType = requestMessage.getString("MessageType");
-
-		switch (messageType) {
-		case "login":
-			return MyServer.getInstance().login(requestMessage);
-		case "companyregister":
-			return MyServer.getInstance().registerCompany(requestMessage);
-		case "studentregister":
-			return MyServer.getInstance().registerStudent(requestMessage);
-		case "newrequest":
-			return MyServer.getInstance().receiveRequest(requestMessage);
-		case "getresults":
-			return MyServer.getInstance().getResults(requestMessage);
-		case "getrequests":
-			return MyServer.getInstance().getRequests(requestMessage);
-		case "answer":
-			return MyServer.getInstance().receiveAnswer(requestMessage);
-		case "studentidValidation":
-			return MyServer.getInstance().studentIdValidation(requestMessage);
-		case "companyidValidation":
-			return MyServer.getInstance().companyIdValidation(requestMessage);
-		default:
-			JSONObject responseMessage = new JSONObject();
-			responseMessage.put("Error", "Invalid message type");
-			return responseMessage;
+		
+		// Handling with keys
+		switch (messageType)
+		{
+			case "login":
+				return MyServer.getInstance().login(requestMessage);
+			case "companyregister":
+				return MyServer.getInstance().registerCompany(requestMessage);
+			case "studentregister":
+				return MyServer.getInstance().registerStudent(requestMessage);
+			case "newrequest":
+				return MyServer.getInstance().receiveRequest(requestMessage);
+			case "getresults":
+				return MyServer.getInstance().getResults(requestMessage);
+			case "getrequests":
+				return MyServer.getInstance().getRequests(requestMessage);
+			case "answer":
+				return MyServer.getInstance().receiveAnswer(requestMessage);
+			case "studentidValidation":
+				return MyServer.getInstance().studentIdValidation(
+						requestMessage);
+			case "companyidValidation":
+				return MyServer.getInstance().companyIdValidation(
+						requestMessage);
+			default:
+				JSONObject responseMessage = new JSONObject();
+				responseMessage.put("Error", "Invalid message type");
+				return responseMessage;
 		}
-
+		
 	}
 }

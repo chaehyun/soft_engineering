@@ -19,28 +19,35 @@ import java.util.ArrayList;
  * @author szedjani
  */
 @SuppressWarnings("serial")
-public class AutoSerializeList<T extends Serializable> extends ArrayList<T> {
-
+public class AutoSerializeList<T extends Serializable> extends ArrayList<T>
+{
+	
 	String filename;
-
+	
 	@SuppressWarnings({ "unchecked" })
 	public AutoSerializeList(String Filename) throws IOException,
-			ClassNotFoundException {
+			ClassNotFoundException
+	{
 		super();
 		filename = Filename;
-		try {
+		try
+		{
 			this.addAll((ArrayList<T>) (new ObjectInputStream(
 					new FileInputStream(Filename))).readObject());
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e)
+		{
 			System.out.println(Filename + " is not exist.");
 		}
 	}
-
-	public void save() throws IOException {
+	
+	public void save() throws IOException
+	{
 		try (FileOutputStream fStream = new FileOutputStream(filename);
-				ObjectOutputStream oStream = new ObjectOutputStream(fStream);) {
+				ObjectOutputStream oStream = new ObjectOutputStream(fStream);)
+		{
 			oStream.writeObject(this);
 		}
 	}
-
+	
 }
