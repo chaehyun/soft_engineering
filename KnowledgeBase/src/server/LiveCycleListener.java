@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import server.MyServer;
 
 /**
  * Application Lifecycle Listener implementation class LiveCycleListener
@@ -16,11 +17,9 @@ public class LiveCycleListener implements ServletContextListener
 	
 	MyServer instance;
 	
-	/**
-	 * Default constructor.
-	 */
 	public LiveCycleListener()
 	{
+		
 	}
 	
 	/* Server Closing action here */
@@ -31,10 +30,12 @@ public class LiveCycleListener implements ServletContextListener
 		try
 		{
 			System.out.println("Shutting down is started.");
+			instance.generateLogMessage("Shutting down is started.");
 			instance.getStudents().save();
 			instance.getCompanies().save();
 			instance.getRequests().save();
 			System.out.println("Context destroyed.");
+			instance.generateLogMessage("Context destroyed");
 		}
 		catch (IOException e)
 		{
@@ -48,6 +49,7 @@ public class LiveCycleListener implements ServletContextListener
 		System.out.println("Context Initialization started.");
 		instance = MyServer.getInstance();
 		instance.init();
+		instance.generateLogMessage("Context Initialization started.");
 	}
 	
 }

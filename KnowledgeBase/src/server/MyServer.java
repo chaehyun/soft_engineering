@@ -7,15 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ui.Requests;
-import elements.AutoSerializeList;
-import elements.Company;
-import elements.NonTechSkills;
-import elements.Reply;
-import elements.Request;
-import elements.Student;
-import elements.TechSkills;
-import elements.User;
+import elements.*;
+import graphicUI.RequestsUI;
 
 public class MyServer
 {
@@ -27,12 +20,13 @@ public class MyServer
 	private AutoSerializeList<Company> companies;
 	private AutoSerializeList<Student> students;
 	private AutoSerializeList<Request> requests;
+	private LogfileManagement log;
 	
 	private static MyServer instance = null;
 	
-	private Requests mainWindow;
+	private RequestsUI mainWindow;
 	
-	public Requests getMainWindow()
+	public RequestsUI getMainWindow()
 	{
 		return mainWindow;
 	}
@@ -42,6 +36,9 @@ public class MyServer
 	{
 		// create return value
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		// Parsing data with keys
 		String userType = requestMessage.getString("usertype");
@@ -74,6 +71,8 @@ public class MyServer
 			response.put("valid", false);
 		}
 		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
 		return response;
 	}
 	
@@ -82,6 +81,9 @@ public class MyServer
 	{
 		// create return value
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(request.toString());
 		
 		// Parsing data with keys
 		String name = request.getString("CompanyName");
@@ -103,6 +105,9 @@ public class MyServer
 			response.put("valid", false); // ID is taken
 		}
 			
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -112,6 +117,9 @@ public class MyServer
 	{
 		// create return value
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		// Parsing data with keys
 		String name = requestMessage.getString("StudentName");
@@ -155,15 +163,22 @@ public class MyServer
 			response.put("valid", false); // ID is taken
 		}
 			
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+		
 		return response;
 	}
 	
 	//ReceiveRequest Method
+	@SuppressWarnings("unused")
 	public JSONObject receiveRequest(JSONObject requestMessage)
 			throws JSONException
 	{
 		// create return value
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		// Parsing data with keys
 		String companyID = requestMessage.getString("ID");
@@ -215,6 +230,9 @@ public class MyServer
 			response.put("error", true);
 		}
 		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -223,6 +241,9 @@ public class MyServer
 			throws JSONException
 	{
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		String id = requestMessage.getString("ID");
 		
@@ -272,6 +293,9 @@ public class MyServer
 			}
 		}
 		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -279,6 +303,9 @@ public class MyServer
 			throws JSONException
 	{
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		String id = requestMessage.getString("ID");
 		
@@ -306,6 +333,9 @@ public class MyServer
 			}
 		}
 		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -313,6 +343,9 @@ public class MyServer
 			throws JSONException
 	{
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		String id = requestMessage.getString("ID");
 		int requestId = requestMessage.getInt("RequestID");
@@ -329,6 +362,9 @@ public class MyServer
 			}
 		}
 		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -340,16 +376,22 @@ public class MyServer
 	{
 		try
 		{
+			// initialize Logfile Management
+			log = new LogfileManagement();
+			
 			// load data
 			companies = new AutoSerializeList<Company>(companyFileName);
 			System.out.println(companies.size() + " companies restored.");
+			generateLogMessage(companies.size() + " companies restored.");
 			students = new AutoSerializeList<Student>(studentFileName);
 			System.out.println(students.size() + " students restored.");
+			generateLogMessage(students.size() + " students restored.");
 			requests = new AutoSerializeList<Request>(requestsFileName);
 			System.out.println(requests.size() + " requests restored.");
+			generateLogMessage(requests.size() + " requests restored.");
 			
 			// open main window
-			mainWindow = new Requests();
+			mainWindow = new RequestsUI();
 			mainWindow.setVisible(true);
 		}
 		catch (ClassNotFoundException | IOException e)
@@ -427,6 +469,9 @@ public class MyServer
 	{
 		JSONObject response = new JSONObject();
 		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
+		
 		String id = requestMessage.getString("ID");
 		
 		Student check = getStudentById(id);
@@ -439,6 +484,10 @@ public class MyServer
 			response.put("valid", false); // ID is taken
 		}
 			
+		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
 	}
 	
@@ -446,6 +495,9 @@ public class MyServer
 			throws JSONException
 	{
 		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
 		
 		String id = requestMessage.getString("ID");
 		
@@ -458,7 +510,72 @@ public class MyServer
 		{
 			response.put("valid", false); // ID is taken
 		}
-			
+		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+				
 		return response;
+	}
+	
+	public JSONObject isVersionValid(JSONObject requestMessage) throws JSONException
+	{
+		JSONObject response = new JSONObject();
+		
+		// Write Log
+		generateRequestLogMessage(requestMessage.toString());
+		
+		String clientVersion = requestMessage.getString("ClientVersion");
+		
+		// Version Check between Client and Server
+		boolean validVersion = (new VersionControl()).isVersionValid(clientVersion);
+		if (validVersion == true)
+		{
+			response.put("valid", true);
+		}
+		else
+		{
+			response.put("valid", false);
+		}
+		
+		// Write Server Response Log
+		generateResponseLogMessage(response.toString());
+		
+		return response;
+	}
+	
+	public void generateLogMessage(String Message)
+	{
+		try
+		{
+			log.generateLog(Message);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void generateRequestLogMessage(String Message)
+	{
+		try
+		{
+			log.generateRequestLog(Message);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void generateResponseLogMessage(String Message)
+	{
+		try
+		{
+			log.generateResponseLog(Message);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

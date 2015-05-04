@@ -99,6 +99,8 @@ public class MyServlet extends HttpServlet
 			case "companyidValidation":
 				return MyServer.getInstance().companyIdValidation(
 						requestMessage);
+			case "VersionCheck":
+				return MyServer.getInstance().isVersionValid(requestMessage);
 			default:
 				JSONObject responseMessage = new JSONObject();
 				responseMessage.put("Error", "Invalid message type");
