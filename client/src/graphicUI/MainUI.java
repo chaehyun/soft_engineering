@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import communication.Communicator;
+import elements.VersionControl;
 
 public class MainUI extends JFrame
 {
@@ -38,6 +39,8 @@ public class MainUI extends JFrame
 	private final String LOGIN_SUCCESS = "Login Successful!";
 	private final String LOGIN_FAIL = "Login Failed";
 	private final String SERVER_OUT = "Server does not work";
+	private final String VERSION_UPDATE = "There is a Newst Version. Please Update your Program.";
+	private final String VERSION_NOUPDATE = "You are now using the newsest version.";
 	private boolean usertype;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -187,7 +190,7 @@ public class MainUI extends JFrame
 		contentPane.add(company_select);
 	}
 
-	// Register 버튼 마우스 클릭 event
+	// Register 踰꾪듉 留덉슦�뒪 �겢由� event
 	protected void btnRegisterMouseClicked(MouseEvent arg0)
 	{
 		boolean userType = isUsertype();
@@ -206,22 +209,26 @@ public class MainUI extends JFrame
 		}
 	}
 
-	// Register 버튼 키보드 클릭 event
+	// Register 踰꾪듉 �궎蹂대뱶 �겢由� event
 	protected void btnRegisterPressed(KeyEvent e)
 	{
 		btnRegisterMouseClicked(null);
 	}
 
-	// login 버튼 키보 클릭 event
+	// login 踰꾪듉 �궎蹂� �겢由� event
 	protected void loginButtonPressed(KeyEvent e)
 	{
 		String userID = idField.getText();
 		String pwd = passwordField.getText();
 		boolean userType = isUsertype();
+		
+		VersionControl current = new VersionControl();
+		String currentVersion = current.getCurrentVersion();
 
 		if (idField.equals("") == false && pwd.equals("") == false)
 		{
 			JSONObject message = new JSONObject();
+			JSONObject versionMessage = new JSONObject();
 
 			try
 			{
@@ -231,6 +238,30 @@ public class MainUI extends JFrame
 				// "MessageType", "keyvalue or variable",
 				// ...
 				// }
+				
+				
+				versionMessage.put("MessageType", "VersionCheck");
+				versionMessage.put("ClientVersion", currentVersion);
+				
+				JSONObject versionCheck = Communicator.sendMessage(versionMessage);
+				
+				boolean resultVersionCheck = versionCheck.getBoolean("valid");
+				
+				//there is no update.
+				if(resultVersionCheck == true)
+				{
+					//do nothing. or show "You are now using the Newst Version."
+					JOptionPane.showMessageDialog(new JFrame(), VERSION_NOUPDATE);
+				}
+				//there is a newest version. need to update.
+				else
+				{
+					//Pop up to let the users know there is an updated version.
+					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
+				}
+				
+				
+								
 				message.put("MessageType", "login");
 				message.put("ID", userID);
 				message.put("pwd", pwd);
@@ -272,7 +303,7 @@ public class MainUI extends JFrame
 		}
 	}
 
-	// login 버튼 마우스 클릭 event
+	// login 踰꾪듉 留덉슦�뒪 �겢由� event
 	protected void loginButtonClicked(MouseEvent e)
 	{
 		loginButtonPressed(null);
