@@ -17,6 +17,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import elements.VersionControl;
+
 public class Communicator
 {
 
@@ -66,4 +68,39 @@ public class Communicator
 
 		return response;
 	}
+	
+	
+	public JSONObject isVersionValid(JSONObject requestMessage) throws JSONExeption
+	{
+		JSONObject response = new JSONObject();
+		
+		//Write Log
+		
+		
+		//Read clientVersion Value;
+		
+		//dummy
+		String clientVersion = "1.0";
+		
+		//Version Check between Client and Server
+		VersionControl versionCheck = new VersionControl();
+		boolean validVersion = versionCheck.isVersionValid(clientVersion); 
+		
+		if(validVersion == true)
+		{
+			response.put("valid", true);
+		}
+		else
+		{
+			response.put("valid", false);
+		}		
+		
+		
+		return response;
+	}
+	
+	
+	
+	
+	
 }

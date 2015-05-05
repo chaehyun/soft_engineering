@@ -20,7 +20,7 @@ public class LogfileManagement
 	{
 		// Set Logfile Name with current Date and Time.txt
 		// For Mac OS X, set path like "/Users/.../logfile/
-		setLogfileName("/Users/nj/testlog/"+ getCurrentTime() + ".txt");
+		setLogfileName("C:\\logfile\\"+ getCurrentTime() + ".txt");
 		logFile = new File(getLogfileName());
 		try
 		{
