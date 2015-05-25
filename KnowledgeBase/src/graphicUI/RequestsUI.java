@@ -10,6 +10,11 @@ import javax.swing.table.DefaultTableModel;
 
 import server.MyServer;
 import elements.Request;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 
 @SuppressWarnings("serial")
 public class RequestsUI extends javax.swing.JFrame implements MouseListener
@@ -79,6 +84,31 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 		}
 		
 		setJMenuBar(jMenuBar3);
+		
+		mntmExitItem = new JMenuItem("Exit");
+		
+		//onClick Exit menu
+		mntmExitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean terminateResult = MyServer.getInstance().Terminate();
+			}
+		});
+		jMenuBar3.add(mntmExitItem);
+		
+		
+		//onClick Show Current Users
+		mntmShowCurrentUsers = new JMenuItem("Show Current Users");
+		mntmShowCurrentUsers.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				MyServer.getInstance().printCurrentUsers();
+				
+			}
+		});
+		jMenuBar3.add(mntmShowCurrentUsers);
+		
+		menuBar = new JMenuBar();
+		jMenuBar3.add(menuBar);
 		
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -158,6 +188,9 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 	}
 	
 	private boolean isMousePressed = false;
+	private JMenuBar menuBar;
+	private JMenuItem mntmExitItem;
+	private JMenuItem mntmShowCurrentUsers;
 	
 	@Override
 	public void mouseClicked(MouseEvent e)

@@ -38,6 +38,18 @@ public class MyServer
 	}
 	
 	
+	/* LogOut */
+	public boolean Terminate()
+	{
+		boolean result = false;
+		System.exit(0);
+		
+		result = true;
+		
+		return result;
+	}
+	
+	
 	/* Message Send */
 	//Description : getting JSON Format [ "Message_send" , id]
 	//				return JSON Format ["data" , String msg] * ...
@@ -171,25 +183,21 @@ public class MyServer
 	}
 	
 	/* Print Current Users*/
-	public void printCurrentUsers(String userType)
+	public void printCurrentUsers()
 	{
-		if(userType.equals("student"))
+		System.out.println("< Student List >");
+		for(int i=0; i < current_students.size(); i++)
 		{
-			for(int i=0; i < current_students.size(); i++)
-			{
-				String id = current_students.get(i);
-				System.out.println("[" + i + "] " + id);
-			}
-		}
-		else if(userType.equals("company"))
-		{
-			for(int i=0; i < current_companies.size(); i++)
-			{
-				String id = current_companies.get(i);
-				System.out.println("[" + i + "] " + id);
-			}
+			String id = current_students.get(i);
+			System.out.println("[" + i + "] " + id);
 		}
 		
+		System.out.println("< Company List >");
+		for(int i=0; i < current_companies.size(); i++)
+		{
+			String id = current_companies.get(i);
+			System.out.println("[" + i + "] " + id);
+		}
 		
 	}
 	
