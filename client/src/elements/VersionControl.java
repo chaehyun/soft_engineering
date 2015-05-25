@@ -1,5 +1,12 @@
 package elements;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import communication.Communicator;
+
 public class VersionControl
 {
 	private static final String currentVersion = "1.0";	//Version begins with 1.0.
@@ -16,22 +23,45 @@ public class VersionControl
 	
 	
 	/*
-	 * Author : Chaehyun Ra
-	 * Return Type : boolean
-	 * Description : Method for checking the current program version is the newest one or not.
-	 * currentVersion = newestVersion, then return true.
-	 * else , then return false.
-	 */	
-	public boolean isVersionValid(String clientVersion)
+	 * Return Value Description
+	 * 0 : no Error, Client is using latest Version
+	 * 1 : Version Invalid, Client is not using latest Version
+	 * 2 : Server Out
+	 */
+	public int isVersionValid()
 	{
-		if(clientVersion.equals(getCurrentVersion()))
+		int result = 3;
+		boolean ResultVersionValid = false;
+		JSONObject message = new JSONObject();
+		
+		
+		try
 		{
-			return true;
+			message.put("MessageType", "VersionCheck");
+			message.put("ClientVersion", currentVersion);
+		
+			// Send to Server with current Client Version Information
+			JSONObject versionCheck = Communicator.sendMessage(message);
+			
+			// Server Response
+			ResultVersionValid = versionCheck.getBoolean("valid");
+			if (ResultVersionValid == true)
+			{
+				result = 0;
+			}
+			else
+			{
+				result = 1;
+			}
+			
 		}
-		else
+		catch (JSONException | IOException e)
 		{
-			return false;
+			result = 2;
+			e.printStackTrace();
 		}
+		
+		return result;
 	}	
 
 }

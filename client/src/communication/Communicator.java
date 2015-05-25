@@ -68,42 +68,4 @@ public class Communicator
 
 		return response;
 	}
-	
-	
-	public JSONObject isVersionValid(JSONObject requestMessage) throws JSONException
-	{
-		JSONObject response = new JSONObject();
-		
-		//Write Log
-		
-		
-		//Read clientVersion Value;
-		
-		//dummy
-		
-		
-		//Version Check between Client and Server
-		VersionControl versionCheck = new VersionControl();
-		
-		//get the value of currentVersion.
-		String clientVersion = versionCheck.getCurrentVersion(); 
-		boolean validVersion = versionCheck.isVersionValid(clientVersion); 
-		
-		if(validVersion == true)
-		{
-			response.put("valid", true);
-		}
-		else
-		{
-			response.put("valid", false);
-		}		
-		
-		
-		return response;
-	}
-	
-	
-	
-	
-	
 }

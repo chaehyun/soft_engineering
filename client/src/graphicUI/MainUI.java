@@ -7,7 +7,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -21,11 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import communication.Communicator;
-import elements.VersionControl;
+import elements.Login;
 
 public class MainUI extends JFrame
 {
@@ -219,89 +214,67 @@ public class MainUI extends JFrame
 	{
 		String userID = idField.getText();
 		String pwd = passwordField.getText();
-		boolean userType = isUsertype();
+		String userType;
 		
-		VersionControl current = new VersionControl();
-		String currentVersion = current.getCurrentVersion();
-
 		if (idField.equals("") == false && pwd.equals("") == false)
 		{
-			JSONObject message = new JSONObject();
-			JSONObject versionMessage = new JSONObject();
+			int loginResult;
 
-			try
+			if (isUsertype() == true)
 			{
-				// JSON Object put
-				// JSONObject message
-				// {
-				// "MessageType", "keyvalue or variable",
-				// ...
-				// }
-				
-				
-				versionMessage.put("MessageType", "VersionCheck");
-				versionMessage.put("ClientVersion", currentVersion);
-				
-				JSONObject versionCheck = Communicator.sendMessage(versionMessage);
-				
-				boolean resultVersionCheck = versionCheck.getBoolean("valid");
-				
-				//there is no update.
-				if(resultVersionCheck == true)
-				{
-					//do nothing. or show "You are now using the Newest Version."
-					JOptionPane.showMessageDialog(new JFrame(), VERSION_NOUPDATE);
-				}
-				//there is a newest version. need to update.
-				else
-				{
-					//Pop up to let the users know there is an updated version.
-					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
-				}
-				
-				
-				// Start Login Process	
-				message.put("MessageType", "login");
-				message.put("ID", userID);
-				message.put("pwd", pwd);
-				
-				if (userType == false)
-				{
-					message.put("usertype", "company");
-				}
-				else
-				{
-					message.put("usertype", "student");
-				}
-
-				JSONObject response = Communicator.sendMessage(message);
-
-				boolean result = response.getBoolean("valid");
-
-				// userType false means Company
-				if (result == true && userType == false)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
-					setVisible(false);
-					(new MainCompanyUI(userID)).setVisible(true);
-				}
 				// userType true means Student
-				else if (result == true && userType == true)
+				userType = "student";
+				
+				// Start Student Login Request
+				Login login = new Login(userID, pwd, userType);
+				loginResult = login.loginRequest();
+				
+				if (loginResult == 0)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
 					setVisible(false);
 					(new MainStudentUI(userID)).setVisible(true);
 				}
-				// Login Process Failed
-				else
+				else if (loginResult == 1)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
+				}
+				else if (loginResult == 2)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
 				}
+				else
+				{
+					JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+				}
 			}
-			catch (JSONException | IOException e1)
+			else
 			{
-				JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-				e1.printStackTrace();
+				// userType false means Company
+				userType = "company";
+				
+				// Start Student Login Request
+				Login login = new Login(userID, pwd, userType);
+				loginResult = login.loginRequest();
+				
+				if (loginResult == 0)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
+					setVisible(false);
+					(new MainCompanyUI(userID)).setVisible(true);
+				}
+				else if (loginResult == 1)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
+				}
+				else if (loginResult == 2)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+				}
 			}
 		}
 		else
