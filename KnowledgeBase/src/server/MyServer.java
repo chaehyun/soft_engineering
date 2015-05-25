@@ -20,6 +20,10 @@ public class MyServer
 	private AutoSerializeList<Company> companies;
 	private AutoSerializeList<Student> students;
 	private AutoSerializeList<Request> requests;
+	
+	private ArrayList<String> current_companies;
+	private ArrayList<String> current_students;
+	
 	private LogfileManagement log;
 	
 	private static MyServer instance = null;
@@ -29,6 +33,53 @@ public class MyServer
 	public RequestsUI getMainWindow()
 	{
 		return mainWindow;
+	}
+	
+	/* addCurruentUser */
+	public boolean addCurrentUser(String id, String userType) throws JSONException
+	{
+
+		//if it is student
+		if(userType.equals("student"))
+		{
+			current_students.add(id);
+			System.out.println("enter [ " + id + " ] student user");
+			
+			return true;
+		}
+		//else then company
+		else if(userType.equals("company"))
+		{
+			current_companies.add(id);
+			System.out.println("enter [ " + id + " ] company user");
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/* Print Current Users*/
+	public void printCurrentUsers(String userType)
+	{
+		if(userType.equals("student"))
+		{
+			for(int i=0; i < current_students.size(); i++)
+			{
+				String id = current_students.get(i);
+				System.out.println("[" + i + "] " + id);
+			}
+		}
+		else if(userType.equals("company"))
+		{
+			for(int i=0; i < current_companies.size(); i++)
+			{
+				String id = current_companies.get(i);
+				System.out.println("[" + i + "] " + id);
+			}
+		}
+		
+		
 	}
 	
 	/* Login method */
@@ -51,12 +102,37 @@ public class MyServer
 		// check and comparison with server data
 		// check user type
 		// because, Student and Company has different files
+		
+		// + check double login at the same time
 		if (userType.equals("student"))
 		{
+			for(int i = 0; i<current_students.size(); i++)
+			{
+				if(id.equals(current_students.get(i)))
+				{
+					System.out.println("Login Faile => double Login[Students]");
+					response.put("valid", false);
+					
+					return response;
+				}
+			}
+			//if it is the first time to login with the ID. pass
 			user = getStudentById(id);
 		}
 		else if (userType.equals("company"))
 		{
+			for(int i = 0; i<current_companies.size(); i++)
+			{
+				if(id.equals(current_companies.get(i)))
+				{
+					System.out.println("Login Faile => double Login[Companies]");
+					response.put("valid", false);
+					
+					return response;
+				}
+			}
+			
+			//if it is the first time to login with the ID. pass
 			user = getCompanyById(id);
 		}
 		
@@ -64,7 +140,14 @@ public class MyServer
 		if (user != null && user.getPassword() != null
 				&& user.getPassword().equals(pwd))
 		{
-			response.put("valid", true);
+			if(addCurrentUser(id, userType))
+			{
+				response.put("valid", true);
+			}
+			else
+			{
+				response.put("valid", false);
+			}
 		}
 		else
 		{
@@ -390,6 +473,9 @@ public class MyServer
 			System.out.println(requests.size() + " requests restored.");
 			generateLogMessage(requests.size() + " requests restored.");
 			
+			current_students = new ArrayList<String>();
+			current_companies = new ArrayList<String>();
+			
 			// open main window
 			mainWindow = new RequestsUI();
 			mainWindow.setVisible(true);
@@ -424,6 +510,7 @@ public class MyServer
 	{
 		return requests;
 	}
+
 	
 	public Company getCompanyById(String id)
 	{
