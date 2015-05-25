@@ -48,7 +48,7 @@ public class MainStudentUI extends JFrame implements MouseListener
 		setId(UserID);
 		student = new Student(getId());
 
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 238);
 		
 		menuBar = new JMenuBar();

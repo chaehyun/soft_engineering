@@ -1,5 +1,8 @@
 package graphicUI;
 
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,6 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,12 +28,9 @@ import org.json.JSONObject;
 import skills.NonTechSkills;
 import skills.TechSkills;
 import elements.Company;
+import elements.MessageSend;
 import elements.Result;
 import elements.Student;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import java.awt.SystemColor;
 
 public class MainCompanyUI extends JFrame implements MouseListener
 {
@@ -52,7 +54,7 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		setUserID(UserID);
 		company = new Company(getUserID());
 
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 457, 317);
 		
 		menuBar = new JMenuBar();
@@ -82,6 +84,28 @@ public class MainCompanyUI extends JFrame implements MouseListener
 				}
 			}
 		});
+		
+		mntmMessagebox = new JMenuItem("MessageBox");
+		mntmMessagebox.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				(new MessageViewUI(getUserID())).setVisible(true);
+			}
+		});
+		mntmMessagebox.setBackground(SystemColor.window);
+		menuBar.add(mntmMessagebox);
+		
+		mntmSendMsg = new JMenuItem("Send Msg");
+		mntmSendMsg.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				(new MessageSendUI(getUserID())).setVisible(true);
+			}
+		});
+		mntmSendMsg.setBackground(SystemColor.window);
+		menuBar.add(mntmSendMsg);
 		menuBar.add(mntmLogout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -216,6 +240,8 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	private JMenuBar menuBar;
 	private JMenuItem mntmModifyInformation;
 	private JMenuItem mntmLogout;
+	private JMenuItem mntmMessagebox;
+	private JMenuItem mntmSendMsg;
 
 	@Override
 	public void mouseClicked(MouseEvent e)
