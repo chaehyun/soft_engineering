@@ -107,6 +107,15 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 		});
 		jMenuBar3.add(mntmShowCurrentUsers);
 		
+		mntmRegisteredCompanyList = new JMenuItem("Registered Company List");
+		mntmRegisteredCompanyList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				MyServer.getInstance().ShowRegisteredCompany();
+			}
+		});
+		jMenuBar3.add(mntmRegisteredCompanyList);
+		
 		menuBar = new JMenuBar();
 		jMenuBar3.add(menuBar);
 		
@@ -191,6 +200,7 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 	private JMenuBar menuBar;
 	private JMenuItem mntmExitItem;
 	private JMenuItem mntmShowCurrentUsers;
+	private JMenuItem mntmRegisteredCompanyList;
 	
 	@Override
 	public void mouseClicked(MouseEvent e)

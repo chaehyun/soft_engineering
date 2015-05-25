@@ -38,6 +38,27 @@ public class MyServer
 	}
 	
 	
+	
+	/* ShowRegisteredCompany */
+	public void ShowRegisteredCompany()
+	{
+		
+		System.out.println("[ Registered Company List ]");
+		for (Company c : companies)
+		{
+			String id = c.getId();
+			String contact = c.getContactNumber();
+			String name = c.getName();
+			String location = c.getLocation();
+			
+			System.out.println("[  ID  ] : " + id);
+			System.out.println("[ Name ] : " + name);
+			System.out.println("[ Contact ] : " + contact);
+			System.out.println("[ Location ] : " + location);
+			System.out.println("");
+		}		
+	}
+	
 	/* LogOut */
 	public boolean Terminate()
 	{
