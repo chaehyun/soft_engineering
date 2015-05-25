@@ -74,6 +74,7 @@ public class MessageSendUI extends JFrame
 				if (result == true)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), MSG_SEND_SUCCESS);
+					setVisible(false);
 				}
 				else
 				{
