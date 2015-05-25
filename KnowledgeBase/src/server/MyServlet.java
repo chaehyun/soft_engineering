@@ -104,6 +104,8 @@ public class MyServlet extends HttpServlet
 						requestMessage);
 			case "VersionCheck":
 				return MyServer.getInstance().isVersionValid(requestMessage);
+			case "LogOff":
+				return MyServer.getInstance().removeCurrentUser(requestMessage);
 			default:
 				JSONObject responseMessage = new JSONObject();
 				responseMessage.put("Error", "Invalid message type");

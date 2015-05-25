@@ -36,7 +36,7 @@ public class MyServer
 	}
 	
 	/* addCurruentUser */
-	public boolean addCurrentUser(String id, String userType) throws JSONException
+	public boolean addCurrentUser(String id, String userType)
 	{
 
 		//if it is student
@@ -57,6 +57,54 @@ public class MyServer
 		}
 		
 		return false;
+	}
+	
+	/* deleting logout user from ArrayList */
+	/* return : true -> successfully deleted */
+	/* return : false -> fail to delete  */
+	public JSONObject removeCurrentUser(JSONObject requestMessage) throws JSONException
+	{
+		
+		// create return value
+		JSONObject response = new JSONObject();
+		
+		
+		// Parsing data with keys
+		String userType = requestMessage.getString("usertype");
+		String id = requestMessage.getString("ID");
+
+		
+		if(userType.equals("student"))
+		{
+			for(int i=0; i < current_students.size(); i++)
+			{
+				if(id.equals(current_students.get(i)))
+				{
+					//delete
+					current_students.remove(i);
+					response.put("valid", true);
+					
+					return response;
+				}
+			}
+		}
+		else if(userType.equals("company"))
+		{
+			for(int i=0; i < current_companies.size(); i++)
+			{
+				if(id.equals(current_companies.get(i)))
+				{
+					//delete
+					current_companies.remove(i);
+					response.put("valid", true);	
+					
+					return response;
+				}
+			}
+		}
+		
+		response.put("valid", false);		
+		return response;
 	}
 	
 	/* Print Current Users*/
@@ -111,7 +159,7 @@ public class MyServer
 				if(id.equals(current_students.get(i)))
 				{
 					System.out.println("Login Faile => double Login[Students]");
-					response.put("valid", false);
+					response.put("login_valid", 2);
 					
 					return response;
 				}
@@ -126,7 +174,7 @@ public class MyServer
 				if(id.equals(current_companies.get(i)))
 				{
 					System.out.println("Login Faile => double Login[Companies]");
-					response.put("valid", false);
+					response.put("login_valid", 2);
 					
 					return response;
 				}
@@ -142,16 +190,16 @@ public class MyServer
 		{
 			if(addCurrentUser(id, userType))
 			{
-				response.put("valid", true);
+				response.put("login_valid", 1);
 			}
 			else
 			{
-				response.put("valid", false);
+				response.put("login_valid", 3);
 			}
 		}
 		else
 		{
-			response.put("valid", false);
+			response.put("login_valid", 3);
 		}
 		
 		// Write Server Response Log
