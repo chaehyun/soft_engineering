@@ -65,6 +65,7 @@ public class RegisterStudentUI extends JFrame
 	private final String REGISTRATION_SUCCESS = "The registration is completed.";
 	private final String REGISTRATION_FAILED = "The registration is failed, ID is taken.";
 	private final String SERVER_OUT = "Server does not work";
+	private final String EMPTY_FIELD = "Please fill in the checkBox.";
 	private JTextField ageField;
 
 	public RegisterStudentUI()
@@ -357,6 +358,8 @@ public class RegisterStudentUI extends JFrame
 	{
 		boolean idValidate = isIdValidation();
 		boolean pwValidate = isPasswordvalidation();
+		int chkTechSkill = 0;
+		int chkNontechSkill = 0;
 
 		if (idValidate == false)
 		{
@@ -398,23 +401,50 @@ public class RegisterStudentUI extends JFrame
 				message.put("Sex", sex);
 
 				if (chkboxjava.isSelected() == true)
+				{
 					message.append("TechSkills", TechSkills.JAVA.name());
+					chkTechSkill++;
+				}
 				if (chkapache.isSelected() == true)
+				{
 					message.append("TechSkills", TechSkills.APACHE.name());
+					chkTechSkill++;
+				}
 				if (chkOradeSql.isSelected() == true)
+				{
 					message.append("TechSkills", TechSkills.ORACLE.name());
+					chkTechSkill++;
+				}
 				if (chkOopDesign.isSelected() == true)
+				{
 					message.append("TechSkills", TechSkills.OOP.name());
+					chkTechSkill++;
+				}
 
 				if (chckbxTeamSpirit.isSelected() == true)
+				{
 					message.append("NonTechSkills",
 							NonTechSkills.TEAMWORK.name());
+					chkNontechSkill++;
+				}
 				if (chckbxQuickLearning.isSelected() == true)
+				{
 					message.append("NonTechSkills",
 							NonTechSkills.QUICKLEARNING.name());
+					chkNontechSkill++;
+				}
 				if (chckbxDrivingLicence.isSelected() == true)
+				{
 					message.append("NonTechSkills",
 							NonTechSkills.DRIVINGLICENCE.name());
+					chkNontechSkill++;
+				}
+				
+				if (chkTechSkill == 0 || chkNontechSkill == 0)
+				{
+					JOptionPane.showMessageDialog(new JFrame(),
+							EMPTY_FIELD);
+				}
 
 				JSONObject response = Communicator.sendMessage(message);
 
