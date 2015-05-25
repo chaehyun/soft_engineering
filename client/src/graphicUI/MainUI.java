@@ -36,6 +36,8 @@ public class MainUI extends JFrame
 	private final String SERVER_OUT = "Server does not work";
 	private final String VERSION_UPDATE = "There is a Newst Version. Please Update your Program.";
 	private final String VERSION_NOUPDATE = "You are now using the newsest version.";
+	private final String DUPLICATE_LOGIN = "Your ID is already connected into Server";
+	private final String WRONG_PASSWORD = "Your ID or Passsword is not correct.";
 	private boolean usertype;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -229,23 +231,36 @@ public class MainUI extends JFrame
 				Login login = new Login(userID, pwd, userType);
 				loginResult = login.loginRequest();
 				
-				if (loginResult == 0)
+				/*
+				 * Return Value Description
+				 * 0 : no Error, Login Request was succeeded
+				 * 1 : Version Invalid
+				 * 3 : Server Out
+				 * 4 : Server Denied with duplicated Login Request
+				 * 5 : Server Denied with Wrong Password
+				 */
+				switch (loginResult)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
-					setVisible(false);
-					(new MainStudentUI(userID)).setVisible(true);
-				}
-				else if (loginResult == 1)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
-				}
-				else if (loginResult == 2)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+					case 0:
+						JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
+						setVisible(false);
+						(new MainStudentUI(userID)).setVisible(true);
+						break;
+					case 1:
+						JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
+						break;
+					case 3:
+						JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+						break;
+					case 4:
+						JOptionPane.showMessageDialog(new JFrame(), DUPLICATE_LOGIN);
+						break;
+					case 5:
+						JOptionPane.showMessageDialog(new JFrame(), WRONG_PASSWORD);
+						break;
+					default:
+						;
+						break;
 				}
 			}
 			else
@@ -257,23 +272,36 @@ public class MainUI extends JFrame
 				Login login = new Login(userID, pwd, userType);
 				loginResult = login.loginRequest();
 				
-				if (loginResult == 0)
+				/*
+				 * Return Value Description
+				 * 0 : no Error, Login Request was succeeded
+				 * 1 : Version Invalid
+				 * 3 : Server Out
+				 * 4 : Server Denied with duplicated Login Request
+				 * 5 : Server Denied with Wrong Password
+				 */
+				switch (loginResult)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
-					setVisible(false);
-					(new MainCompanyUI(userID)).setVisible(true);
-				}
-				else if (loginResult == 1)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
-				}
-				else if (loginResult == 2)
-				{
-					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+					case 0:
+						JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
+						setVisible(false);
+						(new MainCompanyUI(userID)).setVisible(true);
+						break;
+					case 1:
+						JOptionPane.showMessageDialog(new JFrame(), VERSION_UPDATE);
+						break;
+					case 3:
+						JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
+						break;
+					case 4:
+						JOptionPane.showMessageDialog(new JFrame(), DUPLICATE_LOGIN);
+						break;
+					case 5:
+						JOptionPane.showMessageDialog(new JFrame(), WRONG_PASSWORD);
+						break;
+					default:
+						;
+						break;
 				}
 			}
 		}

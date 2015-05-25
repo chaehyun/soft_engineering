@@ -3,7 +3,6 @@ package graphicUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -22,8 +21,7 @@ import org.json.JSONObject;
 
 import skills.NonTechSkills;
 import skills.TechSkills;
-import communication.Communicator;
-import elements.Request;
+import elements.Company;
 import elements.Result;
 import elements.Student;
 
@@ -36,13 +34,15 @@ public class MainCompanyUI extends JFrame implements MouseListener
 
 	private String userID;
 	private ArrayList<Result> results;
+	private Company company;
 
 	/**
 	 * Create the frame.
 	 */
 	public MainCompanyUI(String UserID)
 	{
-		userID = UserID;
+		setUserID(UserID);
+		company = new Company(getUserID());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 457, 317);
@@ -73,99 +73,106 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
 				"Title", "Date", "Answered" }));
 
-		JSONObject message = new JSONObject();
 		results = new ArrayList<>();
 		try
 		{
-			message.put("MessageType", "getresults");
-			message.put("ID", userID);
-
-			JSONObject responseJSON = Communicator.sendMessage(message);
-
-			JSONArray resultsJSON = responseJSON.getJSONArray("Results");
-
-			for (int i = 0; i < resultsJSON.length(); i++)
+			JSONArray resultsJSON = company.getResult();
+			
+			if (resultsJSON != null)
 			{
-				JSONObject resultElement = resultsJSON.getJSONObject(i);
-
-				String title = resultElement.getString("Title");
-				String startDate = resultElement.getString("Date");
-				boolean complete = resultElement.getBoolean("Complete");
-
-				ArrayList<Student> studentsList = new ArrayList<>();
-				if (complete)
+				for (int i = 0; i < resultsJSON.length(); i++)
 				{
-					JSONArray studentsArray = resultElement
-							.getJSONArray("Students");
-					for (int j = 0; j < studentsArray.length(); j++)
+					JSONObject resultElement = resultsJSON.getJSONObject(i);
+	
+					String title = resultElement.getString("Title");
+					String startDate = resultElement.getString("Date");
+					boolean complete = resultElement.getBoolean("Complete");
+	
+					ArrayList<Student> studentsList = new ArrayList<>();
+					if (complete)
 					{
-						JSONObject studentElement = studentsArray
-								.getJSONObject(i);
-
-						String studentName = studentElement
-								.getString("StudentName");
-						int grade = studentElement.getInt("Grade");
-						int gpa = studentElement.getInt("GPA");
-						String contactNumber = studentElement
-								.getString("ContactNumber");
-						String sex = studentElement.getString("Sex");
-						int age = studentElement.getInt("Age");
-
-						JSONArray techSkillsJSON = studentElement
-								.getJSONArray("TechSkills");
-						ArrayList<TechSkills> techSkills = new ArrayList<>();
-						for (int k = 0; k < techSkillsJSON.length(); k++)
-							techSkills.add(TechSkills.valueOf(techSkillsJSON
-									.getString(k)));
-
-						JSONArray nonTechSkillsJSON = studentElement
-								.getJSONArray("NonTechSkills");
-						ArrayList<NonTechSkills> nonTechSkills = new ArrayList<>();
-						for (int k = 0; k < nonTechSkillsJSON.length(); k++)
-							nonTechSkills.add(NonTechSkills
-									.valueOf(nonTechSkillsJSON.getString(k)));
-
-						studentsList.add(new Student(studentName, grade, gpa,
-								contactNumber, sex, age, techSkills,
-								nonTechSkills));
-					}
-				}
-
-				Result newResult = new Result(title, startDate, complete,
-						studentsList);
-				results.add(newResult);
-
-				DefaultTableModel tableModel = (DefaultTableModel) table
-						.getModel();
-				tableModel.addRow(new Object[] { newResult.getTitle(),
-						newResult.getStartDate(), newResult.isComplete() });
-				table.addMouseListener(this);
-				table.getSelectionModel().addListSelectionListener(
-						new ListSelectionListener()
+						JSONArray studentsArray = resultElement
+								.getJSONArray("Students");
+						for (int j = 0; j < studentsArray.length(); j++)
 						{
-							public void valueChanged(ListSelectionEvent event)
+							JSONObject studentElement = studentsArray
+									.getJSONObject(i);
+	
+							String studentName = studentElement
+									.getString("StudentName");
+							int grade = studentElement.getInt("Grade");
+							int gpa = studentElement.getInt("GPA");
+							String contactNumber = studentElement
+									.getString("ContactNumber");
+							String sex = studentElement.getString("Sex");
+							int age = studentElement.getInt("Age");
+	
+							JSONArray techSkillsJSON = studentElement
+									.getJSONArray("TechSkills");
+							ArrayList<TechSkills> techSkills = new ArrayList<>();
+							for (int k = 0; k < techSkillsJSON.length(); k++)
+								techSkills.add(TechSkills.valueOf(techSkillsJSON
+										.getString(k)));
+	
+							JSONArray nonTechSkillsJSON = studentElement
+									.getJSONArray("NonTechSkills");
+							ArrayList<NonTechSkills> nonTechSkills = new ArrayList<>();
+							for (int k = 0; k < nonTechSkillsJSON.length(); k++)
+								nonTechSkills.add(NonTechSkills
+										.valueOf(nonTechSkillsJSON.getString(k)));
+	
+							studentsList.add(new Student(studentName, grade, gpa,
+									contactNumber, sex, age, techSkills,
+									nonTechSkills));
+						}
+					}
+	
+					Result newResult = new Result(title, startDate, complete,
+							studentsList);
+					results.add(newResult);
+	
+					DefaultTableModel tableModel = (DefaultTableModel) table
+							.getModel();
+					tableModel.addRow(new Object[] { newResult.getTitle(),
+							newResult.getStartDate(), newResult.isComplete() });
+					table.addMouseListener(this);
+					table.getSelectionModel().addListSelectionListener(
+							new ListSelectionListener()
 							{
-								// do some actions here, for example
-								// print first column value from selected row
-								if (isMousePressed)
+								public void valueChanged(ListSelectionEvent event)
 								{
-									System.out.println("...");
-									Result result = results.get(table
-											.getSelectedRow());
-									if (result.isComplete())
-										new ResponseListUI(result)
-												.setVisible(true);
+									// do some actions here, for example
+									// print first column value from selected row
+									if (isMousePressed)
+									{
+										System.out.println("...");
+										Result result = results.get(table
+												.getSelectedRow());
+										if (result.isComplete())
+											new ResponseListUI(result)
+													.setVisible(true);
+									}
 								}
-							}
-						});
-
+							});
+	
+				}
 			}
 
 		}
-		catch (JSONException | IOException e)
+		catch (JSONException e)
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public String getUserID()
+	{
+		return userID;
+	}
+
+	public void setUserID(String userID)
+	{
+		this.userID = userID;
 	}
 
 	private boolean isMousePressed = false;
