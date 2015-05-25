@@ -190,7 +190,7 @@ public class MainUI extends JFrame
 		contentPane.add(company_select);
 	}
 
-	// Register 踰꾪듉 留덉슦�뒪 �겢由� event
+	// Register Button Handler
 	protected void btnRegisterMouseClicked(MouseEvent arg0)
 	{
 		boolean userType = isUsertype();
@@ -209,13 +209,12 @@ public class MainUI extends JFrame
 		}
 	}
 
-	// Register 踰꾪듉 �궎蹂대뱶 �겢由� event
 	protected void btnRegisterPressed(KeyEvent e)
 	{
 		btnRegisterMouseClicked(null);
 	}
 
-	// login 踰꾪듉 �궎蹂� �겢由� event
+	// login Button Event handler
 	protected void loginButtonPressed(KeyEvent e)
 	{
 		String userID = idField.getText();
@@ -250,7 +249,7 @@ public class MainUI extends JFrame
 				//there is no update.
 				if(resultVersionCheck == true)
 				{
-					//do nothing. or show "You are now using the Newst Version."
+					//do nothing. or show "You are now using the Newest Version."
 					JOptionPane.showMessageDialog(new JFrame(), VERSION_NOUPDATE);
 				}
 				//there is a newest version. need to update.
@@ -261,31 +260,39 @@ public class MainUI extends JFrame
 				}
 				
 				
-								
+				// Start Login Process	
 				message.put("MessageType", "login");
 				message.put("ID", userID);
 				message.put("pwd", pwd);
+				
 				if (userType == false)
+				{
 					message.put("usertype", "company");
+				}
 				else
+				{
 					message.put("usertype", "student");
+				}
 
 				JSONObject response = Communicator.sendMessage(message);
 
 				boolean result = response.getBoolean("valid");
 
+				// userType false means Company
 				if (result == true && userType == false)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
 					setVisible(false);
 					(new MainCompanyUI(userID)).setVisible(true);
 				}
+				// userType true means Student
 				else if (result == true && userType == true)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), LOGIN_SUCCESS);
 					setVisible(false);
 					(new MainStudentUI(userID)).setVisible(true);
 				}
+				// Login Process Failed
 				else
 				{
 					JOptionPane.showMessageDialog(new JFrame(), LOGIN_FAIL);
@@ -303,7 +310,7 @@ public class MainUI extends JFrame
 		}
 	}
 
-	// login 踰꾪듉 留덉슦�뒪 �겢由� event
+	// login Button Click Event handler
 	protected void loginButtonClicked(MouseEvent e)
 	{
 		loginButtonPressed(null);
