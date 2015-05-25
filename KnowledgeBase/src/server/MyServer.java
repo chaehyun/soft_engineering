@@ -40,10 +40,11 @@ public class MyServer
 	
 	
 	/* ShowRegisteredCompany */
-	public void ShowRegisteredCompany()
+	public String ShowRegisteredCompany()
 	{
-		
+		String result;
 		System.out.println("[ Registered Company List ]");
+		result = "[ Registered Company List ]\n";
 		for (Company c : companies)
 		{
 			String id = c.getId();
@@ -52,11 +53,18 @@ public class MyServer
 			String location = c.getLocation();
 			
 			System.out.println("[  ID  ] : " + id);
+			result += "[  ID  ] : " + id + "\n";
 			System.out.println("[ Name ] : " + name);
+			result += "[ Name ] : " + name + "\n";
 			System.out.println("[ Contact ] : " + contact);
+			result += "[ Contact ] : " + contact + "\n";
 			System.out.println("[ Location ] : " + location);
+			result += "[ Location ] : " + location + "\n";
 			System.out.println("");
+			result += "\n";
 		}		
+		
+		return result;
 	}
 	
 	/* LogOut */
@@ -210,22 +218,29 @@ public class MyServer
 	}
 	
 	/* Print Current Users*/
-	public void printCurrentUsers()
+	public String printCurrentUsers()
 	{
+		String result;
+		
 		System.out.println("< Student List >");
+		result = "< Student List >\n";
 		for(int i=0; i < current_students.size(); i++)
 		{
 			String id = current_students.get(i);
 			System.out.println("[" + i + "] " + id);
+			result += "[" + i + "] " + id + "\n";
 		}
 		
 		System.out.println("< Company List >");
+		result += "< Company List >\n";
 		for(int i=0; i < current_companies.size(); i++)
 		{
 			String id = current_companies.get(i);
 			System.out.println("[" + i + "] " + id);
+			result += "[" + i + "] " + id + "\n";
 		}
 		
+		return result;
 	}
 	
 	/* Login method */

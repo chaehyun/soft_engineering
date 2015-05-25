@@ -1,20 +1,20 @@
 package graphicUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import server.MyServer;
 import elements.Request;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 
 @SuppressWarnings("serial")
 public class RequestsUI extends javax.swing.JFrame implements MouseListener
@@ -98,20 +98,23 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 		
 		//onClick Show Current Users
 		mntmShowCurrentUsers = new JMenuItem("Show Current Users");
-		mntmShowCurrentUsers.addMouseListener(new MouseAdapter() {
+		mntmShowCurrentUsers.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				MyServer.getInstance().printCurrentUsers();
-				
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				(new ShowCurrentUserUI(MyServer.getInstance().printCurrentUsers())).setVisible(true);
 			}
 		});
 		jMenuBar3.add(mntmShowCurrentUsers);
 		
 		mntmRegisteredCompanyList = new JMenuItem("Registered Company List");
-		mntmRegisteredCompanyList.addMouseListener(new MouseAdapter() {
+		mntmRegisteredCompanyList.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				MyServer.getInstance().ShowRegisteredCompany();
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				(new RegisteredCompanyListUI(MyServer.getInstance().ShowRegisteredCompany())).setVisible(true);
 			}
 		});
 		jMenuBar3.add(mntmRegisteredCompanyList);
