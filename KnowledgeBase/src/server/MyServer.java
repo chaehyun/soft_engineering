@@ -16,10 +16,12 @@ public class MyServer
 	private final static String companyFileName = "companies.ser";
 	private final static String studentFileName = "students.ser";
 	private final static String requestsFileName = "requests.ser";
+	private final static String messageFilename = "mailbox.ser";
 	
 	private AutoSerializeList<Company> companies;
 	private AutoSerializeList<Student> students;
 	private AutoSerializeList<Request> requests;
+	private AutoSerializeList<Message> messages;
 	
 	private ArrayList<String> current_companies;
 	private ArrayList<String> current_students;
@@ -33,6 +35,67 @@ public class MyServer
 	public RequestsUI getMainWindow()
 	{
 		return mainWindow;
+	}
+	
+	
+	/* Message Send */
+	//Description : getting JSON Format [ "Message_send" , id]
+	//				return JSON Format ["data" , String msg] * ...
+	public JSONObject sendMssage(JSONObject requestMessage) throws JSONException
+	{
+		JSONObject response = new JSONObject();
+		boolean NO_MSG = true;
+		
+		
+		//parsing data with keys
+		String id = requestMessage.getString("id");		
+		
+		for(int i=0; i < messages.size(); i++)
+		{
+			//Destination == id  means message for the id.
+			if(id.equals(messages.get(i).getDest()))
+			{
+				//String or JSON Object?
+				
+				String msg = "Sender("+messages.get(i).getSource()+") : " + messages.get(i).getData().toString();							
+				
+				
+				response.append("data", msg);
+				
+				NO_MSG = false;
+			}
+			
+			if(NO_MSG == false)
+			{
+				String msg = "There is no message.";
+				response.append("data", msg);
+				
+			}
+		}
+		
+		
+		return response;		
+	}
+	
+	/* Message Receive */
+	//Description : JSON Format [ "Message_receive" , source , destination , data(ArrayList<String>) ]
+	public JSONObject saveMssage(JSONObject requestMessage) throws JSONException
+	{
+		JSONObject response = new JSONObject();
+		ArrayList<String> msg_box = new ArrayList<String>();
+		
+		// parsing data with keys
+		String source = requestMessage.getString("source");
+		String destination = requestMessage.getString("destination");
+		JSONArray data = requestMessage.getJSONArray("data");
+
+		
+		//write message to the file
+		messages.add(new Message(source, destination, data, false));
+		
+		response.put("valid", true);
+		
+		return response;
 	}
 	
 	/* addCurruentUser */
@@ -521,6 +584,10 @@ public class MyServer
 			System.out.println(requests.size() + " requests restored.");
 			generateLogMessage(requests.size() + " requests restored.");
 			
+			messages = new AutoSerializeList<Message>(messageFilename);
+			System.out.println(messages.size() + " messages restored.");
+			generateLogMessage(messages.size() + " messages restored.");
+			
 			current_students = new ArrayList<String>();
 			current_companies = new ArrayList<String>();
 			
@@ -559,6 +626,10 @@ public class MyServer
 		return requests;
 	}
 
+	public AutoSerializeList<Message> getMessages()
+	{
+		return messages;
+	}
 	
 	public Company getCompanyById(String id)
 	{

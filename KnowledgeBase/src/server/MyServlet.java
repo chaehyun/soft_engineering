@@ -106,6 +106,10 @@ public class MyServlet extends HttpServlet
 				return MyServer.getInstance().isVersionValid(requestMessage);
 			case "LogOff":
 				return MyServer.getInstance().removeCurrentUser(requestMessage);
+			case "Message_receive":
+				return MyServer.getInstance().saveMssage(requestMessage);
+			case "Message_send":
+				return MyServer.getInstance().sendMssage(requestMessage);
 			default:
 				JSONObject responseMessage = new JSONObject();
 				responseMessage.put("Error", "Invalid message type");
