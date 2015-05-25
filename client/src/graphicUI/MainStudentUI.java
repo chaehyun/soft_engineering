@@ -28,6 +28,10 @@ import skills.TechSkills;
 import elements.Request;
 import elements.Student;
 
+import javax.swing.JTextField;
+
+import java.awt.SystemColor;
+
 public class MainStudentUI extends JFrame implements MouseListener
 {
 
@@ -49,7 +53,7 @@ public class MainStudentUI extends JFrame implements MouseListener
 		student = new Student(getId());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 238);
+		setBounds(100, 100, 450, 360);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -66,15 +70,37 @@ public class MainStudentUI extends JFrame implements MouseListener
 				
 				if (logoutResult == true)
 				{
+					statusField.setText("LogOff Successful, Terminate Program.");
 					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_SUCCESS);
 					System.exit(0);
 				}
 				else
 				{
+					statusField.setText("LogOff Fail.");
 					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_FAIL);
 				}
 			}
 		});
+		
+		JMenuItem mntmMessagebox = new JMenuItem("MessageBox");
+		mntmMessagebox.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				(new MessageViewUI(getId())).setVisible(true);
+			}
+		});
+		menuBar.add(mntmMessagebox);
+		
+		JMenuItem mntmSendMsg = new JMenuItem("Send Msg");
+		mntmSendMsg.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				(new MessageSendUI(getId())).setVisible(true);
+			}
+		});
+		menuBar.add(mntmSendMsg);
 		menuBar.add(mntmExit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,7 +108,7 @@ public class MainStudentUI extends JFrame implements MouseListener
 		setContentPane(contentPane);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 432, 262);
+		scrollPane.setBounds(10, 10, 430, 260);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
@@ -97,7 +123,15 @@ public class MainStudentUI extends JFrame implements MouseListener
 				return false;
 			}
 		});
-
+		
+		statusField = new JTextField();
+		statusField.setEditable(false);
+		statusField.setBackground(SystemColor.window);
+		statusField.setBounds(0, 288, 450, 28);
+		contentPane.add(statusField);
+		statusField.setColumns(10);
+		statusField.setText("Connected");
+		
 		table.addMouseListener(this);
 		table.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener()
@@ -178,6 +212,7 @@ public class MainStudentUI extends JFrame implements MouseListener
 	private JMenuBar menuBar;
 	private JMenuItem mntmModifyInformation;
 	private JMenuItem mntmExit;
+	private JTextField statusField;
 
 	@Override
 	public void mousePressed(MouseEvent e)

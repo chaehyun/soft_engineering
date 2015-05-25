@@ -31,6 +31,7 @@ import elements.Company;
 import elements.MessageSend;
 import elements.Result;
 import elements.Student;
+import javax.swing.JTextField;
 
 public class MainCompanyUI extends JFrame implements MouseListener
 {
@@ -51,11 +52,12 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	 */
 	public MainCompanyUI(String UserID)
 	{
+		setTitle("MainCompany");
 		setUserID(UserID);
 		company = new Company(getUserID());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 457, 317);
+		setBounds(100, 100, 457, 340);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -75,11 +77,13 @@ public class MainCompanyUI extends JFrame implements MouseListener
 				
 				if (logoutResult == true)
 				{
+					statusField.setText("LogOff Successful, Terminate Program.");
 					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_SUCCESS);
 					System.exit(0);
 				}
 				else
 				{
+					statusField.setText("LogOff Fail.");
 					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_FAIL);
 				}
 			}
@@ -113,7 +117,7 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		setContentPane(contentPane);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 441, 204);
+		scrollPane.setBounds(10, 10, 440, 205);
 		contentPane.add(scrollPane);
 
 		btnMakeNewRequest = new JButton("Make New Request");
@@ -133,6 +137,14 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
 				"Title", "Date", "Answered" }));
+		
+		statusField = new JTextField();
+		statusField.setEditable(false);
+		statusField.setBackground(SystemColor.window);
+		statusField.setBounds(0, 268, 457, 28);
+		contentPane.add(statusField);
+		statusField.setColumns(10);
+		statusField.setText("Connected");
 
 		results = new ArrayList<>();
 		try
@@ -242,6 +254,7 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	private JMenuItem mntmLogout;
 	private JMenuItem mntmMessagebox;
 	private JMenuItem mntmSendMsg;
+	private JTextField statusField;
 
 	@Override
 	public void mouseClicked(MouseEvent e)

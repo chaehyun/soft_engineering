@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import elements.Login;
+import java.awt.SystemColor;
 
 public class MainUI extends JFrame
 {
@@ -40,6 +41,7 @@ public class MainUI extends JFrame
 	private final String WRONG_PASSWORD = "Your ID or Passsword is not correct.";
 	private boolean usertype;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTextField statusField;
 
 	public static void main(String[] args)
 	{
@@ -185,6 +187,14 @@ public class MainUI extends JFrame
 		buttonGroup.add(company_select);
 		company_select.setBounds(70, 120, 110, 35);
 		contentPane.add(company_select);
+		
+		statusField = new JTextField();
+		statusField.setEditable(false);
+		statusField.setBackground(SystemColor.window);
+		statusField.setBounds(0, 264, 370, 28);
+		contentPane.add(statusField);
+		statusField.setColumns(10);
+		statusField.setText("Ready");
 	}
 
 	// Register Button Handler
@@ -229,6 +239,7 @@ public class MainUI extends JFrame
 				
 				// Start Student Login Request
 				Login login = new Login(userID, pwd, userType);
+				statusField.setText("Login Request...");
 				loginResult = login.loginRequest();
 				
 				/*
@@ -239,6 +250,7 @@ public class MainUI extends JFrame
 				 * 4 : Server Denied with duplicated Login Request
 				 * 5 : Server Denied with Wrong Password
 				 */
+				statusField.setText("Login...");
 				switch (loginResult)
 				{
 					case 0:
@@ -270,6 +282,7 @@ public class MainUI extends JFrame
 				
 				// Start Student Login Request
 				Login login = new Login(userID, pwd, userType);
+				statusField.setText("Login Request...");
 				loginResult = login.loginRequest();
 				
 				/*
@@ -280,6 +293,7 @@ public class MainUI extends JFrame
 				 * 4 : Server Denied with duplicated Login Request
 				 * 5 : Server Denied with Wrong Password
 				 */
+				statusField.setText("Login...");
 				switch (loginResult)
 				{
 					case 0:
