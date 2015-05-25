@@ -1,6 +1,13 @@
 package elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import communication.Communicator;
 
 import skills.NonTechSkills;
 import skills.TechSkills;
@@ -15,7 +22,10 @@ public class Student
 	private int age;
 	private ArrayList<TechSkills> techSkills;
 	private ArrayList<NonTechSkills> nonTechSkills;
+	private String id;
+	private JSONArray result;
 
+	
 	public Student(String studentName, int grade, int gpa,
 			String contactNumber, String sex, int age,
 			ArrayList<TechSkills> techSkills,
@@ -30,6 +40,12 @@ public class Student
 		this.age = age;
 		this.techSkills = techSkills;
 		this.nonTechSkills = nonTechSkills;
+	}
+	
+	public Student(String Id)
+	{
+		this.id = Id;
+		setResult();
 	}
 
 	public String getStudentName()
@@ -110,5 +126,64 @@ public class Student
 	public void setNonTechSkills(ArrayList<NonTechSkills> nonTechSkills)
 	{
 		this.nonTechSkills = nonTechSkills;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+
+	public JSONArray getResult()
+	{
+		return result;
+	}
+
+	public void setResult()
+	{
+		JSONObject message = new JSONObject();
+		this.result = null;
+		
+		try
+		{
+			message.put("MessageType", "getresults");
+			message.put("ID", getId());
+			
+			JSONObject responseJSON = Communicator.sendMessage(message);
+
+			result = responseJSON.getJSONArray("Results");
+		}
+		catch (JSONException | IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean logOut()
+	{
+		JSONObject message = new JSONObject();
+		boolean result = false;
+		
+		try
+		{
+			message.put("MessageType", "LogOff");
+			message.put("usertype", "student");
+			message.put("ID", getId());
+			
+			JSONObject response = Communicator.sendMessage(message);
+			
+			result = response.getBoolean("valid");
+			
+		}
+		catch (JSONException | IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

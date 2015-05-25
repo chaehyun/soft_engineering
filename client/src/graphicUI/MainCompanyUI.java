@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,6 +26,10 @@ import elements.Company;
 import elements.Result;
 import elements.Student;
 
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import java.awt.SystemColor;
+
 public class MainCompanyUI extends JFrame implements MouseListener
 {
 
@@ -35,6 +40,9 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	private String userID;
 	private ArrayList<Result> results;
 	private Company company;
+	
+	private final String LOGOFF_SUCCESS = "Logoff Success";
+	private final String LOGOFF_FAIL = "Logoff Fail";
 
 	/**
 	 * Create the frame.
@@ -44,8 +52,37 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		setUserID(UserID);
 		company = new Company(getUserID());
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 457, 317);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mntmModifyInformation = new JMenuItem("Modify Information");
+		mntmModifyInformation.setBackground(SystemColor.window);
+		menuBar.add(mntmModifyInformation);
+		
+		mntmLogout = new JMenuItem("Exit");
+		mntmLogout.setBackground(SystemColor.window);
+		mntmLogout.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				boolean logoutResult = company.logOut();
+				
+				if (logoutResult == true)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_SUCCESS);
+					System.exit(0);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_FAIL);
+				}
+			}
+		});
+		menuBar.add(mntmLogout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
@@ -176,6 +213,9 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	}
 
 	private boolean isMousePressed = false;
+	private JMenuBar menuBar;
+	private JMenuItem mntmModifyInformation;
+	private JMenuItem mntmLogout;
 
 	@Override
 	public void mouseClicked(MouseEvent e)

@@ -39,6 +39,7 @@ public class Company
 	public void setResult()
 	{
 		JSONObject message = new JSONObject();
+		this.result = null;
 		
 		try
 		{
@@ -53,5 +54,29 @@ public class Company
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean logOut()
+	{
+		JSONObject message = new JSONObject();
+		boolean result = false;
+		
+		try
+		{
+			message.put("MessageType", "LogOff");
+			message.put("usertype", "company");
+			message.put("ID", getUserId());
+			
+			JSONObject response = Communicator.sendMessage(message);
+			
+			result = response.getBoolean("valid");
+			
+		}
+		catch (JSONException | IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }
