@@ -34,6 +34,7 @@ public class LiveCycleListener implements ServletContextListener
 			instance.getStudents().save();
 			instance.getCompanies().save();
 			instance.getRequests().save();
+			instance.getMessages().save();
 			System.out.println("Context destroyed.");
 			instance.generateLogMessage("Context destroyed");
 		}

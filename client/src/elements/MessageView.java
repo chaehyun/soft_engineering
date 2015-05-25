@@ -30,6 +30,7 @@ public class MessageView
 	public void setMyMessage()
 	{
 		JSONObject message = new JSONObject();
+		myMessage = new ArrayList<String>();
 		
 		try
 		{
@@ -39,9 +40,12 @@ public class MessageView
 			JSONObject response = Communicator.sendMessage(message);
 			JSONArray msgJSON = response.getJSONArray("data");
 			
+			System.out.println(msgJSON.length());
+			
 			for (int i = 0; i < msgJSON.length(); i++)
 			{
 				String tmpMsg = msgJSON.getString(i);
+				System.out.println(tmpMsg);
 				myMessage.add(tmpMsg);
 			}
 			

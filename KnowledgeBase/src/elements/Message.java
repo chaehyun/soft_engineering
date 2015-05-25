@@ -1,18 +1,47 @@
 package elements;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 
-@SuppressWarnings("serial")
+import server.MyServer;
+
+//@SuppressWarnings("serial")
 public class Message implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 349031182432343083L;
 	private String source;
 	private String dest;
-	private JSONArray data;
+	private ArrayList<String> data;
 	private boolean checked;
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException
+	{
+		// default serialization
+		oos.defaultWriteObject();
+		// write company id
+		//oos.writeObject(company.getId());
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException,
+			ClassNotFoundException
+	{
+		// default serialization
+		in.defaultReadObject();
+		// read company id
+		//String companyID;
+		//companyID = (String) in.readObject();
+		// set company
+		//company = MyServer.getInstance().getCompanyById(companyID);
+	}
 
-	public Message(String source, String dest, JSONArray data, boolean checked) {
+	public Message(String source, String dest, ArrayList<String> data, boolean checked) {
 		super();
 		this.source = source;
 		this.dest = dest;
@@ -36,13 +65,7 @@ public class Message implements Serializable {
 		this.dest = dest;
 	}
 
-	public JSONArray getData() {
-		return data;
-	}
 
-	public void setData(JSONArray data) {
-		this.data = data;
-	}
 
 	public boolean isChecked() {
 		return checked;
@@ -50,6 +73,16 @@ public class Message implements Serializable {
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+
+	public ArrayList<String> getData()
+	{
+		return data;
+	}
+
+	public void setData(ArrayList<String> data)
+	{
+		this.data = data;
 	}
 
 }

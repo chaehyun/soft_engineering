@@ -16,7 +16,7 @@ public class MyServer
 	private final static String companyFileName = "companies.ser";
 	private final static String studentFileName = "students.ser";
 	private final static String requestsFileName = "requests.ser";
-	private final static String messageFilename = "mailbox.ser";
+	private final static String messageFilename = "Messagebox.ser";
 	
 	private AutoSerializeList<Company> companies;
 	private AutoSerializeList<Student> students;
@@ -76,13 +76,13 @@ public class MyServer
 				
 				NO_MSG = false;
 			}
+		}
+		
+		if(NO_MSG == true)
+		{
+			String msg = "There is no message.";
+			response.append("data", msg);
 			
-			if(NO_MSG == false)
-			{
-				String msg = "There is no message.";
-				response.append("data", msg);
-				
-			}
 		}
 		
 		
@@ -94,12 +94,18 @@ public class MyServer
 	public JSONObject saveMssage(JSONObject requestMessage) throws JSONException
 	{
 		JSONObject response = new JSONObject();
-		ArrayList<String> msg_box = new ArrayList<String>();
 		
 		// parsing data with keys
 		String source = requestMessage.getString("source");
 		String destination = requestMessage.getString("destination");
-		JSONArray data = requestMessage.getJSONArray("data");
+		JSONArray dataJSON = requestMessage.getJSONArray("data");
+		
+		ArrayList<String> data = new ArrayList<String>();
+		for (int i = 0; i < dataJSON.length(); i++)
+		{
+			 String tmpMsg = dataJSON.getString(i);
+			 data.add(tmpMsg);
+		}
 
 		
 		//write message to the file
