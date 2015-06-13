@@ -74,7 +74,7 @@ public class StudentReqDetailUI extends javax.swing.JFrame
 		jTextField2 = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
 		jTextField3.setEditable(false);
 		jTextField3.setText(selectedRequest.getStartDate());

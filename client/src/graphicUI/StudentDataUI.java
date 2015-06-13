@@ -59,7 +59,7 @@ public class StudentDataUI extends javax.swing.JFrame
 		jTextField2 = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
 
 		jTextField3.setEditable(false);

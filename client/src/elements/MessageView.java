@@ -11,9 +11,10 @@ import communication.Communicator;
 
 public class MessageView
 {
-	private ArrayList<String> myMessage;
 	private String id;
 	private int msgIndex;
+	private int msgTotal;
+	private ArrayList<Messages> myMsg;
 	
 	public MessageView(String id)
 	{
@@ -22,33 +23,45 @@ public class MessageView
 		setMyMessage();
 	}
 
-	public ArrayList<String> getMyMessage()
-	{
-		return myMessage;
-	}
-
 	public void setMyMessage()
 	{
 		JSONObject message = new JSONObject();
-		myMessage = new ArrayList<String>();
+		myMsg = new ArrayList<Messages>();
 		
 		try
 		{
 			message.put("MessageType",  "Message_send");
 			message.put("id", getId());
 			
+			// Request to the server with current user information
+			// Server will response with JSONOjbect
 			JSONObject response = Communicator.sendMessage(message);
-			JSONArray msgJSON = response.getJSONArray("data");
 			
-			System.out.println(msgJSON.length());
+			int myMessageLength = response.getInt("MsgCount");
+			setMsgTotal(myMessageLength);
 			
-			for (int i = 0; i < msgJSON.length(); i++)
+			if ( myMessageLength == 0)
 			{
-				String tmpMsg = msgJSON.getString(i);
-				System.out.println(tmpMsg);
-				myMessage.add(tmpMsg);
+				myMsg = null;
 			}
-			
+			else
+			{
+				JSONArray msgJSON = response.getJSONArray("data");
+				
+				for (int i = 0; i < msgJSON.length(); i++)
+				{
+					JSONObject tmpObject = msgJSON.getJSONObject(i);
+					String sender = tmpObject.getString("Sender");
+					String msg = tmpObject.getString("Msg");
+					int idx = tmpObject.getInt("MsgIndex");
+					String sentTime = tmpObject.getString("SentTime");
+					
+					Messages tmpMsg = new Messages(sender, msg, idx, sentTime);
+					
+					System.out.println(tmpMsg.getMsgIndex() + ": "+ tmpMsg.getMsgSender() + tmpMsg.getMsgText() + tmpMsg.getMsgSentTime());
+					myMsg.add(tmpMsg);
+				}
+			}
 		}
 		catch (JSONException | IOException e)
 		{
@@ -56,24 +69,11 @@ public class MessageView
 		}
 	}
 	
-	public String getOneMessage()
+	public Messages getOneMessage()
 	{
-		String currentMsg = null;
+		Messages currentMsg = null;
 		
-		currentMsg = myMessage.get(getMsgIndex());
-		
-		increaseMsgIndex();
-		
-		return currentMsg;
-	}
-
-	public String getPrevMessage()
-	{
-		String currentMsg = null;
-		
-		decreaseMsgIndex();
-		
-		currentMsg = myMessage.get(getMsgIndex());
+		currentMsg = myMsg.get(getMsgIndex());
 		
 		return currentMsg;
 	}
@@ -108,11 +108,21 @@ public class MessageView
 	
 	public void increaseMsgIndex()
 	{
-		int msgSize = myMessage.size();
+		int msgSize = getMsgTotal();
 		
 		if (this.msgIndex + 1 < msgSize)
 		{
 			this.msgIndex++;
 		}
+	}
+
+	public int getMsgTotal()
+	{
+		return msgTotal;
+	}
+
+	public void setMsgTotal(int msgTotal)
+	{
+		this.msgTotal = msgTotal;
 	}
 }

@@ -3,10 +3,8 @@ package elements;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.io.OutputStream;
 
 
 public class LogfileManagement
@@ -15,13 +13,16 @@ public class LogfileManagement
 	private File logFile;
 	private OutputStream out;
 	private String logMessage;
+	private TimeManager time;
 	
 	public LogfileManagement()
 	{
+		time = new TimeManager();
+		
 		// Set Logfile Name with current Date and Time.txt
 		// For Mac OS X, set path like "/Users/.../logfile/
-		//setLogfileName("/Users/nj/testlog/"+ getCurrentTime() + ".txt");
-		setLogfileName("C:\\logfile\\"+ getCurrentTime() + ".txt");
+		setLogfileName("/Users/nj/testlog/"+ time.getCurrentTime() + ".txt");
+		//setLogfileName("C:\\logfile\\"+ getCurrentTime() + ".txt");
 		logFile = new File(getLogfileName());
 		try
 		{
@@ -38,31 +39,22 @@ public class LogfileManagement
 	public void generateLog(String Message) throws IOException
 	{
 		// Write Log Message with current time
-		setLogMessage(getCurrentTime() + ": " + Message + "\n");
+		setLogMessage(time.getCurrentTime() + ": " + Message + "\n");
 		out.write(logMessage.getBytes());
 	}
 	
 	public void generateRequestLog(String Message) throws IOException
 	{
 		// Write Log Message with current time
-		setLogMessage(getCurrentTime() + ": Request from Client\n" + Message + "\n");
+		setLogMessage(time.getCurrentTime() + ": Request from Client\n" + Message + "\n");
 		out.write(logMessage.getBytes());
 	}
 	
 	public void generateResponseLog(String Message) throws IOException
 	{
 		// Write Log Message with current time
-		setLogMessage(getCurrentTime() + ": Server Response\n" + Message + "\n");
+		setLogMessage(time.getCurrentTime() + ": Server Response\n" + Message + "\n");
 		out.write(logMessage.getBytes());
-	}
-	
-	public String getCurrentTime()
-	{
-		long time = System.currentTimeMillis(); 
-		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-		String currentTime = dayTime.format(new Date(time));
-		
-		return currentTime;
 	}
 
 	public String getLogfileName()

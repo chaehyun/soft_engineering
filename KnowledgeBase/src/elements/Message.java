@@ -20,6 +20,7 @@ public class Message implements Serializable {
 	private String dest;
 	private ArrayList<String> data;
 	private boolean checked;
+	private String sentTime;
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException
 	{
@@ -41,12 +42,14 @@ public class Message implements Serializable {
 		//company = MyServer.getInstance().getCompanyById(companyID);
 	}
 
-	public Message(String source, String dest, ArrayList<String> data, boolean checked) {
+	public Message(String source, String dest, ArrayList<String> data, boolean checked, String sentTime) 
+	{
 		super();
 		this.source = source;
 		this.dest = dest;
 		this.data = data;
 		this.checked = checked;
+		this.sentTime = sentTime;
 	}
 
 	public String getSource() {
@@ -83,6 +86,16 @@ public class Message implements Serializable {
 	public void setData(ArrayList<String> data)
 	{
 		this.data = data;
+	}
+
+	public String getSentTime()
+	{
+		return sentTime;
+	}
+
+	public void setSentTime(String sentTime)
+	{
+		this.sentTime = sentTime;
 	}
 
 }

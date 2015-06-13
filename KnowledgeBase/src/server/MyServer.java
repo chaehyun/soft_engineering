@@ -7,7 +7,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import elements.*;
+import elements.AutoSerializeList;
+import elements.Company;
+import elements.LogfileManagement;
+import elements.Message;
+import elements.NonTechSkills;
+import elements.Reply;
+import elements.Request;
+import elements.Student;
+import elements.TechSkills;
+import elements.TimeManager;
+import elements.User;
+import elements.VersionControl;
 import graphicUI.RequestsUI;
 
 public class MyServer
@@ -85,8 +96,8 @@ public class MyServer
 	public JSONObject sendMssage(JSONObject requestMessage) throws JSONException
 	{
 		JSONObject response = new JSONObject();
-		boolean NO_MSG = true;
-		
+		//boolean NO_MSG = true;
+		int msgCount = 0;
 		
 		//parsing data with keys
 		String id = requestMessage.getString("id");		
@@ -96,24 +107,25 @@ public class MyServer
 			//Destination == id  means message for the id.
 			if(id.equals(messages.get(i).getDest()))
 			{
-				//String or JSON Object?
+				JSONObject msgObject = new JSONObject();
+				msgCount++;
+				msgObject.put("MsgIndex", msgCount);
+				msgObject.put("Sender", messages.get(i).getSource());
+				msgObject.put("Msg", messages.get(i).getData().toString());
+				if (messages.get(i).getSentTime() == null)
+				{
+					msgObject.put("SentTime", "null");
+				}
+				else
+				{
+					msgObject.put("SentTime", messages.get(i).getSentTime());
+				}
 				
-				String msg = "Sender("+messages.get(i).getSource()+") : " + messages.get(i).getData().toString();							
-				
-				
-				response.append("data", msg);
-				
-				NO_MSG = false;
+				response.append("data", msgObject);
 			}
 		}
 		
-		if(NO_MSG == true)
-		{
-			String msg = "There is no message.";
-			response.append("data", msg);
-			
-		}
-		
+		response.put("MsgCount", msgCount);
 		
 		return response;		
 	}
@@ -127,6 +139,7 @@ public class MyServer
 		// parsing data with keys
 		String source = requestMessage.getString("source");
 		String destination = requestMessage.getString("destination");
+		String sentTime = (new TimeManager()).getMsgTime();
 		JSONArray dataJSON = requestMessage.getJSONArray("data");
 		
 		ArrayList<String> data = new ArrayList<String>();
@@ -138,7 +151,7 @@ public class MyServer
 
 		
 		//write message to the file
-		messages.add(new Message(source, destination, data, false));
+		messages.add(new Message(source, destination, data, false, sentTime));
 		
 		response.put("valid", true);
 		
