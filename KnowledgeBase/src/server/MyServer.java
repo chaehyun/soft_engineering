@@ -96,8 +96,9 @@ public class MyServer
 	public JSONObject sendMssage(JSONObject requestMessage) throws JSONException
 	{
 		JSONObject response = new JSONObject();
-		//boolean NO_MSG = true;
 		int msgCount = 0;
+		
+		generateRequestLogMessage(requestMessage.toString());
 		
 		//parsing data with keys
 		String id = requestMessage.getString("id");		
@@ -126,6 +127,7 @@ public class MyServer
 		}
 		
 		response.put("MsgCount", msgCount);
+		generateResponseLogMessage(response.toString());
 		
 		return response;		
 	}
@@ -135,25 +137,49 @@ public class MyServer
 	public JSONObject saveMssage(JSONObject requestMessage) throws JSONException
 	{
 		JSONObject response = new JSONObject();
+		boolean dstValid = false;
+		
+		generateRequestLogMessage(requestMessage.toString());
 		
 		// parsing data with keys
 		String source = requestMessage.getString("source");
 		String destination = requestMessage.getString("destination");
 		String sentTime = (new TimeManager()).getMsgTime();
 		JSONArray dataJSON = requestMessage.getJSONArray("data");
-		
 		ArrayList<String> data = new ArrayList<String>();
 		for (int i = 0; i < dataJSON.length(); i++)
 		{
 			 String tmpMsg = dataJSON.getString(i);
 			 data.add(tmpMsg);
 		}
-
 		
-		//write message to the file
-		messages.add(new Message(source, destination, data, false, sentTime));
+		// check validity of Destination Id
+		Company tmp = getCompanyById(destination);
+		if (tmp != null)
+		{
+			dstValid = true;
+		}
+		else
+		{
+			Student s = getStudentById(destination);
+			if (s != null)
+			{
+				dstValid = true;
+			}
+		}
 		
-		response.put("valid", true);
+		if (dstValid == true)
+		{
+			//write message to the file
+			messages.add(new Message(source, destination, data, false, sentTime));
+			response.put("valid", true);
+		}
+		else
+		{
+			response.put("valid", false);
+		}
+		
+		generateResponseLogMessage(response.toString());
 		
 		return response;
 	}
@@ -627,6 +653,7 @@ public class MyServer
 	
 	private MyServer()
 	{
+		
 	}
 	
 	void init()

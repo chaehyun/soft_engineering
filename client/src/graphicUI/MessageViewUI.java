@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,6 +25,7 @@ public class MessageViewUI extends JFrame
 	private JTextField textFieldFrom;
 	private JTextField textFieldTime;
 	private JTextArea messageField;
+	private final String MSG_SEND_FAIL = "Can not send the message to null user.";
 
 	public MessageViewUI(String id)
 	{
@@ -96,7 +98,15 @@ public class MessageViewUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				(new MessageSendUI(getId(), textFieldFrom.getText())).setVisible(true);
+				String dst = textFieldFrom.getText();
+				if (dst.equals("null") == true)
+				{
+					JOptionPane.showMessageDialog(new JFrame(), MSG_SEND_FAIL);
+				}
+				else
+				{
+					(new MessageSendUI(getId(), textFieldFrom.getText())).setVisible(true);
+				}
 			}
 		});
 		btnReplyButton.setBounds(30, 230, 120, 30);
@@ -118,8 +128,17 @@ public class MessageViewUI extends JFrame
 	
 	public void showMessages()
 	{
-		textFieldFrom.setText(msgView.getOneMessage().getMsgSender());
-		messageField.setText(msgView.getOneMessage().getMsgText());
-		textFieldTime.setText(msgView.getOneMessage().getMsgSentTime());
+		if (msgView.getMsgTotal() != 0)
+		{
+			textFieldFrom.setText(msgView.getOneMessage().getMsgSender());
+			messageField.setText(msgView.getOneMessage().getMsgText());
+			textFieldTime.setText(msgView.getOneMessage().getMsgSentTime());
+		}
+		else
+		{
+			textFieldFrom.setText("null");
+			messageField.setText("No Message!");
+			textFieldTime.setText(null);
+		}
 	}
 }
