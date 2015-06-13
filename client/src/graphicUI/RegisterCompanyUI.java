@@ -3,11 +3,10 @@ package graphicUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,19 +21,21 @@ import javax.swing.border.EmptyBorder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import communication.Communicator;
+import elements.RegisterCompany;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class RegisterCompanyUI extends JFrame
 {
-
 	private JPanel contentPane;
 	private JTextField companyName;
 	private JTextField companyId;
 	private JPasswordField passwordField;
 	private JPasswordField retypePasswordField;
-	private JTextField companyLocation;
 	private JTextField contactNumber;
 	private JTextField Validchecker;
+	private JTextArea LocationArea;
+	private RegisterCompany reg;
 	private final String INVALID_ID = "Check your Id Validation!";
 	private final String INVALID_PASSWORD = "Check your Password Validation!";
 	private boolean passwordvalidation = false;
@@ -43,11 +44,7 @@ public class RegisterCompanyUI extends JFrame
 	private final String REGISTRATION_FAILED = "The registration is failed, ID is taken.";
 	private final String ID_AVAILABLE = "Your ID is available! Use it!";
 	private final String ID_DISAVAILABLE = "Your ID is already using. Please try different ID";
-	private final String SERVER_OUT = "Server does not work";
 
-	/**
-	 * Create the frame.
-	 */
 	public RegisterCompanyUI()
 	{
 		setTitle("Company Registration");
@@ -59,49 +56,43 @@ public class RegisterCompanyUI extends JFrame
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		JLabel lblWelcomeNewCompany = new JLabel(
-				"\u2605 Welcome New Company \u2605");
-		lblWelcomeNewCompany.setFont(new Font("ĺŤ ěŹ™ě�™ĺŤ ěŹ™ě�™ĺŤ ě‹śďż˝",
-				Font.BOLD, 12));
-		lblWelcomeNewCompany.setBounds(97, 10, 198, 15);
+		JLabel lblWelcomeNewCompany = new JLabel("Register a New Company");
+		lblWelcomeNewCompany.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcomeNewCompany.setBounds(100, 15, 200, 15);
 		contentPane.add(lblWelcomeNewCompany);
 
 		JLabel lblName = new JLabel("Company Name");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblName.setBounds(30, 35, 110, 25);
+		lblName.setBounds(20, 35, 110, 25);
 		contentPane.add(lblName);
 
 		companyName = new JTextField();
-		companyName.setBounds(150, 35, 120, 25);
+		companyName.setBounds(140, 35, 130, 25);
 		contentPane.add(companyName);
 		companyName.setColumns(10);
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblId.setBounds(30, 70, 110, 25);
+		lblId.setBounds(20, 70, 110, 25);
 		contentPane.add(lblId);
 
 		companyId = new JTextField();
-		companyId.setBounds(150, 70, 120, 25);
+		companyId.setBounds(140, 70, 130, 25);
 		contentPane.add(companyId);
 		companyId.setColumns(10);
 
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPassword.setBounds(30, 105, 110, 25);
+		lblPassword.setBounds(20, 105, 110, 25);
 		contentPane.add(lblPassword);
 
 		passwordField = new JPasswordField("", 20);
-		passwordField.setBounds(150, 105, 120, 25);
+		passwordField.setBounds(140, 105, 130, 25);
 		contentPane.add(passwordField);
 
 		JLabel lblRetypePassword = new JLabel("Retype Password");
 		lblRetypePassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRetypePassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblRetypePassword.setBounds(30, 140, 110, 25);
+		lblRetypePassword.setBounds(20, 140, 110, 25);
 		contentPane.add(lblRetypePassword);
 
 		retypePasswordField = new JPasswordField("", 20);
@@ -110,58 +101,42 @@ public class RegisterCompanyUI extends JFrame
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-				passwdkeyTypedhandler(e);
+				passwdkeyTypedhandler();
 			}
 		});
 
-		retypePasswordField.setBounds(150, 140, 120, 25);
+		retypePasswordField.setBounds(140, 140, 130, 25);
 		contentPane.add(retypePasswordField);
 
-		JLabel lblAddress = new JLabel("Company Location");
+		JLabel lblAddress = new JLabel("Location");
 		lblAddress.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblAddress.setBounds(30, 175, 110, 25);
+		lblAddress.setBounds(20, 175, 110, 25);
 		contentPane.add(lblAddress);
-
-		companyLocation = new JTextField();
-		companyLocation.setBounds(150, 175, 120, 100);
-		contentPane.add(companyLocation);
-		companyLocation.setColumns(10);
 
 		JLabel lblContactNumber = new JLabel("Contact Number");
 		lblContactNumber.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContactNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblContactNumber.setBounds(30, 285, 110, 25);
+		lblContactNumber.setBounds(20, 285, 110, 25);
 		contentPane.add(lblContactNumber);
 
 		contactNumber = new JTextField();
-		contactNumber.setBounds(150, 285, 120, 25);
+		contactNumber.setBounds(140, 285, 250, 25);
 		contentPane.add(contactNumber);
 		contactNumber.setColumns(10);
 
 		JButton btnRegister = new JButton("Register");
-		btnRegister.addKeyListener(new KeyAdapter()
+		btnRegister.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
-				registerButtonPressed(e);
+				registerCompany();
 			}
 		});
-		btnRegister.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				registerButtonClicked(e);
-			}
-		});
+		
 		btnRegister.setBounds(180, 390, 100, 30);
 		contentPane.add(btnRegister);
 
 		Validchecker = new JTextField();
 		Validchecker.setForeground(Color.RED);
-		Validchecker.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		Validchecker.setText("Invaild Password!");
 		Validchecker.setVisible(false);
 		Validchecker.setEditable(false);
@@ -172,18 +147,9 @@ public class RegisterCompanyUI extends JFrame
 		Validchecker.setColumns(10);
 
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addKeyListener(new KeyAdapter()
+		btnCancel.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-				setVisible(false);
-			}
-		});
-		btnCancel.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
+			public void actionPerformed(ActionEvent e) 
 			{
 				setVisible(false);
 			}
@@ -192,30 +158,35 @@ public class RegisterCompanyUI extends JFrame
 		contentPane.add(btnCancel);
 
 		JButton btnIdCheck = new JButton("ID Check");
-		btnIdCheck.addMouseListener(new MouseAdapter()
+		btnIdCheck.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
+			public void actionPerformed(ActionEvent e) 
 			{
-				idCheckClicked(arg0);
-			}
-		});
-		btnIdCheck.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-				idCheckPressed(e);
+				idCheck();
 			}
 		});
 		btnIdCheck.setBounds(280, 70, 100, 25);
 		contentPane.add(btnIdCheck);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(140, 175, 250, 100);
+		contentPane.add(scrollPane);
+		
+		LocationArea = new JTextArea();
+		scrollPane.setViewportView(LocationArea);
 	}
 
 	// Register Button event (keyboard, mouse)
-	protected void registerButtonClicked(MouseEvent e)
+	public void registerCompany()
 	{
-		// isIdValidation() method will check current new ID from server
+		// Read from UI Textform
+		String companyname = companyName.getText();
+		String id = companyId.getText();
+		String password = passwordField.getText();
+		String location = LocationArea.getText();
+		String contactnumber = contactNumber.getText();
+		reg = new RegisterCompany();
+		
 		boolean idValidate = isIdValidation();
 		// isPasswordvalidation() method will return boolean type value
 		// true means validate and false means invalidate
@@ -235,14 +206,7 @@ public class RegisterCompanyUI extends JFrame
 
 		if (pwValidate == true && idValidate == true)
 		{
-			// Read from UI Textform
-			String companyname = companyName.getText();
-			String id = companyId.getText();
-			String password = passwordField.getText();
-			String location = companyLocation.getText();
-			String contactnumber = contactNumber.getText();
-
-			// Making a JSONObject and pass to the server
+			// Making a JSONObject and passing to the RegisterCompany
 			JSONObject message = new JSONObject();
 			try
 			{
@@ -254,10 +218,10 @@ public class RegisterCompanyUI extends JFrame
 				message.put("Contact number", contactnumber);
 
 				// Server will return the results. (boolean type)
-				JSONObject response = Communicator.sendMessage(message);
+				reg.setCompanyInfo(message);
 
-				boolean valid = response.getBoolean("valid");
-				if (valid)
+				boolean valid = reg.registerCompany();
+				if (valid == true)
 				{
 					// Registration UI will disappeared
 					JOptionPane.showMessageDialog(new JFrame(),
@@ -271,61 +235,34 @@ public class RegisterCompanyUI extends JFrame
 							REGISTRATION_FAILED);
 				}
 			}
-			catch (JSONException | IOException e1)
+			catch (JSONException e)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-				e1.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
 
-	protected void registerButtonPressed(KeyEvent e)
-	{
-		registerButtonClicked(null);
-	}
-
-	protected void idCheckPressed(KeyEvent e)
-	{
-		idCheckClicked(null);
-	}
-
-	protected void idCheckClicked(MouseEvent arg0)
+	public void idCheck()
 	{
 		// Get the current ID from companyID text form
 		String tmp_id = companyId.getText();
-		JSONObject message = new JSONObject();
+		boolean valid = (new RegisterCompany()).isIdValidate(tmp_id);
 
-		// Server will check current ID Validation
-		try
+		if (valid)
 		{
-			message.put("MessageType", "companyidValidation");
-			message.put("ID", tmp_id);
-
-			JSONObject response = Communicator.sendMessage(message);
-
-			boolean valid = response.getBoolean("valid");
-			if (valid)
-			{
-				setIdValidation(true);
-				JOptionPane.showMessageDialog(new JFrame(), ID_AVAILABLE);
-			}
-			else
-			{
-				setIdValidation(false);
-				JOptionPane.showMessageDialog(new JFrame(), ID_DISAVAILABLE);
-			}
-
+			setIdValidation(true);
+			JOptionPane.showMessageDialog(new JFrame(), ID_AVAILABLE);
 		}
-		catch (JSONException | IOException e1)
+		else
 		{
-			JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-			e1.printStackTrace();
+			setIdValidation(false);
+			JOptionPane.showMessageDialog(new JFrame(), ID_DISAVAILABLE);
 		}
 	}
 
 	// This method will check current Password and Retype Password
 	// This method will run every new key event driven
-	protected void passwdkeyTypedhandler(KeyEvent e)
+	public void passwdkeyTypedhandler()
 	{
 		String pw1 = new String(passwordField.getText());
 		String pw2 = new String(retypePasswordField.getText());

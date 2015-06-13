@@ -4,6 +4,8 @@ package graphicUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
@@ -31,8 +33,7 @@ import org.json.JSONObject;
 
 import skills.NonTechSkills;
 import skills.TechSkills;
-
-import communication.Communicator;
+import elements.RegisterStudent;
 
 public class RegisterStudentUI extends JFrame
 {
@@ -59,6 +60,7 @@ public class RegisterStudentUI extends JFrame
 	private JTextField Validchecker;
 	private String studentgrade;
 	private boolean studentSex = true;
+	private RegisterStudent reg;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final String ID_AVAILABLE = "Your ID is available! Use it!";
 	private final String ID_DISAVAILABLE = "Your ID is already using. Please try different ID";
@@ -80,16 +82,13 @@ public class RegisterStudentUI extends JFrame
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		JLabel lblWelcomeNewCompany = new JLabel(
-				"\u2605 Welcome New Student \u2605");
+		JLabel lblWelcomeNewCompany = new JLabel("Register a New Student");
 		lblWelcomeNewCompany.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcomeNewCompany.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblWelcomeNewCompany.setBounds(97, 10, 198, 15);
 		contentPane.add(lblWelcomeNewCompany);
 
 		JLabel lblName = new JLabel("Name");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblName.setBounds(30, 35, 110, 25);
 		contentPane.add(lblName);
 
@@ -100,7 +99,6 @@ public class RegisterStudentUI extends JFrame
 
 		JLabel lblId = new JLabel("Student ID");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblId.setBounds(30, 70, 110, 25);
 		contentPane.add(lblId);
 
@@ -111,7 +109,6 @@ public class RegisterStudentUI extends JFrame
 
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPassword.setBounds(30, 105, 110, 25);
 		contentPane.add(lblPassword);
 
@@ -121,7 +118,6 @@ public class RegisterStudentUI extends JFrame
 
 		JLabel lblRetypePassword = new JLabel("Retype Password");
 		lblRetypePassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRetypePassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblRetypePassword.setBounds(30, 140, 110, 25);
 		contentPane.add(lblRetypePassword);
 
@@ -139,13 +135,11 @@ public class RegisterStudentUI extends JFrame
 
 		JLabel lblAddress = new JLabel("Grade");
 		lblAddress.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAddress.setBounds(30, 175, 110, 25);
 		contentPane.add(lblAddress);
 
 		JLabel lblContactNumber = new JLabel("Contact Number");
 		lblContactNumber.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContactNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblContactNumber.setBounds(30, 245, 110, 25);
 		contentPane.add(lblContactNumber);
 
@@ -162,15 +156,13 @@ public class RegisterStudentUI extends JFrame
 			}
 		});
 		gradeBox.setMaximumRowCount(4);
-		gradeBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2",
-				"3", "4" }));
+		gradeBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
 		gradeBox.setSelectedIndex(-1);
 		gradeBox.setBounds(150, 175, 140, 25);
 		contentPane.add(gradeBox);
 
 		JLabel lblGpa = new JLabel("GPA");
 		lblGpa.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblGpa.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblGpa.setBounds(30, 210, 110, 25);
 		contentPane.add(lblGpa);
 
@@ -181,26 +173,15 @@ public class RegisterStudentUI extends JFrame
 
 		JLabel lblSex = new JLabel("SEX");
 		lblSex.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSex.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSex.setBounds(30, 280, 110, 25);
 		contentPane.add(lblSex);
 
 		JRadioButton rdbtnFemale = new JRadioButton("Female");
-		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rdbtnFemale.addKeyListener(new KeyAdapter()
+		rdbtnFemale.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
 				rdbtnFemale.setSelected(true);
-				setStudentSex(false);
-			}
-		});
-		rdbtnFemale.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
 				setStudentSex(false);
 			}
 		});
@@ -209,44 +190,25 @@ public class RegisterStudentUI extends JFrame
 		contentPane.add(rdbtnFemale);
 
 		JRadioButton rdbtnMale = new JRadioButton("Male");
-		rdbtnMale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rdbtnMale.setSelected(true);
-		rdbtnMale.addKeyListener(new KeyAdapter()
+		rdbtnMale.addActionListener(new ActionListener()
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
 				rdbtnMale.setSelected(true);
 				setStudentSex(true);
 			}
 		});
-		rdbtnMale.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				setStudentSex(true);
-			}
-		});
+		rdbtnMale.setSelected(true);
 		buttonGroup.add(rdbtnMale);
 		rdbtnMale.setBounds(150, 280, 64, 23);
 		contentPane.add(rdbtnMale);
 
 		JButton btnRegister = new JButton("Register");
-		btnRegister.addKeyListener(new KeyAdapter()
+		btnRegister.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
-				registerButtonPressed(e);
-			}
-		});
-		btnRegister.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				registerButtonClicked(e);
+				register();
 			}
 		});
 		btnRegister.setBounds(180, 460, 100, 30);
@@ -256,7 +218,6 @@ public class RegisterStudentUI extends JFrame
 		Validchecker.setBackground(SystemColor.window);
 		Validchecker.setHorizontalAlignment(SwingConstants.LEFT);
 		Validchecker.setText("Invalid Password!");
-		Validchecker.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		Validchecker.setEditable(false);
 		Validchecker.setBounds(300, 140, 110, 25);
 		Validchecker.setBorder(null);
@@ -266,18 +227,9 @@ public class RegisterStudentUI extends JFrame
 		Validchecker.setColumns(10);
 
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addKeyListener(new KeyAdapter()
+		btnCancel.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-				setVisible(false);
-			}
-		});
-		btnCancel.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
+			public void actionPerformed(ActionEvent e) 
 			{
 				setVisible(false);
 			}
@@ -286,22 +238,14 @@ public class RegisterStudentUI extends JFrame
 		contentPane.add(btnCancel);
 
 		JButton btnIdCheck = new JButton("ID Check");
-		btnIdCheck.addMouseListener(new MouseAdapter()
+		btnIdCheck.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
+			public void actionPerformed(ActionEvent e) 
 			{
-				idCheckClicked(arg0);
+				idCheck();
 			}
 		});
-		btnIdCheck.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyPressed(KeyEvent e)
-			{
-				idCheckPressed(e);
-			}
-		});
+		
 		btnIdCheck.setBounds(300, 70, 100, 25);
 		contentPane.add(btnIdCheck);
 
@@ -327,19 +271,16 @@ public class RegisterStudentUI extends JFrame
 		contentPane.add(chckbxDrivingLicence);
 
 		JLabel lblTechSkills = new JLabel("Tech Skills");
-		lblTechSkills.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblTechSkills.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTechSkills.setBounds(30, 315, 110, 25);
 		contentPane.add(lblTechSkills);
 
 		JLabel lblNewLabel = new JLabel("Non-Tech Skills");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel.setBounds(220, 315, 110, 25);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblAge = new JLabel("Age");
 		lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAge.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAge.setBounds(200, 210, 30, 25);
 		contentPane.add(lblAge);
 
@@ -349,17 +290,13 @@ public class RegisterStudentUI extends JFrame
 		ageField.setColumns(10);
 	}
 
-	protected void registerButtonClicked(MouseEvent e)
-	{
-		registerButtonPressed(null);
-	}
-
-	protected void registerButtonPressed(KeyEvent e)
+	public void register()
 	{
 		boolean idValidate = isIdValidation();
 		boolean pwValidate = isPasswordvalidation();
 		int chkTechSkill = 0;
 		int chkNontechSkill = 0;
+		reg = new RegisterStudent();
 
 		if (idValidate == false)
 		{
@@ -381,11 +318,14 @@ public class RegisterStudentUI extends JFrame
 			String grade = ((String) gradeBox.getSelectedItem());
 			String sex;
 			int age = Integer.parseInt(ageField.getText());
-
 			if (getStudentSex() == true)
+			{
 				sex = "male";
+			}
 			else
+			{
 				sex = "female";
+			}
 
 			JSONObject message = new JSONObject();
 			try
@@ -446,23 +386,23 @@ public class RegisterStudentUI extends JFrame
 							EMPTY_FIELD);
 				}
 
-				JSONObject response = Communicator.sendMessage(message);
+				// Server will return the results. (boolean type)
+				reg.setStudentInfo(message);
 
-				boolean valid = response.getBoolean("valid");
-				if (valid)
+				boolean valid = reg.registerStudent();
+				if (valid == true)
 				{
-					JOptionPane.showMessageDialog(new JFrame(),
-							REGISTRATION_SUCCESS);
+					// Registration UI will disappeared
+					JOptionPane.showMessageDialog(new JFrame(),	REGISTRATION_SUCCESS);
 					setVisible(false);
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(new JFrame(),
-							REGISTRATION_FAILED);
+					// Print Error message
+					JOptionPane.showMessageDialog(new JFrame(), REGISTRATION_FAILED);
 				}
-
 			}
-			catch (JSONException | IOException e1)
+			catch (JSONException e1)
 			{
 				JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
 				e1.printStackTrace();
@@ -470,40 +410,20 @@ public class RegisterStudentUI extends JFrame
 		}
 	}
 
-	protected void idCheckPressed(KeyEvent e)
-	{
-		idCheckClicked(null);
-	}
-
-	protected void idCheckClicked(MouseEvent arg0)
+	public void idCheck()
 	{
 		String tmp_id = studentID.getText();
-		JSONObject message = new JSONObject();
+		boolean valid = (new RegisterStudent()).isIdValidate(tmp_id);
 
-		try
+		if (valid == true)
 		{
-			message.put("MessageType", "studentidValidation");
-			message.put("ID", tmp_id);
-
-			JSONObject response = Communicator.sendMessage(message);
-
-			boolean valid = response.getBoolean("valid");
-			if (valid)
-			{
-				setIdValidation(true);
-				JOptionPane.showMessageDialog(new JFrame(), ID_AVAILABLE);
-			}
-			else
-			{
-				setIdValidation(false);
-				JOptionPane.showMessageDialog(new JFrame(), ID_DISAVAILABLE);
-			}
-
+			setIdValidation(true);
+			JOptionPane.showMessageDialog(new JFrame(), ID_AVAILABLE);
 		}
-		catch (JSONException | IOException e1)
+		else
 		{
-			JOptionPane.showMessageDialog(new JFrame(), SERVER_OUT);
-			e1.printStackTrace();
+			setIdValidation(false);
+			JOptionPane.showMessageDialog(new JFrame(), ID_DISAVAILABLE);
 		}
 	}
 

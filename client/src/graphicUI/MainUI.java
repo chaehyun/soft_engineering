@@ -22,6 +22,8 @@ import javax.swing.border.EmptyBorder;
 
 import elements.Login;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainUI extends JFrame
 {
@@ -33,10 +35,8 @@ public class MainUI extends JFrame
 	private final String NOT_SELECT_OPTION = "Please Select Student or Company Option.";
 	private final String INVALID_INPUT = "Please Enter the User ID and Password or Select User Type.";
 	private final String LOGIN_SUCCESS = "Login Successful!";
-	private final String LOGIN_FAIL = "Login Failed";
 	private final String SERVER_OUT = "Server does not work";
 	private final String VERSION_UPDATE = "There is a Newst Version. Please Update your Program.";
-	private final String VERSION_NOUPDATE = "You are now using the newsest version.";
 	private final String DUPLICATE_LOGIN = "Your ID is already connected into Server";
 	private final String WRONG_PASSWORD = "Your ID or Passsword is not correct.";
 	private boolean usertype;
@@ -77,20 +77,11 @@ public class MainUI extends JFrame
 		contentPane.add(panel, BorderLayout.WEST);
 
 		JButton loginButton = new JButton("Login");
-		loginButton.addKeyListener(new KeyAdapter()
+		loginButton.addActionListener(new ActionListener()
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
-				loginButtonPressed(e);
-			}
-		});
-		loginButton.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				loginButtonClicked(e);
+				login();
 			}
 		});
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -115,23 +106,14 @@ public class MainUI extends JFrame
 		contentPane.add(passwordLabel);
 
 		JButton registerButton = new JButton("Register");
-		registerButton.addKeyListener(new KeyAdapter()
+		registerButton.addActionListener(new ActionListener() 
 		{
-			@Override
-			public void keyPressed(KeyEvent e)
+			public void actionPerformed(ActionEvent e) 
 			{
-				btnRegisterPressed(e);
+				register();
 			}
 		});
-		registerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		registerButton.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
-			{
-				btnRegisterMouseClicked(arg0);
-			}
-		});
+		
 
 		registerButton.setBounds(200, 200, 100, 30);
 		contentPane.add(registerButton);
@@ -198,7 +180,7 @@ public class MainUI extends JFrame
 	}
 
 	// Register Button Handler
-	protected void btnRegisterMouseClicked(MouseEvent arg0)
+	public void register()
 	{
 		boolean userType = isUsertype();
 
@@ -216,13 +198,8 @@ public class MainUI extends JFrame
 		}
 	}
 
-	protected void btnRegisterPressed(KeyEvent e)
-	{
-		btnRegisterMouseClicked(null);
-	}
-
 	// login Button Event handler
-	protected void loginButtonPressed(KeyEvent e)
+	public void login()
 	{
 		String userID = idField.getText();
 		String pwd = passwordField.getText();
@@ -323,12 +300,6 @@ public class MainUI extends JFrame
 		{
 			JOptionPane.showMessageDialog(new JFrame(), INVALID_INPUT);
 		}
-	}
-
-	// login Button Click Event handler
-	protected void loginButtonClicked(MouseEvent e)
-	{
-		loginButtonPressed(null);
 	}
 
 	public boolean isUsertype()
