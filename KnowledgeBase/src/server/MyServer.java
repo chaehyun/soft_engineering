@@ -154,19 +154,7 @@ public class MyServer
 		}
 		
 		// check validity of Destination Id
-		Company tmp = getCompanyById(destination);
-		if (tmp != null)
-		{
-			dstValid = true;
-		}
-		else
-		{
-			Student s = getStudentById(destination);
-			if (s != null)
-			{
-				dstValid = true;
-			}
-		}
+		dstValid = idValidationforMessage(destination);
 		
 		if (dstValid == true)
 		{
@@ -760,8 +748,7 @@ public class MyServer
 		return null;
 	}
 	
-	public JSONObject studentIdValidation(JSONObject requestMessage)
-			throws JSONException
+	public JSONObject idValidation(JSONObject requestMessage) throws JSONException
 	{
 		JSONObject response = new JSONObject();
 		
@@ -770,8 +757,9 @@ public class MyServer
 		
 		String id = requestMessage.getString("ID");
 		
-		Student check = getStudentById(id);
-		if (check == null)
+		Student checkStudent = getStudentById(id);
+		Company checkCompany = getCompanyById(id);
+		if (checkStudent == null && checkCompany == null)
 		{
 			response.put("valid", true);
 		}
@@ -779,7 +767,6 @@ public class MyServer
 		{
 			response.put("valid", false); // ID is taken
 		}
-			
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
@@ -787,30 +774,18 @@ public class MyServer
 		return response;
 	}
 	
-	public JSONObject companyIdValidation(JSONObject requestMessage)
-			throws JSONException
+	public boolean idValidationforMessage(String id)
 	{
-		JSONObject response = new JSONObject();
-		
-		// Write Log
-		generateRequestLogMessage(requestMessage.toString());
-		
-		String id = requestMessage.getString("ID");
-		
-		Company check = getCompanyById(id);
-		if (check == null)
+		Student checkStudent = getStudentById(id);
+		Company checkCompany = getCompanyById(id);
+		if (checkStudent == null && checkCompany == null)
 		{
-			response.put("valid", true);
+			return false;
 		}
 		else
 		{
-			response.put("valid", false); // ID is taken
+			return true;
 		}
-		
-		// Write Server Response Log
-		generateResponseLogMessage(response.toString());
-				
-		return response;
 	}
 	
 	public JSONObject isVersionValid(JSONObject requestMessage) throws JSONException

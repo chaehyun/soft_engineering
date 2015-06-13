@@ -13,18 +13,22 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import elements.MessageSend;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class MessageSendUI extends JFrame
 {
 
 	private JPanel contentPane;
 	private JTextField destinationField;
-	private JTextField messageField;
 	private MessageSend msgSend;
 	private String id;
 	
 	private final String MSG_SEND_SUCCESS = "Message was sent successfully.";
 	private final String MSG_SEND_FAIL = "Message was not sent.";
+	private JScrollPane scrollPane;
+	private JTextArea messageField;
+	private JScrollPane scrollPane_1;
 	
 	public MessageSendUI(String Id)
 	{
@@ -54,11 +58,6 @@ public class MessageSendUI extends JFrame
 		lblMessage.setBounds(10, 70, 80, 20);
 		contentPane.add(lblMessage);
 		
-		messageField = new JTextField();
-		messageField.setBounds(100, 70, 300, 165);
-		contentPane.add(messageField);
-		messageField.setColumns(10);
-		
 		JButton btnSendMessage = new JButton("Send Message");
 		btnSendMessage.addActionListener(new ActionListener()
 		{
@@ -81,9 +80,19 @@ public class MessageSendUI extends JFrame
 		});
 		btnSendMessage.setBounds(280, 240, 120, 30);
 		contentPane.add(btnSendMessage);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(100, 70, 300, 150);
+		contentPane.add(scrollPane);
+		
+		messageField = new JTextArea();
+		scrollPane.setViewportView(messageField);
 	}
 	
 	// Override Method
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public MessageSendUI(String Id, String to)
 	{
 		setId(Id);
@@ -114,11 +123,6 @@ public class MessageSendUI extends JFrame
 		lblMessage.setBounds(10, 70, 80, 20);
 		contentPane.add(lblMessage);
 		
-		messageField = new JTextField();
-		messageField.setBounds(100, 70, 300, 165);
-		contentPane.add(messageField);
-		messageField.setColumns(10);
-		
 		JButton btnSendMessage = new JButton("Send Message");
 		btnSendMessage.addActionListener(new ActionListener()
 		{
@@ -141,6 +145,13 @@ public class MessageSendUI extends JFrame
 		});
 		btnSendMessage.setBounds(280, 240, 120, 30);
 		contentPane.add(btnSendMessage);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(100, 70, 300, 150);
+		contentPane.add(scrollPane_1);
+		
+		messageField = new JTextArea();
+		scrollPane_1.setViewportView(messageField);
 	}
 
 	public String getId()

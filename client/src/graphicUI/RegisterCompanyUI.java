@@ -1,7 +1,6 @@
 package graphicUI;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -21,9 +22,8 @@ import javax.swing.border.EmptyBorder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import elements.IdValidator;
 import elements.RegisterCompany;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 
 public class RegisterCompanyUI extends JFrame
 {
@@ -246,7 +246,7 @@ public class RegisterCompanyUI extends JFrame
 	{
 		// Get the current ID from companyID text form
 		String tmp_id = companyId.getText();
-		boolean valid = (new RegisterCompany()).isIdValidate(tmp_id);
+		boolean valid = (new IdValidator()).isIdValidate(tmp_id);
 
 		if (valid)
 		{

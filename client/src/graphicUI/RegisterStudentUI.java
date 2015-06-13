@@ -2,7 +2,6 @@
 package graphicUI;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +9,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -33,6 +29,7 @@ import org.json.JSONObject;
 
 import skills.NonTechSkills;
 import skills.TechSkills;
+import elements.IdValidator;
 import elements.RegisterStudent;
 
 public class RegisterStudentUI extends JFrame
@@ -413,7 +410,7 @@ public class RegisterStudentUI extends JFrame
 	public void idCheck()
 	{
 		String tmp_id = studentID.getText();
-		boolean valid = (new RegisterStudent()).isIdValidate(tmp_id);
+		boolean valid = (new IdValidator()).isIdValidate(tmp_id);
 
 		if (valid == true)
 		{

@@ -30,30 +30,6 @@ public class RegisterCompany
 		return result;
 	}
 	
-	public boolean isIdValidate(String id)
-	{
-		JSONObject message = new JSONObject();
-		boolean valid = false;
-
-		// Server will check current ID Validation
-		try
-		{
-			message.put("MessageType", "companyidValidation");
-			message.put("ID", id);
-
-			JSONObject response = Communicator.sendMessage(message);
-
-			valid = response.getBoolean("valid");
-
-		}
-		catch (JSONException | IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		
-		return valid;
-	}
-
 	public JSONObject getCompanyInfo()
 	{
 		return companyInfo;

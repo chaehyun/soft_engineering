@@ -96,12 +96,8 @@ public class MyServlet extends HttpServlet
 				return MyServer.getInstance().getRequests(requestMessage);
 			case "answer":
 				return MyServer.getInstance().receiveAnswer(requestMessage);
-			case "studentidValidation":
-				return MyServer.getInstance().studentIdValidation(
-						requestMessage);
-			case "companyidValidation":
-				return MyServer.getInstance().companyIdValidation(
-						requestMessage);
+			case "idValidation":
+				return MyServer.getInstance().idValidation(requestMessage);
 			case "VersionCheck":
 				return MyServer.getInstance().isVersionValid(requestMessage);
 			case "LogOff":
