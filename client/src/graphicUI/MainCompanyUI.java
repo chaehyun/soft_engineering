@@ -43,13 +43,16 @@ public class MainCompanyUI extends javax.swing.JFrame implements MouseListener {
     private Company company;
     private final String LOGOFF_SUCCESS = "Logoff Success";
     private final String LOGOFF_FAIL = "Logoff Fail";
+    private final String ACCESS_DENIED = "You already tried to access 3 times. Access denied.";
     private boolean isMousePressed = false;
+    private AskPasswordUI ask;
 
     // End of variables declaration
 
     public MainCompanyUI(String userID) {
 	setUserID(userID);
 	company = new Company(getUserID());
+	ask = new AskPasswordUI(getUserID(), "company");
 	initComponents();
     }
 
@@ -422,7 +425,13 @@ public class MainCompanyUI extends javax.swing.JFrame implements MouseListener {
     }
 
     private void SubMenuMyinfoActionPerformed(java.awt.event.ActionEvent evt) {
-	// TODO add your handling code here:
+	if (ask.getTrialCount() >= 3) {
+	    JOptionPane.showMessageDialog(new JFrame(), ACCESS_DENIED);
+	    SubMenuMyinfo.setEnabled(false);
+	}
+	else {
+	    ask.setVisible(true);   
+	}
     }
 
     private void SubMenuSendMessageActionPerformed(
