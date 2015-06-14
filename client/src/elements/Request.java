@@ -25,6 +25,7 @@ public class Request implements Serializable
 	private ArrayList<TechSkills> techSkills;
 	private ArrayList<NonTechSkills> nonTechSkills;
 	private State state;
+	private boolean complete;
 
 	public Request(int id, String name, String title, String startDate,
 			String endDate, String description, String payment,
@@ -42,6 +43,10 @@ public class Request implements Serializable
 		this.techSkills = techSkills;
 		this.nonTechSkills = nonTechSkills;
 		this.state = state;
+		if (this.state.equals(State.YES))
+		{
+			setComplete(true);
+		}
 	}
 
 	public int getId()
@@ -142,5 +147,15 @@ public class Request implements Serializable
 	public void setState(State state)
 	{
 		this.state = state;
+	}
+
+	public boolean isComplete()
+	{
+		return complete;
+	}
+
+	public void setComplete(boolean complete)
+	{
+		this.complete = complete;
 	}
 }

@@ -1,22 +1,11 @@
 package graphicUI;
 
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -28,124 +17,95 @@ import org.json.JSONObject;
 import skills.NonTechSkills;
 import skills.TechSkills;
 import elements.Company;
-import elements.MessageSend;
 import elements.Result;
 import elements.Student;
-import javax.swing.JTextField;
 
-public class MainCompanyUI extends JFrame implements MouseListener
+public class MainCompanyUI extends javax.swing.JFrame implements MouseListener
 {
-
-	private JPanel contentPane;
-	private JTable table;
-	private JButton btnMakeNewRequest;
-
+	// Variables declaration - do not modify
+	private javax.swing.JTextField statusField;
+	private javax.swing.JPanel MainPanel;
+	private javax.swing.JMenu MenuFile;
+	private javax.swing.JMenu MenuInformation;
+	private javax.swing.JMenu MenuMessages;
+	private javax.swing.JMenuItem SubMenuLogoff;
+	private javax.swing.JMenuItem SubMenuMessageBox;
+	private javax.swing.JMenuItem SubMenuMyinfo;
+	private javax.swing.JMenuItem SubMenuProgramInfo;
+	private javax.swing.JMenuItem SubMenuSendMessage;
+	private javax.swing.JMenuItem SubMenuVersionInfo;
+	private javax.swing.JMenuBar TopMenuBar;
+	private javax.swing.JButton btnNewRequests;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JTable table;
+	private javax.swing.JLabel labelMyRequests;
 	private String userID;
 	private ArrayList<Result> results;
 	private Company company;
-	
 	private final String LOGOFF_SUCCESS = "Logoff Success";
 	private final String LOGOFF_FAIL = "Logoff Fail";
+	private boolean isMousePressed = false;
+	// End of variables declaration
 
-	/**
-	 * Create the frame.
-	 */
-	public MainCompanyUI(String UserID)
+	public MainCompanyUI(String userID)
 	{
-		setTitle("MainCompany");
-		setUserID(UserID);
+		setUserID(userID);
 		company = new Company(getUserID());
+		initComponents();
+	}
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 457, 340);
-		
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		mntmModifyInformation = new JMenuItem("Modify Information");
-		mntmModifyInformation.setBackground(SystemColor.window);
-		menuBar.add(mntmModifyInformation);
-		
-		mntmLogout = new JMenuItem("Exit");
-		mntmLogout.setBackground(SystemColor.window);
-		mntmLogout.addMouseListener(new MouseAdapter() 
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">
+	private void initComponents()
+	{
+		MainPanel = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		table = new javax.swing.JTable();
+		labelMyRequests = new javax.swing.JLabel();
+		btnNewRequests = new javax.swing.JButton();
+		statusField = new javax.swing.JTextField();
+		TopMenuBar = new javax.swing.JMenuBar();
+		MenuFile = new javax.swing.JMenu();
+		SubMenuMyinfo = new javax.swing.JMenuItem();
+		SubMenuLogoff = new javax.swing.JMenuItem();
+		MenuMessages = new javax.swing.JMenu();
+		SubMenuSendMessage = new javax.swing.JMenuItem();
+		SubMenuMessageBox = new javax.swing.JMenuItem();
+		MenuInformation = new javax.swing.JMenu();
+		SubMenuVersionInfo = new javax.swing.JMenuItem();
+		SubMenuProgramInfo = new javax.swing.JMenuItem();
+
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setTitle("MainCompany");
+		setBounds(new java.awt.Rectangle(5, 25, 695, 475));
+		setResizable(false);
+
+		MainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+		MainPanel.setBounds(new java.awt.Rectangle(690, 480, 690, 480));
+
+		jScrollPane1
+				.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+		table.setAutoCreateRowSorter(true);
+		table.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] { },
+				new String[] { "Title", "Date", "Answered" })
 		{
-			@Override
-			public void mouseClicked(MouseEvent e) 
+			boolean[] canEdit = new boolean[] { false, false, false };
+
+			public boolean isCellEditable(int rowIndex, int columnIndex)
 			{
-				boolean logoutResult = company.logOut();
-				
-				if (logoutResult == true)
-				{
-					statusField.setText("LogOff Successful, Terminate Program.");
-					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_SUCCESS);
-					System.exit(0);
-				}
-				else
-				{
-					statusField.setText("LogOff Fail.");
-					JOptionPane.showMessageDialog(new JFrame(), LOGOFF_FAIL);
-				}
+				return canEdit[columnIndex];
 			}
 		});
+		table.setColumnSelectionAllowed(false);
+		jScrollPane1.setViewportView(table);
 		
-		mntmMessagebox = new JMenuItem("MessageBox");
-		mntmMessagebox.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				(new MessageViewUI(getUserID())).setVisible(true);
-			}
-		});
-		mntmMessagebox.setBackground(SystemColor.window);
-		menuBar.add(mntmMessagebox);
-		
-		mntmSendMsg = new JMenuItem("Send Msg");
-		mntmSendMsg.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				(new MessageSendUI(getUserID())).setVisible(true);
-			}
-		});
-		mntmSendMsg.setBackground(SystemColor.window);
-		menuBar.add(mntmSendMsg);
-		menuBar.add(mntmLogout);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 440, 205);
-		contentPane.add(scrollPane);
-
-		btnMakeNewRequest = new JButton("Make New Request");
-		btnMakeNewRequest.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				new RequestDetailUI(userID);
-			}
-		});
-
-		btnMakeNewRequest.setBounds(148, 226, 143, 29);
-		contentPane.add(btnMakeNewRequest);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
-				"Title", "Date", "Answered" }));
-		
-		statusField = new JTextField();
-		statusField.setEditable(false);
-		statusField.setBackground(SystemColor.window);
-		statusField.setBounds(0, 268, 457, 28);
-		contentPane.add(statusField);
-		statusField.setColumns(10);
-		statusField.setText("Connected");
-
+		table.getColumnModel()
+				.getSelectionModel()
+				.setSelectionMode(
+						javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		 
 		results = new ArrayList<>();
 		try
 		{
@@ -236,6 +196,295 @@ public class MainCompanyUI extends JFrame implements MouseListener
 		{
 			e.printStackTrace();
 		}
+		
+		labelMyRequests.setText("My Requests");
+
+		btnNewRequests.setText("New Requests");
+		btnNewRequests.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				btnNewRequestsActionPerformed(evt);
+			}
+		});
+
+		javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(
+				MainPanel);
+		MainPanel.setLayout(MainPanelLayout);
+		MainPanelLayout
+				.setHorizontalGroup(MainPanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								MainPanelLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												MainPanelLayout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING)
+														.addGroup(
+																MainPanelLayout
+																		.createSequentialGroup()
+																		.addGap(0,
+																				0,
+																				0)
+																		.addGroup(
+																				MainPanelLayout
+																						.createParallelGroup(
+																								javax.swing.GroupLayout.Alignment.LEADING)
+																						.addComponent(
+																								labelMyRequests)
+																						.addComponent(
+																								jScrollPane1,
+																								javax.swing.GroupLayout.PREFERRED_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.PREFERRED_SIZE))
+																		.addGap(0,
+																				0,
+																				Short.MAX_VALUE))
+														.addComponent(
+																btnNewRequests,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																Short.MAX_VALUE))
+										.addContainerGap()));
+		MainPanelLayout
+				.setVerticalGroup(MainPanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								javax.swing.GroupLayout.Alignment.TRAILING,
+								MainPanelLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(labelMyRequests)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(
+												jScrollPane1,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												378,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+												12, Short.MAX_VALUE)
+										.addComponent(
+												btnNewRequests,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												47,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addContainerGap()));
+
+		statusField.setEditable(false);
+		statusField.setBackground(java.awt.SystemColor.window);
+		statusField.setText("Welcome! "+ getUserID() + "! Server Connected.");
+		statusField.setBorder(null);
+		statusField.setDragEnabled(false);
+
+		MenuFile.setText("File");
+
+		SubMenuMyinfo.setText("My Information");
+		SubMenuMyinfo.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				SubMenuMyinfoActionPerformed(evt);
+			}
+		});
+		MenuFile.add(SubMenuMyinfo);
+
+		SubMenuLogoff.setText("Log Out");
+		SubMenuLogoff.setToolTipText("Log out from Server");
+		SubMenuLogoff.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				SubMenuLogoffActionPerformed(evt);
+			}
+		});
+		MenuFile.add(SubMenuLogoff);
+
+		TopMenuBar.add(MenuFile);
+
+		MenuMessages.setText("Messages");
+
+		SubMenuSendMessage.setText("Send Message");
+		SubMenuSendMessage
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
+						SubMenuSendMessageActionPerformed(evt);
+					}
+				});
+		MenuMessages.add(SubMenuSendMessage);
+
+		SubMenuMessageBox.setText("Message Box");
+		SubMenuMessageBox.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				SubMenuMessageBoxActionPerformed(evt);
+			}
+		});
+		MenuMessages.add(SubMenuMessageBox);
+
+		TopMenuBar.add(MenuMessages);
+
+		MenuInformation.setText("Information");
+
+		SubMenuVersionInfo.setText("Version Info");
+		SubMenuVersionInfo
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
+						SubMenuVersionInfoActionPerformed(evt);
+					}
+				});
+		MenuInformation.add(SubMenuVersionInfo);
+
+		SubMenuProgramInfo.setText("Program Info");
+		SubMenuProgramInfo
+				.addActionListener(new java.awt.event.ActionListener()
+				{
+					public void actionPerformed(java.awt.event.ActionEvent evt)
+					{
+						SubMenuProgramInfoActionPerformed(evt);
+					}
+				});
+		MenuInformation.add(SubMenuProgramInfo);
+
+		TopMenuBar.add(MenuInformation);
+
+		setJMenuBar(TopMenuBar);
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						javax.swing.GroupLayout.Alignment.TRAILING,
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(statusField)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		MainPanel,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addGap(0,
+																		0,
+																		Short.MAX_VALUE)))
+								.addContainerGap()));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(MainPanel,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(statusField,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										19,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
+
+		pack();
+	}// </editor-fold>
+	
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		this.isMousePressed = true;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		this.isMousePressed = false;
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void SubMenuLogoffActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		boolean logoutResult = company.logOut();
+		
+		if (logoutResult == true)
+		{
+			statusField.setText("LogOff Successful, Terminate Program.");
+			JOptionPane.showMessageDialog(new JFrame(), LOGOFF_SUCCESS);
+			System.exit(0);
+		}
+		else
+		{
+			statusField.setText("LogOff Fail.");
+			JOptionPane.showMessageDialog(new JFrame(), LOGOFF_FAIL);
+		}
+	}
+
+	private void SubMenuMyinfoActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		// TODO add your handling code here:
+	}
+
+	private void SubMenuSendMessageActionPerformed(
+			java.awt.event.ActionEvent evt)
+	{
+		(new MessageSendUI(getUserID())).setVisible(true);
+	}
+
+	private void SubMenuMessageBoxActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		(new MessageViewUI(getUserID())).setVisible(true);
+	}
+
+	private void SubMenuVersionInfoActionPerformed(
+			java.awt.event.ActionEvent evt)
+	{
+		// TODO add your handling code here:
+	}
+
+	private void SubMenuProgramInfoActionPerformed(
+			java.awt.event.ActionEvent evt)
+	{
+		// TODO add your handling code here:
+	}
+
+	private void btnNewRequestsActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		(new RequestDetailUI(getUserID())).setVisible(true);
 	}
 
 	public String getUserID()
@@ -247,43 +496,4 @@ public class MainCompanyUI extends JFrame implements MouseListener
 	{
 		this.userID = userID;
 	}
-
-	private boolean isMousePressed = false;
-	private JMenuBar menuBar;
-	private JMenuItem mntmModifyInformation;
-	private JMenuItem mntmLogout;
-	private JMenuItem mntmMessagebox;
-	private JMenuItem mntmSendMsg;
-	private JTextField statusField;
-
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		isMousePressed = true;
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		isMousePressed = false;
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		
-	}
-
 }

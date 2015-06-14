@@ -598,6 +598,7 @@ public class MyServer
 						requestJSON.append("TechSkills", skill.name());
 					for (NonTechSkills skill : req.getNonTechSkills())
 						requestJSON.append("NonTechSkills", skill.name());
+					requestJSON.put("Answer", reply.getState());
 					
 					response.append("Requests", requestJSON);
 				}

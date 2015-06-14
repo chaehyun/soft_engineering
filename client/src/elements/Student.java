@@ -146,16 +146,16 @@ public class Student
 	public void setResult()
 	{
 		JSONObject message = new JSONObject();
-		this.result = null;
 		
 		try
 		{
-			message.put("MessageType", "getresults");
+			message.put("MessageType", "getrequests");
 			message.put("ID", getId());
 			
 			JSONObject responseJSON = Communicator.sendMessage(message);
 
-			result = responseJSON.getJSONArray("Results");
+			System.out.println(responseJSON.toString());
+			this.result = responseJSON.getJSONArray("Requests");
 		}
 		catch (JSONException | IOException e)
 		{
