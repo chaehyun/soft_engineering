@@ -20,8 +20,9 @@ public class VersionControl {
     }
 
     /*
-     * Return Value Description 0 : no Error, Client is using latest Version 1 :
-     * Version Invalid, Client is not using latest Version 2 : Server Out
+     * Return Value Description 0 : no Error, Client is using latest Version 
+     * 1: Version Invalid, Client is not using latest Version 
+     * 2: Server Out
      */
     public int isVersionValid() {
 	int result = 3;

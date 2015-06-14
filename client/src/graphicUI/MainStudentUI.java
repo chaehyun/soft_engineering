@@ -344,12 +344,12 @@ public class MainStudentUI extends javax.swing.JFrame implements MouseListener {
 
     private void SubMenuVersionInfoActionPerformed(
 	    java.awt.event.ActionEvent evt) {
-	// TODO add your handling code here:
+	(new VersionInfoUI()).setVisible(true);
     }
 
     private void SubMenuProgramInfoActionPerformed(
 	    java.awt.event.ActionEvent evt) {
-	// TODO add your handling code here:
+	(new ProgramInfoUI()).setVisible(true);
     }
 
     public String getUserID() {
