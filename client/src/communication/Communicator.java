@@ -19,53 +19,50 @@ import org.json.JSONObject;
 
 import elements.VersionControl;
 
-public class Communicator
-{
+public class Communicator {
 
-	// serverAddress 127.0.0.1:8080: Local network
-	private final static String serverAddress = "http://127.0.0.1:8080/KnowledgeBase/KnowledgeBaseServlet";
+    // serverAddress 127.0.0.1:8080: Local network
+    private final static String serverAddress = "http://127.0.0.1:8080/KnowledgeBase/KnowledgeBaseServlet";
 
-	public static JSONObject sendMessage(JSONObject request)
-			throws ClientProtocolException, ConnectTimeoutException,
-			IOException, JSONException
-	{
+    public static JSONObject sendMessage(JSONObject request)
+	    throws ClientProtocolException, ConnectTimeoutException,
+	    IOException, JSONException {
 
-		// Initialize HTTP connection
-		HttpClient client = new DefaultHttpClient();
-		// Set the timeout in milliseconds until a connection is established.
-		// The default value is zero, that means the timeout is not used.
-		HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+	// Initialize HTTP connection
+	HttpClient client = new DefaultHttpClient();
+	// Set the timeout in milliseconds until a connection is established.
+	// The default value is zero, that means the timeout is not used.
+	HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
 
-		// Set the default socket timeout (SO_TIMEOUT)
-		// in milliseconds which is the timeout for waiting for data.//
-		HttpConnectionParams.setSoTimeout(client.getParams(), 6000);
+	// Set the default socket timeout (SO_TIMEOUT)
+	// in milliseconds which is the timeout for waiting for data.//
+	HttpConnectionParams.setSoTimeout(client.getParams(), 6000);
 
-		HttpResponse httpResponse;
+	HttpResponse httpResponse;
 
-		// Send message and get response
-		StringEntity se = new StringEntity(request.toString(), HTTP.UTF_8);
-		se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
-				"application/json; charset=UTF-8"));
-		HttpPost post = new HttpPost(serverAddress);
+	// Send message and get response
+	StringEntity se = new StringEntity(request.toString(), HTTP.UTF_8);
+	se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
+		"application/json; charset=UTF-8"));
+	HttpPost post = new HttpPost(serverAddress);
 
-		post.setEntity(se);
-		post.setHeader("Accept", "application/json");
-		post.setHeader("Content-Type", "application/json; charset=UTF-8");
-		httpResponse = client.execute(post);
+	post.setEntity(se);
+	post.setHeader("Accept", "application/json");
+	post.setHeader("Content-Type", "application/json; charset=UTF-8");
+	httpResponse = client.execute(post);
 
-		JSONObject response = null;
-		/* Checking response */
-		if (httpResponse != null)
-		{
-			// Convert response to JSON
-			InputStream in = httpResponse.getEntity().getContent();
-			Scanner s1 = new Scanner(in);
-			Scanner s2 = s1.useDelimiter("\\A");
-			response = new JSONObject(s2.next());
-			s1.close();
-			s2.close();
-		}
-
-		return response;
+	JSONObject response = null;
+	/* Checking response */
+	if (httpResponse != null) {
+	    // Convert response to JSON
+	    InputStream in = httpResponse.getEntity().getContent();
+	    Scanner s1 = new Scanner(in);
+	    Scanner s2 = s1.useDelimiter("\\A");
+	    response = new JSONObject(s2.next());
+	    s1.close();
+	    s2.close();
 	}
+
+	return response;
+    }
 }

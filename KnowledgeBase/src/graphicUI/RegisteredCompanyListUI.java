@@ -35,12 +35,12 @@ public class RegisteredCompanyListUI extends JFrame
 		textArea.setEditable(false);
 		textArea.setText(getCompanylist());
 	}
-
+	
 	public String getCompanylist()
 	{
 		return companylist;
 	}
-
+	
 	public void setCompanylist(String companylist)
 	{
 		this.companylist = companylist;

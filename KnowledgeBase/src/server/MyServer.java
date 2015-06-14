@@ -48,8 +48,6 @@ public class MyServer
 		return mainWindow;
 	}
 	
-	
-	
 	/* ShowRegisteredCompany */
 	public String ShowRegisteredCompany()
 	{
@@ -73,7 +71,7 @@ public class MyServer
 			result += "[ Location ] : " + location + "\n";
 			System.out.println("");
 			result += "\n";
-		}		
+		}
 		
 		return result;
 	}
@@ -89,24 +87,24 @@ public class MyServer
 		return result;
 	}
 	
-	
 	/* Message Send */
-	//Description : getting JSON Format [ "Message_send" , id]
-	//				return JSON Format ["data" , String msg] * ...
-	public JSONObject sendMssage(JSONObject requestMessage) throws JSONException
+	// Description : getting JSON Format [ "Message_send" , id]
+	// return JSON Format ["data" , String msg] * ...
+	public JSONObject sendMssage(JSONObject requestMessage)
+			throws JSONException
 	{
 		JSONObject response = new JSONObject();
 		int msgCount = 0;
 		
 		generateRequestLogMessage(requestMessage.toString());
 		
-		//parsing data with keys
-		String id = requestMessage.getString("id");		
+		// parsing data with keys
+		String id = requestMessage.getString("id");
 		
-		for(int i=0; i < messages.size(); i++)
+		for (int i = 0; i < messages.size(); i++)
 		{
-			//Destination == id  means message for the id.
-			if(id.equals(messages.get(i).getDest()))
+			// Destination == id means message for the id.
+			if (id.equals(messages.get(i).getDest()))
 			{
 				JSONObject msgObject = new JSONObject();
 				msgCount++;
@@ -129,12 +127,14 @@ public class MyServer
 		response.put("MsgCount", msgCount);
 		generateResponseLogMessage(response.toString());
 		
-		return response;		
+		return response;
 	}
 	
 	/* Message Receive */
-	//Description : JSON Format [ "Message_receive" , source , destination , data(ArrayList<String>) ]
-	public JSONObject saveMssage(JSONObject requestMessage) throws JSONException
+	// Description : JSON Format [ "Message_receive" , source , destination ,
+	// data(ArrayList<String>) ]
+	public JSONObject saveMssage(JSONObject requestMessage)
+			throws JSONException
 	{
 		JSONObject response = new JSONObject();
 		boolean dstValid = false;
@@ -149,8 +149,8 @@ public class MyServer
 		ArrayList<String> data = new ArrayList<String>();
 		for (int i = 0; i < dataJSON.length(); i++)
 		{
-			 String tmpMsg = dataJSON.getString(i);
-			 data.add(tmpMsg);
+			String tmpMsg = dataJSON.getString(i);
+			data.add(tmpMsg);
 		}
 		
 		// check validity of Destination Id
@@ -158,7 +158,7 @@ public class MyServer
 		
 		if (dstValid == true)
 		{
-			//write message to the file
+			// write message to the file
 			messages.add(new Message(source, destination, data, false, sentTime));
 			response.put("valid", true);
 		}
@@ -175,17 +175,17 @@ public class MyServer
 	/* addCurruentUser */
 	public boolean addCurrentUser(String id, String userType)
 	{
-
-		//if it is student
-		if(userType.equals("student"))
+		
+		// if it is student
+		if (userType.equals("student"))
 		{
 			current_students.add(id);
 			System.out.println("enter [ " + id + " ] student user");
 			
 			return true;
 		}
-		//else then company
-		else if(userType.equals("company"))
+		// else then company
+		else if (userType.equals("company"))
 		{
 			current_companies.add(id);
 			System.out.println("enter [ " + id + " ] company user");
@@ -198,26 +198,25 @@ public class MyServer
 	
 	/* deleting logout user from ArrayList */
 	/* return : true -> successfully deleted */
-	/* return : false -> fail to delete  */
-	public JSONObject removeCurrentUser(JSONObject requestMessage) throws JSONException
+	/* return : false -> fail to delete */
+	public JSONObject removeCurrentUser(JSONObject requestMessage)
+			throws JSONException
 	{
 		
 		// create return value
 		JSONObject response = new JSONObject();
 		
-		
 		// Parsing data with keys
 		String userType = requestMessage.getString("usertype");
 		String id = requestMessage.getString("ID");
-
 		
-		if(userType.equals("student"))
+		if (userType.equals("student"))
 		{
-			for(int i=0; i < current_students.size(); i++)
+			for (int i = 0; i < current_students.size(); i++)
 			{
-				if(id.equals(current_students.get(i)))
+				if (id.equals(current_students.get(i)))
 				{
-					//delete
+					// delete
 					current_students.remove(i);
 					response.put("valid", true);
 					
@@ -225,33 +224,33 @@ public class MyServer
 				}
 			}
 		}
-		else if(userType.equals("company"))
+		else if (userType.equals("company"))
 		{
-			for(int i=0; i < current_companies.size(); i++)
+			for (int i = 0; i < current_companies.size(); i++)
 			{
-				if(id.equals(current_companies.get(i)))
+				if (id.equals(current_companies.get(i)))
 				{
-					//delete
+					// delete
 					current_companies.remove(i);
-					response.put("valid", true);	
+					response.put("valid", true);
 					
 					return response;
 				}
 			}
 		}
 		
-		response.put("valid", false);		
+		response.put("valid", false);
 		return response;
 	}
 	
-	/* Print Current Users*/
+	/* Print Current Users */
 	public String printCurrentUsers()
 	{
 		String result;
 		
 		System.out.println("< Student List >");
 		result = "< Student List >\n";
-		for(int i=0; i < current_students.size(); i++)
+		for (int i = 0; i < current_students.size(); i++)
 		{
 			String id = current_students.get(i);
 			System.out.println("[" + i + "] " + id);
@@ -260,7 +259,7 @@ public class MyServer
 		
 		System.out.println("< Company List >");
 		result += "< Company List >\n";
-		for(int i=0; i < current_companies.size(); i++)
+		for (int i = 0; i < current_companies.size(); i++)
 		{
 			String id = current_companies.get(i);
 			System.out.println("[" + i + "] " + id);
@@ -294,9 +293,9 @@ public class MyServer
 		// + check double login at the same time
 		if (userType.equals("student"))
 		{
-			for(int i = 0; i<current_students.size(); i++)
+			for (int i = 0; i < current_students.size(); i++)
 			{
-				if(id.equals(current_students.get(i)))
+				if (id.equals(current_students.get(i)))
 				{
 					System.out.println("Login Faile => double Login[Students]");
 					response.put("login_valid", 2);
@@ -304,23 +303,24 @@ public class MyServer
 					return response;
 				}
 			}
-			//if it is the first time to login with the ID. pass
+			// if it is the first time to login with the ID. pass
 			user = getStudentById(id);
 		}
 		else if (userType.equals("company"))
 		{
-			for(int i = 0; i<current_companies.size(); i++)
+			for (int i = 0; i < current_companies.size(); i++)
 			{
-				if(id.equals(current_companies.get(i)))
+				if (id.equals(current_companies.get(i)))
 				{
-					System.out.println("Login Faile => double Login[Companies]");
+					System.out
+							.println("Login Faile => double Login[Companies]");
 					response.put("login_valid", 2);
 					
 					return response;
 				}
 			}
 			
-			//if it is the first time to login with the ID. pass
+			// if it is the first time to login with the ID. pass
 			user = getCompanyById(id);
 		}
 		
@@ -328,7 +328,7 @@ public class MyServer
 		if (user != null && user.getPassword() != null
 				&& user.getPassword().equals(pwd))
 		{
-			if(addCurrentUser(id, userType))
+			if (addCurrentUser(id, userType))
 			{
 				response.put("login_valid", 1);
 			}
@@ -375,10 +375,10 @@ public class MyServer
 		{
 			response.put("valid", false); // ID is taken
 		}
-			
+		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -404,7 +404,7 @@ public class MyServer
 		JSONArray techSkills = requestMessage.getJSONArray("TechSkills");
 		JSONArray nonTechSkills = requestMessage.getJSONArray("NonTechSkills");
 		
-		// Type casting JSONArray into ArrayList 
+		// Type casting JSONArray into ArrayList
 		ArrayList<TechSkills> techSkillsList = new ArrayList<>();
 		for (int i = 0; i < techSkills.length(); i++)
 		{
@@ -433,14 +433,14 @@ public class MyServer
 		{
 			response.put("valid", false); // ID is taken
 		}
-			
+		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
 		
 		return response;
 	}
 	
-	//ReceiveRequest Method
+	// ReceiveRequest Method
 	@SuppressWarnings("unused")
 	public JSONObject receiveRequest(JSONObject requestMessage)
 			throws JSONException
@@ -503,7 +503,7 @@ public class MyServer
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -566,7 +566,7 @@ public class MyServer
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -607,7 +607,7 @@ public class MyServer
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -636,7 +636,7 @@ public class MyServer
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -704,7 +704,7 @@ public class MyServer
 	{
 		return requests;
 	}
-
+	
 	public AutoSerializeList<Message> getMessages()
 	{
 		return messages;
@@ -749,7 +749,8 @@ public class MyServer
 		return null;
 	}
 	
-	public JSONObject idValidation(JSONObject requestMessage) throws JSONException
+	public JSONObject idValidation(JSONObject requestMessage)
+			throws JSONException
 	{
 		JSONObject response = new JSONObject();
 		
@@ -771,7 +772,7 @@ public class MyServer
 		
 		// Write Server Response Log
 		generateResponseLogMessage(response.toString());
-				
+		
 		return response;
 	}
 	
@@ -789,7 +790,8 @@ public class MyServer
 		}
 	}
 	
-	public JSONObject isVersionValid(JSONObject requestMessage) throws JSONException
+	public JSONObject isVersionValid(JSONObject requestMessage)
+			throws JSONException
 	{
 		JSONObject response = new JSONObject();
 		
@@ -799,7 +801,8 @@ public class MyServer
 		String clientVersion = requestMessage.getString("ClientVersion");
 		
 		// Version Check between Client and Server
-		boolean validVersion = (new VersionControl()).isVersionValid(clientVersion);
+		boolean validVersion = (new VersionControl())
+				.isVersionValid(clientVersion);
 		if (validVersion == true)
 		{
 			response.put("valid", true);

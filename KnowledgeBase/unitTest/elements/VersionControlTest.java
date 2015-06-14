@@ -11,7 +11,7 @@ public class VersionControlTest
 	public void testGetCurrentVersion()
 	{
 		String currentVersion = (new VersionControl()).getCurrentVersion();
-
+		
 		// Test Null Pointer
 		assertNotNull(currentVersion);
 		

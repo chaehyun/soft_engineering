@@ -34,12 +34,12 @@ public class ShowCurrentUserUI extends JFrame
 		
 		textArea.setText(getCurrentUserList());
 	}
-
+	
 	public String getCurrentUserList()
 	{
 		return currentUserList;
 	}
-
+	
 	public void setCurrentUserList(String currentUserList)
 	{
 		this.currentUserList = currentUserList;

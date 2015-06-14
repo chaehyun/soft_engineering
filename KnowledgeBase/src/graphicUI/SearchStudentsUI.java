@@ -19,7 +19,8 @@ import elements.Student;
 import elements.TechSkills;
 
 @SuppressWarnings("serial")
-public class SearchStudentsUI extends javax.swing.JFrame implements ItemListener
+public class SearchStudentsUI extends javax.swing.JFrame implements
+		ItemListener
 {
 	
 	private Request selectedRequest;

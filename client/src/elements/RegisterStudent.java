@@ -7,36 +7,29 @@ import org.json.JSONObject;
 
 import communication.Communicator;
 
-public class RegisterStudent
-{
-	private JSONObject studentInfo;
-	
-	public boolean registerStudent()
-	{
-		boolean result = false;
-		
-		try
-		{
-			JSONObject response = Communicator.sendMessage(getStudentInfo());
-			
-			result = response.getBoolean("valid");
-			
-		}
-		catch (IOException | JSONException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return result;
+public class RegisterStudent {
+    private JSONObject studentInfo;
+
+    public boolean registerStudent() {
+	boolean result = false;
+
+	try {
+	    JSONObject response = Communicator.sendMessage(getStudentInfo());
+
+	    result = response.getBoolean("valid");
+
+	} catch (IOException | JSONException e) {
+	    e.printStackTrace();
 	}
 
-	public JSONObject getStudentInfo()
-	{
-		return studentInfo;
-	}
+	return result;
+    }
 
-	public void setStudentInfo(JSONObject studentInfo)
-	{
-		this.studentInfo = studentInfo;
-	}
+    public JSONObject getStudentInfo() {
+	return studentInfo;
+    }
+
+    public void setStudentInfo(JSONObject studentInfo) {
+	this.studentInfo = studentInfo;
+    }
 }

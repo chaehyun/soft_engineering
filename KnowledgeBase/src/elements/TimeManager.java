@@ -14,7 +14,7 @@ public class TimeManager
 	
 	public String getCurrentTime()
 	{
-		long time = System.currentTimeMillis(); 
+		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		currentTime = dayTime.format(new Date(time));
 		
@@ -29,7 +29,7 @@ public class TimeManager
 		
 		return curTime;
 	}
-
+	
 	public void setCurrentTime(String currentTime)
 	{
 		this.currentTime = currentTime;

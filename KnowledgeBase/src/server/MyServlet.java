@@ -80,9 +80,9 @@ public class MyServlet extends HttpServlet
 		switch (messageType)
 		{
 			case "login":
-				//record current add user
-				//MyServer.getInstance().addCurrentUser(requestMessage);
-
+				// record current add user
+				// MyServer.getInstance().addCurrentUser(requestMessage);
+				
 				return MyServer.getInstance().login(requestMessage);
 			case "companyregister":
 				return MyServer.getInstance().registerCompany(requestMessage);

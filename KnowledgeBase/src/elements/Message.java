@@ -10,8 +10,9 @@ import org.json.JSONArray;
 import server.MyServer;
 
 //@SuppressWarnings("serial")
-public class Message implements Serializable {
-
+public class Message implements Serializable
+{
+	
 	/**
 	 * 
 	 */
@@ -27,7 +28,7 @@ public class Message implements Serializable {
 		// default serialization
 		oos.defaultWriteObject();
 		// write company id
-		//oos.writeObject(company.getId());
+		// oos.writeObject(company.getId());
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException,
@@ -36,13 +37,14 @@ public class Message implements Serializable {
 		// default serialization
 		in.defaultReadObject();
 		// read company id
-		//String companyID;
-		//companyID = (String) in.readObject();
+		// String companyID;
+		// companyID = (String) in.readObject();
 		// set company
-		//company = MyServer.getInstance().getCompanyById(companyID);
+		// company = MyServer.getInstance().getCompanyById(companyID);
 	}
-
-	public Message(String source, String dest, ArrayList<String> data, boolean checked, String sentTime) 
+	
+	public Message(String source, String dest, ArrayList<String> data,
+			boolean checked, String sentTime)
 	{
 		super();
 		this.source = source;
@@ -51,51 +53,55 @@ public class Message implements Serializable {
 		this.checked = checked;
 		this.sentTime = sentTime;
 	}
-
-	public String getSource() {
+	
+	public String getSource()
+	{
 		return source;
 	}
-
-	public void setSource(String source) {
+	
+	public void setSource(String source)
+	{
 		this.source = source;
 	}
-
-	public String getDest() {
+	
+	public String getDest()
+	{
 		return dest;
 	}
-
-	public void setDest(String dest) {
+	
+	public void setDest(String dest)
+	{
 		this.dest = dest;
 	}
-
-
-
-	public boolean isChecked() {
+	
+	public boolean isChecked()
+	{
 		return checked;
 	}
-
-	public void setChecked(boolean checked) {
+	
+	public void setChecked(boolean checked)
+	{
 		this.checked = checked;
 	}
-
+	
 	public ArrayList<String> getData()
 	{
 		return data;
 	}
-
+	
 	public void setData(ArrayList<String> data)
 	{
 		this.data = data;
 	}
-
+	
 	public String getSentTime()
 	{
 		return sentTime;
 	}
-
+	
 	public void setSentTime(String sentTime)
 	{
 		this.sentTime = sentTime;
 	}
-
+	
 }

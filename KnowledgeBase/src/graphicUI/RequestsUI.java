@@ -21,7 +21,7 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 {
 	
 	DefaultTableModel model;
-
+	
 	public RequestsUI()
 	{
 		initComponents();
@@ -87,34 +87,37 @@ public class RequestsUI extends javax.swing.JFrame implements MouseListener
 		
 		mntmExitItem = new JMenuItem("Exit");
 		
-		//onClick Exit menu
-		mntmExitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		// onClick Exit menu
+		mntmExitItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				boolean terminateResult = MyServer.getInstance().Terminate();
 			}
 		});
 		jMenuBar3.add(mntmExitItem);
 		
-		
-		//onClick Show Current Users
+		// onClick Show Current Users
 		mntmShowCurrentUsers = new JMenuItem("Show Current Users");
 		mntmShowCurrentUsers.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) 
+			public void mouseClicked(MouseEvent arg0)
 			{
-				(new ShowCurrentUserUI(MyServer.getInstance().printCurrentUsers())).setVisible(true);
+				(new ShowCurrentUserUI(MyServer.getInstance()
+						.printCurrentUsers())).setVisible(true);
 			}
 		});
 		jMenuBar3.add(mntmShowCurrentUsers);
 		
 		mntmRegisteredCompanyList = new JMenuItem("Registered Company List");
-		mntmRegisteredCompanyList.addMouseListener(new MouseAdapter() 
+		mntmRegisteredCompanyList.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) 
+			public void mouseClicked(MouseEvent arg0)
 			{
-				(new RegisteredCompanyListUI(MyServer.getInstance().ShowRegisteredCompany())).setVisible(true);
+				(new RegisteredCompanyListUI(MyServer.getInstance()
+						.ShowRegisteredCompany())).setVisible(true);
 			}
 		});
 		jMenuBar3.add(mntmRegisteredCompanyList);
