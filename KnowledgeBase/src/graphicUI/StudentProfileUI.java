@@ -7,6 +7,7 @@ public class StudentProfileUI extends javax.swing.JFrame {
      * Creates new form StudentProfile
      */
     public StudentProfileUI() {
+    	setTitle("Student Profile");
 	initComponents();
     }
 

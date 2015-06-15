@@ -21,6 +21,7 @@ public class RequestDetailsUI extends javax.swing.JFrame {
      * Creates new form RequestDetails
      */
     public RequestDetailsUI(Request request) {
+    	setTitle("Request Detail");
 	selectedRequest = request;
 	initComponents();
     }
@@ -289,6 +290,7 @@ public class RequestDetailsUI extends javax.swing.JFrame {
 		selectedRequest.setMessage(jTextArea1.getText());
 		selectedRequest.setAnswered(true);
 		MyServer.getInstance().getMainWindow().updateList();
+		setVisible(false);
 	    }
 	});
 

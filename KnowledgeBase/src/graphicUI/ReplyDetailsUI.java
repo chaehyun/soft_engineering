@@ -7,6 +7,7 @@ public class ReplyDetailsUI extends javax.swing.JFrame {
      * Creates new form ReplyDetails
      */
     public ReplyDetailsUI() {
+    	setTitle("Reply Detail");
 	initComponents();
     }
 

@@ -12,8 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import elements.CompanyInfo;
 import elements.SecurityManager;
+import elements.StudentInfo;
 
 public class AskPasswordUI extends JFrame {
 
@@ -32,7 +32,7 @@ public class AskPasswordUI extends JFrame {
 	setTitle("Caution!");
 	setVisible(false);
 	setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	setBounds(100, 100, 310, 274);
+	setBounds(100, 100, 310, 275);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	setContentPane(contentPane);
@@ -97,6 +97,8 @@ public class AskPasswordUI extends JFrame {
     public void showModifyUI() {
 	switch(getUserType()) {
 	case "student":
+	    setVisible(false);
+	    (new StudentInfoUI(getUserID())).setVisible(true);
 	    break;
 	case "company":
 	    setVisible(false);

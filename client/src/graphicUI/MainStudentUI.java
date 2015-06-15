@@ -250,7 +250,7 @@ public class MainStudentUI extends javax.swing.JFrame implements MouseListener {
 
 	TopMenuBar.add(MenuMessages);
 
-	MenuInformation.setText("Information");
+	MenuInformation.setText("About");
 
 	SubMenuVersionInfo.setText("Version Info");
 	SubMenuVersionInfo

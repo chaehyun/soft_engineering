@@ -26,6 +26,7 @@ public class SearchStudentsUI extends javax.swing.JFrame implements
     private ArrayList<Student> listOfSelectedStudents;
 
     public SearchStudentsUI(Request request) {
+    	setTitle("Search Students");
 	selectedRequest = request;
 	initComponents();
 	setFields();

@@ -19,7 +19,7 @@ import elements.TechSkills;
 import elements.TimeManager;
 import elements.User;
 import elements.VersionControl;
-import graphicUI.RequestsUI;
+import graphicUI.ServerMainUI;
 
 public class MyServer {
     /* Definition for Server Data File names */
@@ -40,12 +40,59 @@ public class MyServer {
 
     private static MyServer instance = null;
 
-    private RequestsUI mainWindow;
+    private ServerMainUI mainWindow;
 
-    public RequestsUI getMainWindow() {
+    public ServerMainUI getMainWindow() {
 	return mainWindow;
     }
 
+    public String ShowRegisteredStudent() {
+	String result;
+	System.out.println("[ Registered Company List ]");
+	result = "[ Registered Company List ]\n";
+	for (Student s : students) {
+	    String id = s.getId();
+	    String contact = s.getContactNumber();
+	    String name = s.getName();
+	    String age = Integer.toString(s.getAge());
+	    String grade = Integer.toString(s.getGrade());
+	    float gpa = s.getGpa();
+	    String sex = s.getSex();
+	    String tech = "";
+	    String nontech = "";
+	    for (TechSkills skill : s.getTechSkills()) {
+		    tech += skill.name();
+		    tech += "  ";
+		}
+	    for (NonTechSkills skill : s.getNonTechSkills()) {
+		    nontech += skill.name();
+		    nontech += "  ";
+	    }
+	    
+	    System.out.println("[  ID  ] : " + id);
+	    result += "[  ID  ] : " + id + "\n";
+	    System.out.println("[ Name ] : " + name);
+	    result += "[ Name ] : " + name + "\n";
+	    System.out.println("[ Contact ] : " + contact);
+	    result += "[ Contact ] : " + contact + "\n";
+	    System.out.println("[ Age ] : " + age);
+	    result += "[ Age ] : " + age + "\n";
+	    System.out.println("[ Grade ] : " + grade);
+	    result += "[ Grade ] : " + grade + "\n";
+	    System.out.println("[ Gpa ] : " + gpa);
+	    result += "[ Gpa ] : " + gpa + "\n";
+	    System.out.println("[ Sex ] : " + sex);
+	    result += "[ Sex ] : " + sex + "\n";
+	    System.out.println("[ TechSkills ] : " + tech);
+	    result += "[ TechSkills ] : " + tech + "\n";
+	    System.out.println("[ NonTechSkills ] : " + nontech);
+	    result += "[ NonTechSkills ] : " + nontech + "\n";
+	    System.out.println("");
+	    result += "\n";
+	}
+	
+	return result;
+    }
     /* ShowRegisteredCompany */
     public String ShowRegisteredCompany() {
 	String result;
@@ -480,11 +527,13 @@ public class MyServer {
 				student.getContactNumber());
 			studentElement.put("Sex", student.getSex());
 			studentElement.put("Age", student.getAge());
-			for (TechSkills skill : student.getTechSkills())
+			for (TechSkills skill : student.getTechSkills()) {
 			    studentElement.append("TechSkills", skill.name());
-			for (NonTechSkills skill : student.getNonTechSkills())
+			}
+			for (NonTechSkills skill : student.getNonTechSkills()) {
 			    studentElement
 				    .append("NonTechSkills", skill.name());
+			}
 
 			resultElement.append("Students", studentElement);
 		    }
@@ -523,10 +572,12 @@ public class MyServer {
 		    requestJSON.put("StartDate", req.getStartDate());
 		    requestJSON.put("EndDate", req.getEndDate());
 		    requestJSON.put("Payment", req.getPayment());
-		    for (TechSkills skill : req.getTechSkills())
+		    for (TechSkills skill : req.getTechSkills()) {
 			requestJSON.append("TechSkills", skill.name());
-		    for (NonTechSkills skill : req.getNonTechSkills())
+		    }
+		    for (NonTechSkills skill : req.getNonTechSkills()) {
 			requestJSON.append("NonTechSkills", skill.name());
+		    }
 		    requestJSON.put("Answer", reply.getState());
 
 		    response.append("Requests", requestJSON);
@@ -594,7 +645,7 @@ public class MyServer {
 	    current_companies = new ArrayList<String>();
 
 	    // open main window
-	    mainWindow = new RequestsUI();
+	    mainWindow = new ServerMainUI();
 	    mainWindow.setVisible(true);
 	} catch (ClassNotFoundException | IOException e) {
 	    e.printStackTrace();
@@ -719,18 +770,18 @@ public class MyServer {
 	generateRequestLogMessage(requestMessage.toString());
 
 	try {
-	    String id = requestMessage.getString("userID");
+	    JSONObject element = requestMessage.getJSONObject("student");
+	    
+	    String id = element.getString("userID");
 
 	    s = getStudentById(id);
 	    if (s == null) {
 		response.put("valid", false);
 	    } else {
-		s.setName(requestMessage.getString("Name"));
-		s.setAge(requestMessage.getInt("Age"));
-		s.setContactNumber(requestMessage.getString("ContactNumber"));
-		s.setGpa((float) requestMessage.getDouble("Gpa"));
-		s.setGrade(requestMessage.getInt("Grade"));
-		JSONArray tech = requestMessage.getJSONArray("techSkills");
+		s.setName(element.getString("Name"));
+		s.setContactNumber(element.getString("ContactNumber"));
+		s.setGpa((float) element.getDouble("Gpa"));
+		JSONArray tech = element.getJSONArray("TechSkills");
 		ArrayList<TechSkills> techSkills = new ArrayList<TechSkills>();
 		for (int i = 0; i < tech.length(); i++) {
 		    String skillString = tech.getString(i);
@@ -738,7 +789,7 @@ public class MyServer {
 		    techSkills.add(skill);
 		}
 		s.setTechSkills(techSkills);
-		JSONArray nonTechSkills = requestMessage
+		JSONArray nonTechSkills = element
 			.getJSONArray("NonTechSkills");
 		ArrayList<NonTechSkills> nonTechSkillsList = new ArrayList<>();
 		for (int i = 0; i < nonTechSkills.length(); i++) {
@@ -795,13 +846,31 @@ public class MyServer {
 	
 	try {
 	    String id = requestMessage.getString("userID");
-	    Student s = getStudentById(id);
+	    Student student = getStudentById(id);
 	    
-	    if (s == null) {
+	    if (student == null) {
 		response.put("valid", false);
 	    } else {
+		JSONObject studentElement = new JSONObject();
+		
 		response.put("valid", true);
-		response.put("StudentObject", s);
+		studentElement.put("userID", student.getId());
+		studentElement.put("StudentName", student.getName());
+		studentElement.put("Grade", student.getGrade());
+		studentElement.put("Gpa", student.getGpa());
+		studentElement.put("ContactNumber",
+			student.getContactNumber());
+		studentElement.put("Sex", student.getSex());
+		studentElement.put("Age", student.getAge());
+		for (TechSkills skill : student.getTechSkills()) {
+		    studentElement.append("TechSkills", skill.name());
+		}
+		for (NonTechSkills skill : student.getNonTechSkills()) {
+		    studentElement
+			    .append("NonTechSkills", skill.name());
+		}
+		
+		response.put("Student", studentElement);
 	    }
 	} catch (JSONException e) {
 	    
@@ -819,16 +888,16 @@ public class MyServer {
 	generateRequestLogMessage(requestMessage.toString());
 	try {
 	    String id = requestMessage.getString("userID");
-	    Company c = getCompanyById(id);
+	    Company company = getCompanyById(id);
 	    
-	    if (c == null) {
+	    if (company == null) {
 		response.put("valid", false);
 	    } else {
 		response.put("valid", true);
-		response.put("userID", c.getId());
-		response.put("Name", c.getName());
-		response.put("Location", c.getLocation());
-		response.put("ContactNumber", c.getContactNumber());
+		response.put("userID", company.getId());
+		response.put("Name", company.getName());
+		response.put("Location", company.getLocation());
+		response.put("ContactNumber", company.getContactNumber());
 	    }
 	} catch (JSONException e) {
 	    e.printStackTrace();
