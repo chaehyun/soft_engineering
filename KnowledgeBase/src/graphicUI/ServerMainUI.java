@@ -85,7 +85,7 @@ public class ServerMainUI extends javax.swing.JFrame implements MouseListener {
 	// onClick Exit menu
 	subMenuTerminate.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent arg0) {
-		boolean terminateResult = MyServer.getInstance().Terminate();
+		System.exit(0);
 	    }
 	});
 

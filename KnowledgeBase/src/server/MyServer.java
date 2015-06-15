@@ -48,8 +48,8 @@ public class MyServer {
 
     public String ShowRegisteredStudent() {
 	String result;
-	System.out.println("[ Registered Company List ]");
-	result = "[ Registered Company List ]\n";
+
+	result = "[ Registered Student List ]\n";
 	for (Student s : students) {
 	    String id = s.getId();
 	    String contact = s.getContactNumber();
@@ -69,25 +69,15 @@ public class MyServer {
 		    nontech += "  ";
 	    }
 	    
-	    System.out.println("[  ID  ] : " + id);
 	    result += "[  ID  ] : " + id + "\n";
-	    System.out.println("[ Name ] : " + name);
 	    result += "[ Name ] : " + name + "\n";
-	    System.out.println("[ Contact ] : " + contact);
 	    result += "[ Contact ] : " + contact + "\n";
-	    System.out.println("[ Age ] : " + age);
 	    result += "[ Age ] : " + age + "\n";
-	    System.out.println("[ Grade ] : " + grade);
 	    result += "[ Grade ] : " + grade + "\n";
-	    System.out.println("[ Gpa ] : " + gpa);
 	    result += "[ Gpa ] : " + gpa + "\n";
-	    System.out.println("[ Sex ] : " + sex);
 	    result += "[ Sex ] : " + sex + "\n";
-	    System.out.println("[ TechSkills ] : " + tech);
 	    result += "[ TechSkills ] : " + tech + "\n";
-	    System.out.println("[ NonTechSkills ] : " + nontech);
 	    result += "[ NonTechSkills ] : " + nontech + "\n";
-	    System.out.println("");
 	    result += "\n";
 	}
 	
@@ -96,7 +86,7 @@ public class MyServer {
     /* ShowRegisteredCompany */
     public String ShowRegisteredCompany() {
 	String result;
-	System.out.println("[ Registered Company List ]");
+
 	result = "[ Registered Company List ]\n";
 	for (Company c : companies) {
 	    String id = c.getId();
@@ -104,27 +94,12 @@ public class MyServer {
 	    String name = c.getName();
 	    String location = c.getLocation();
 
-	    System.out.println("[  ID  ] : " + id);
 	    result += "[  ID  ] : " + id + "\n";
-	    System.out.println("[ Name ] : " + name);
 	    result += "[ Name ] : " + name + "\n";
-	    System.out.println("[ Contact ] : " + contact);
 	    result += "[ Contact ] : " + contact + "\n";
-	    System.out.println("[ Location ] : " + location);
 	    result += "[ Location ] : " + location + "\n";
-	    System.out.println("");
 	    result += "\n";
 	}
-
-	return result;
-    }
-
-    /* LogOut */
-    public boolean Terminate() {
-	boolean result = false;
-	System.exit(0);
-
-	result = true;
 
 	return result;
     }
