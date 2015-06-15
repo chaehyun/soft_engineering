@@ -12,6 +12,9 @@ import communication.Communicator;
 
 public class Company {
     private String userId;
+    private String name;
+    private String location;
+    private String contactNumber;
     private JSONArray result;
 
     public Company(String userId) {
@@ -65,5 +68,29 @@ public class Company {
 	}
 
 	return result;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public String getLocation() {
+	return location;
+    }
+
+    public void setLocation(String location) {
+	this.location = location;
+    }
+
+    public String getContactNumber() {
+	return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+	this.contactNumber = contactNumber;
     }
 }

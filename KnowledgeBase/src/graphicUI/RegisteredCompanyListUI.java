@@ -10,13 +10,10 @@ public class RegisteredCompanyListUI extends JFrame {
     private JPanel contentPane;
     private String companylist;
 
-    /**
-     * Create the frame.
-     */
     public RegisteredCompanyListUI(String companyList) {
 	setCompanylist(companyList);
 
-	setTitle("Registerd Company List");
+	setTitle("Registered Company List");
 	setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	setBounds(100, 100, 450, 300);
 	contentPane = new JPanel();

@@ -12,6 +12,7 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import elements.CompanyInfo;
 import elements.SecurityManager;
 
 public class AskPasswordUI extends JFrame {
@@ -73,6 +74,8 @@ public class AskPasswordUI extends JFrame {
 			result = (new SecurityManager()).isPasswordValidate(getUserID(), password, getUserType());
 			if (result == true) {
 			    JOptionPane.showMessageDialog(new JFrame(), VALID_PASSWORD);
+			    passwordField.setText("");
+			    showModifyUI();
 			}
 			else {
 			    JOptionPane.showMessageDialog(new JFrame(), INVALID_PASSWORD);
@@ -91,6 +94,18 @@ public class AskPasswordUI extends JFrame {
 	contentPane.add(btnSubmit);
     }
 
+    public void showModifyUI() {
+	switch(getUserType()) {
+	case "student":
+	    break;
+	case "company":
+	    setVisible(false);
+	    (new CompanyInfoUI(getUserID())).setVisible(true);
+	    break;
+	default:
+		break;
+	}
+    }
     public int getTrialCount() {
 	return trialCount;
     }

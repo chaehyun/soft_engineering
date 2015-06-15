@@ -783,13 +783,15 @@ public class MyServer {
 	    e.printStackTrace();
 	}
 	
-	generateResponseLogMessage(requestMessage.toString());
+	generateResponseLogMessage(response.toString());
 	
 	return response;
     }
 
     public JSONObject getStudent(JSONObject requestMessage) {
 	JSONObject response = new JSONObject();
+	
+	generateRequestLogMessage(requestMessage.toString());
 	
 	try {
 	    String id = requestMessage.getString("userID");
@@ -806,12 +808,15 @@ public class MyServer {
 	    e.printStackTrace();
 	}
 	
+	generateResponseLogMessage(response.toString());
+	
 	return response;
     }
     
     public JSONObject getCompany(JSONObject requestMessage) {
 	JSONObject response = new JSONObject();
 	
+	generateRequestLogMessage(requestMessage.toString());
 	try {
 	    String id = requestMessage.getString("userID");
 	    Company c = getCompanyById(id);
@@ -820,12 +825,16 @@ public class MyServer {
 		response.put("valid", false);
 	    } else {
 		response.put("valid", true);
-		response.put("CompanyObject", c);
+		response.put("userID", c.getId());
+		response.put("Name", c.getName());
+		response.put("Location", c.getLocation());
+		response.put("ContactNumber", c.getContactNumber());
 	    }
 	} catch (JSONException e) {
-	    
 	    e.printStackTrace();
 	}
+	
+	generateResponseLogMessage(response.toString());
 	
 	return response;
     }
