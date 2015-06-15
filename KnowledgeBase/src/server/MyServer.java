@@ -712,6 +712,124 @@ public class MyServer {
 	return response;
     }
 
+    public JSONObject studentModiftInfo(JSONObject requestMessage) {
+	JSONObject response = new JSONObject();
+	Student s;
+
+	generateRequestLogMessage(requestMessage.toString());
+
+	try {
+	    String id = requestMessage.getString("userID");
+
+	    s = getStudentById(id);
+	    if (s == null) {
+		response.put("valid", false);
+	    } else {
+		s.setName(requestMessage.getString("Name"));
+		s.setAge(requestMessage.getInt("Age"));
+		s.setContactNumber(requestMessage.getString("ContactNumber"));
+		s.setGpa((float) requestMessage.getDouble("Gpa"));
+		s.setGrade(requestMessage.getInt("Grade"));
+		JSONArray tech = requestMessage.getJSONArray("techSkills");
+		ArrayList<TechSkills> techSkills = new ArrayList<TechSkills>();
+		for (int i = 0; i < tech.length(); i++) {
+		    String skillString = tech.getString(i);
+		    TechSkills skill = TechSkills.valueOf(skillString);
+		    techSkills.add(skill);
+		}
+		s.setTechSkills(techSkills);
+		JSONArray nonTechSkills = requestMessage
+			.getJSONArray("NonTechSkills");
+		ArrayList<NonTechSkills> nonTechSkillsList = new ArrayList<>();
+		for (int i = 0; i < nonTechSkills.length(); i++) {
+		    String skillString = nonTechSkills.getString(i);
+		    NonTechSkills skill = NonTechSkills.valueOf(skillString);
+		    nonTechSkillsList.add(skill);
+		}
+		s.setNonTechSkills(nonTechSkillsList);
+		
+		response.put("valid", true);
+	    }
+	} catch (JSONException e) {
+	    e.printStackTrace();
+	}
+
+	generateResponseLogMessage(response.toString());
+
+	return response;
+    }
+    
+    public JSONObject companyModifyInfo(JSONObject requestMessage) {
+	JSONObject response = new JSONObject();
+	Company c;
+	
+	generateRequestLogMessage(requestMessage.toString());
+	
+	try {
+	    String id = requestMessage.getString("userID");
+	    
+	    c = getCompanyById(id);
+	    
+	    if (c == null) {
+		response.put("valid", false);
+	    } else {
+		c.setName(requestMessage.getString("Name"));
+		c.setContactNumber(requestMessage.getString("ContactNumber"));
+		c.setLocation(requestMessage.getString("Location"));
+		
+		response.put("valid", true);
+	    }
+	} catch (JSONException e) {
+	    e.printStackTrace();
+	}
+	
+	generateResponseLogMessage(requestMessage.toString());
+	
+	return response;
+    }
+
+    public JSONObject getStudent(JSONObject requestMessage) {
+	JSONObject response = new JSONObject();
+	
+	try {
+	    String id = requestMessage.getString("userID");
+	    Student s = getStudentById(id);
+	    
+	    if (s == null) {
+		response.put("valid", false);
+	    } else {
+		response.put("valid", true);
+		response.put("StudentObject", s);
+	    }
+	} catch (JSONException e) {
+	    
+	    e.printStackTrace();
+	}
+	
+	return response;
+    }
+    
+    public JSONObject getCompany(JSONObject requestMessage) {
+	JSONObject response = new JSONObject();
+	
+	try {
+	    String id = requestMessage.getString("userID");
+	    Company c = getCompanyById(id);
+	    
+	    if (c == null) {
+		response.put("valid", false);
+	    } else {
+		response.put("valid", true);
+		response.put("CompanyObject", c);
+	    }
+	} catch (JSONException e) {
+	    
+	    e.printStackTrace();
+	}
+	
+	return response;
+    }
+    
     public JSONObject passwordValidation(JSONObject requestMessage) {
 	JSONObject response = new JSONObject();
 

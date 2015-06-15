@@ -155,7 +155,6 @@ public class MainStudentUI extends javax.swing.JFrame implements MouseListener {
 					Request result = requests.get(table
 						.getSelectedRow());
 					if (result.isComplete() != true) {
-
 					    new StudentReqDetailUI(result,
 						    getUserID())
 						    .setVisible(true);

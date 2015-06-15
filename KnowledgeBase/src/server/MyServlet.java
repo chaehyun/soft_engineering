@@ -99,6 +99,14 @@ public class MyServlet extends HttpServlet {
 	    return MyServer.getInstance().sendMssage(requestMessage);
 	case "PasswordValidation":
 	    return MyServer.getInstance().passwordValidation(requestMessage);
+	case "ModifyStudent":
+	    return MyServer.getInstance().studentModiftInfo(requestMessage);
+	case "ModifyCompany":
+	    return MyServer.getInstance().companyModifyInfo(requestMessage);
+	case "getStudent":
+	    return MyServer.getInstance().getStudent(requestMessage);
+	case "getCompany":
+	    return MyServer.getInstance().getCompany(requestMessage);
 	default:
 	    JSONObject responseMessage = new JSONObject();
 	    responseMessage.put("Error", "Invalid message type");
