@@ -122,7 +122,7 @@ public class MainCompanyUI extends javax.swing.JFrame implements MouseListener {
 				.getJSONArray("Students");
 			for (int j = 0; j < studentsArray.length(); j++) {
 			    JSONObject studentElement = studentsArray
-				    .getJSONObject(i);
+				    .getJSONObject(j);
 
 			    String studentName = studentElement
 				    .getString("StudentName");

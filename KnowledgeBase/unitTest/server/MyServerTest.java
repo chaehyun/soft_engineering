@@ -420,7 +420,7 @@ public class MyServerTest {
     }
 
     @Test
-    public final void testStudentModiftInfo() {
+    public final void testStudentModifyInfo() {
 	MyServer server = getDummy();
 	JSONObject message = new JSONObject();
 	JSONObject response = null;
