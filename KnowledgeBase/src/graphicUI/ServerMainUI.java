@@ -106,7 +106,7 @@ public class ServerMainUI extends javax.swing.JFrame implements MouseListener {
 	subMenuCompanyList.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    (new RegisteredCompanyListUI(MyServer.getInstance()
-				.ShowRegisteredCompany())).setVisible(true);
+				.showRegisteredCompany())).setVisible(true);
 		}
 	});
 	menuView.add(subMenuCompanyList);
@@ -115,7 +115,7 @@ public class ServerMainUI extends javax.swing.JFrame implements MouseListener {
 	subMenuStudentList.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    (new RegisteredStudentListUI(MyServer.getInstance()
-				.ShowRegisteredStudent())).setVisible(true);
+				.showRegisteredStudent())).setVisible(true);
 		}
 	});
 	menuView.add(subMenuStudentList);

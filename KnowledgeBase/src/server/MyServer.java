@@ -23,10 +23,10 @@ import graphicUI.ServerMainUI;
 
 public class MyServer {
     /* Definition for Server Data File names */
-    private final static String companyFileName = "companies.ser";
-    private final static String studentFileName = "students.ser";
-    private final static String requestsFileName = "requests.ser";
-    private final static String messageFilename = "Messagebox.ser";
+    private final static String companyFileName = "/Users/nj/companies.ser";
+    private final static String studentFileName = "/Users/nj/students.ser";
+    private final static String requestsFileName = "/Users/nj/requests.ser";
+    private final static String messageFilename = "/Users/nj/Messagebox.ser";
 
     private AutoSerializeList<Company> companies;
     private AutoSerializeList<Student> students;
@@ -46,8 +46,8 @@ public class MyServer {
 	return mainWindow;
     }
 
-    public String ShowRegisteredStudent() {
-	String result;
+    public String showRegisteredStudent() {
+	String result = null;
 
 	result = "[ Registered Student List ]\n";
 	for (Student s : students) {
@@ -84,8 +84,8 @@ public class MyServer {
 	return result;
     }
     /* ShowRegisteredCompany */
-    public String ShowRegisteredCompany() {
-	String result;
+    public String showRegisteredCompany() {
+	String result = null;
 
 	result = "[ Registered Company List ]\n";
 	for (Company c : companies) {
@@ -240,7 +240,7 @@ public class MyServer {
 
     /* Print Current Users */
     public String printCurrentUsers() {
-	String result;
+	String result = null;
 
 	System.out.println("< Student List >");
 	result = "< Student List >\n";
@@ -586,6 +586,8 @@ public class MyServer {
 	    }
 	}
 
+	response.put("valid", true);
+	
 	// Write Server Response Log
 	generateResponseLogMessage(response.toString());
 
@@ -738,7 +740,7 @@ public class MyServer {
 	return response;
     }
 
-    public JSONObject studentModiftInfo(JSONObject requestMessage) {
+    public JSONObject studentModifyInfo(JSONObject requestMessage) {
 	JSONObject response = new JSONObject();
 	Student s;
 

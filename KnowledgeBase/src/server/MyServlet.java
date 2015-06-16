@@ -100,7 +100,7 @@ public class MyServlet extends HttpServlet {
 	case "PasswordValidation":
 	    return MyServer.getInstance().passwordValidation(requestMessage);
 	case "ModifyStudent":
-	    return MyServer.getInstance().studentModiftInfo(requestMessage);
+	    return MyServer.getInstance().studentModifyInfo(requestMessage);
 	case "ModifyCompany":
 	    return MyServer.getInstance().companyModifyInfo(requestMessage);
 	case "getStudent":

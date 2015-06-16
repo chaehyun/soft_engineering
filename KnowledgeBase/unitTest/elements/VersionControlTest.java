@@ -8,21 +8,23 @@ public class VersionControlTest {
 
     @Test
     public void testGetCurrentVersion() {
-	String currentVersion = (new VersionControl()).getCurrentVersion();
+	VersionControl version = new VersionControl();
+	String currentVersion = version.getCurrentVersion();
 
 	// Test Null Pointer
 	assertNotNull(currentVersion);
 
 	// Test current Data as Expected
-	assertEquals("1.0", currentVersion);
+	assertEquals(version.getCurrentVersion(), currentVersion);
     }
 
     @Test
     public void testIsVersionValid() {
 	String clientVersion = "1.0";
+	VersionControl version = new VersionControl();
 
 	// Test current version as expected
-	assertEquals("1.0", clientVersion);
+	assertEquals(version.getCurrentVersion(), clientVersion);
     }
 
 }
